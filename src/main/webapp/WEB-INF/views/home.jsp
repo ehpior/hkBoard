@@ -20,7 +20,7 @@
 <main>
 	${login}<br>
 	
-	999JENKINS DEPLOY TEST<br>
+	999JENKINS DEPLOY TEST999<br>
 	
 	<% if(session.getAttribute("login")==null) { %>
 		<input type="button" value="signIn" onClick="location.href='${pageContext.request.contextPath}/login.hk'">
