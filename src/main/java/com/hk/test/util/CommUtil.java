@@ -38,10 +38,8 @@ public class CommUtil {
 		if (ua.indexOf("iPhone") != -1 || ua.indexOf("iPad") != -1 || ua.indexOf("Android") != -1
 				|| ua.indexOf("BlackBerry") != -1 || ua.indexOf("symbian") != -1 || ua.indexOf("sony") != -1
 				|| ua.indexOf("Mobile") != -1) {
-			System.out.println("모바일이다");
 			return "Y";
 		} else {
-			System.out.println("모바일이 아니다");
 			return "N";
 		}
 	}
