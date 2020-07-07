@@ -10,7 +10,7 @@ import com.hk.test.util.SHA256Util;
 
 public class RSATest {
     public static void main(String[] args) throws Exception {
-        // RSA Å°½ÖÀ» »ı¼ºÇÕ´Ï´Ù.
+        // RSA ìƒì„±
         KeyPair keyPair = CipherUtil.genRSAKeyPair();
 
         PublicKey publicKey = keyPair.getPublic();
@@ -18,20 +18,20 @@ public class RSATest {
 
         String plainText = "test123";
 
-        // Base64 ÀÎÄÚµùµÈ ¾ÏÈ£È­ ¹®ÀÚ¿­ ÀÔ´Ï´Ù.
+        // Base64 ì•”í˜¸í™”
         String encrypted = CipherUtil.encryptRSA(plainText, publicKey);
         System.out.println("encrypted : " + encrypted);
 
-        // º¹È£È­ ÇÕ´Ï´Ù.
+        // ë³µí˜¸í™”
         String decrypted = CipherUtil.decryptRSA(encrypted, privateKey);
         System.out.println("decrypted : " + decrypted);
 
-        // °ø°³Å°¸¦ Base64 ÀÎÄÚµùÇÑ ¹®ÀÚÀÏÀ» ¸¸µì´Ï´Ù.
+        // 
         byte[] bytePublicKey = publicKey.getEncoded();
         String base64PublicKey = Base64.getEncoder().encodeToString(bytePublicKey);
         System.out.println("Base64 Public Key : " + base64PublicKey);
 
-        // °³ÀÎÅ°¸¦ Base64 ÀÎÄÚµùÇÑ ¹®ÀÚ¿­À» ¸¸µì´Ï´Ù.
+        // 
         byte[] bytePrivateKey = privateKey.getEncoded();
         String base64PrivateKey = Base64.getEncoder().encodeToString(bytePrivateKey);
         System.out.println("Base64 Private Key : " + base64PrivateKey);

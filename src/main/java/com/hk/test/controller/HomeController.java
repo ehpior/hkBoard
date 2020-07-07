@@ -97,7 +97,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/login.hk")
 	public String login(HttpServletRequest request, HttpSession session, Model model) {
-		/* ³×ÀÌ¹ö¾ÆÀÌµğ·Î ÀÎÁõ URLÀ» »ı¼ºÇÏ±â À§ÇÏ¿© naverLoginBOÅ¬·¡½ºÀÇ getAuthorizationUrl¸Ş¼Òµå È£Ãâ */
+		/* ë„¤ì´ë²„ URL ì‚¬ìš© */
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
 		
 		model.addAttribute("url", naverAuthUrl);
@@ -156,24 +156,23 @@ public class HomeController {
 		
 		System.out.println("/loginResultNaver");
 		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
-		// 1. ·Î±×ÀÎ »ç¿ëÀÚ Á¤º¸¸¦ ÀĞ¾î¿Â´Ù.
-		String apiResult = naverLoginBO.getUserProfile(oauthToken); // StringÇü½ÄÀÇ jsonµ¥ÀÌÅÍ
+		// 1. 
+		String apiResult = naverLoginBO.getUserProfile(oauthToken); // 
 		/**
-		 * apiResult json ±¸Á¶ {"resultcode":"00", "message":"success",
+		 * apiResult json ï¿½ï¿½ï¿½ï¿½ {"resultcode":"00", "message":"success",
 		 * "response":{"id":"33666449","nickname":"shinn****","age":"20-29","gender":"M","email":"sh@naver.com","name":"\uc2e0\ubc94\ud638"}}
 		 **/
-		// 2. StringÇü½ÄÀÎ apiResult¸¦ jsonÇüÅÂ·Î ¹Ù²Ş
+		// 2.
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(apiResult);
 		JSONObject jsonObj = (JSONObject) obj;
-		// 3. µ¥ÀÌÅÍ ÆÄ½Ì
-		// Top·¹º§ ´Ü°è _response ÆÄ½Ì
+		// 3.
 		JSONObject response_obj = (JSONObject) jsonObj.get("response");
-		// responseÀÇ nickname°ª ÆÄ½Ì
+		// 
 		String nickname = (String) response_obj.get("nickname");
 		System.out.println(nickname);
-		// 4.ÆÄ½Ì ´Ğ³×ÀÓ ¼¼¼ÇÀ¸·Î ÀúÀå
-		session.setAttribute("login", nickname); // ¼¼¼Ç »ı¼º
+		// 4.
+		session.setAttribute("login", nickname); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//Model.addAttribute("result", apiResult);
 		return "redirect:/home.hk";
 	}
