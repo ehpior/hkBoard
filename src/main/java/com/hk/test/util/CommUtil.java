@@ -69,7 +69,7 @@ public class CommUtil {
 		} else if (userAgent.indexOf("windows 95") > -1) {
 			os = "Windows95";
 		}
-		// window ¿Ü
+		// window ì™¸
 		else if (userAgent.indexOf("iphone") > -1) {
 			os = "iPhone";
 		} else if (userAgent.indexOf("ipad") > -1) {
