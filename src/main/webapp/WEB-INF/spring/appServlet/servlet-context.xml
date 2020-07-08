@@ -21,8 +21,8 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.hk.test.controller" />
-	<context:component-scan base-package="com.hk.test.service" />
+	<context:component-scan base-package="com.hk.test" />
+	<!-- <context:component-scan base-package="com.hk.test.service" /> -->
 	
 	<beans:bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<beans:property name="jndiName">
