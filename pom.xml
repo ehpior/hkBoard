@@ -11,7 +11,7 @@
 		<java-version>1.6</java-version>
 		<org.springframework-version>3.1.1.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
-		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<org.slf4j-version>1.7.25</org.slf4j-version>
 	</properties>
 	<dependencies>
 		<!-- Spring -->
@@ -58,7 +58,7 @@
 			<version>${org.slf4j-version}</version>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.15</version>
@@ -81,7 +81,7 @@
 				</exclusion>
 			</exclusions>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency> -->
 
 		<!-- @Inject -->
 		<dependency>
@@ -136,7 +136,7 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.1.7</version>
+			<version>1.2.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.scribejava</groupId>
@@ -162,21 +162,6 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.10.5</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.hbase</groupId>
-		    <artifactId>hbase</artifactId>
-		    <version>0.90.2</version>
-		    <exclusions>
-		        <exclusion>
-		            <groupId>org.slf4j</groupId>
-		            <artifactId>slf4j-log4j12</artifactId>
-		        </exclusion>
-		        <exclusion>
-		            <groupId>log4j</groupId>
-		            <artifactId>log4j</artifactId>
-		        </exclusion>
-		    </exclusions>
 		</dependency>
 	</dependencies>
     <build>
