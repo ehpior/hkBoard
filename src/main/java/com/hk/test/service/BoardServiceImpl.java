@@ -16,45 +16,46 @@ public class BoardServiceImpl implements BoardService{
 	private SqlSession sqlSession;
 	
 	public ArrayList<BoardDto> listBoard(int boardPage, int maxSelectLimit){
-		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		
-		ArrayList<BoardDto> boardList = dao.listBoard(boardPage, maxSelectLimit);
+		ArrayList<BoardDto> boardList = boardDao.listBoard(boardPage, maxSelectLimit);
 		
 		return boardList;
 	}
 	
 	public int countBoard() {
-		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		
-		int cnt = dao.countBoard();
+		int cnt = boardDao.countBoard();
 		
 		return cnt;
 	}
 	
 	public BoardDto selectBoard(int board_id) {
-		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		
-		return dao.selectBoard(board_id);
+		return boardDao.selectBoard(board_id);
 	}
 	
 	public int deleteBoard(int board_id) {
 		
-		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		
-		return dao.deleteBoard(board_id);
+		return boardDao.deleteBoard(board_id);
 	}
 	
 	public int insertBoard(BoardDto boardDto) {
 		
-		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		
-		return dao.insertBoard(boardDto);
+		return boardDao.insertBoard(boardDto);
 	}
 	
 	public int updateBoard(BoardDto boardDto) {
-		BoardDao dao = sqlSession.getMapper(BoardDao.class);
 		
-		return dao.updateBoard(boardDto);
+		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
+		
+		return boardDao.updateBoard(boardDto);
 	}
 
 }

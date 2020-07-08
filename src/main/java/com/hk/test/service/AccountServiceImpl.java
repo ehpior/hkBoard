@@ -25,25 +25,25 @@ public class AccountServiceImpl implements AccountService{
 	
 	public ArrayList<AccountDto> listAccount(){
 		
-		AccountDao dao = sqlSession.getMapper(AccountDao.class);
+		AccountDao accountDao = sqlSession.getMapper(AccountDao.class);
 		
-		return dao.listAccount();
+		return accountDao.listAccount();
 	}
 	
 	public int signUpResult(AccountDto accountDto, String salt) {
 		
-		AccountDao dao = sqlSession.getMapper(AccountDao.class);
+		AccountDao accountDao = sqlSession.getMapper(AccountDao.class);
 		
 		TransactionDefinition definition = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(definition);
 		
 		try {
 			//account insert
-			dao.writeAccount(accountDto);
+			accountDao.writeAccount(accountDto);
 			//account.accnt_id select
-			int id = dao.selectIdAccount(accountDto.getId());
+			int id = accountDao.selectIdAccount(accountDto.getId());
 			//account_salt insert
-			dao.writeAccountSalt(id, salt);
+			accountDao.writeAccountSalt(id, salt);
 			
 			transactionManager.commit(status);
 			
@@ -58,7 +58,7 @@ public class AccountServiceImpl implements AccountService{
 	
 	public int deleteAccount(int accnt_id) {
 		
-		AccountDao dao = sqlSession.getMapper(AccountDao.class);
+		AccountDao accountDao = sqlSession.getMapper(AccountDao.class);
 		
 		int result=0;
 		
@@ -67,8 +67,8 @@ public class AccountServiceImpl implements AccountService{
 		
 		try {
 			
-			result = dao.deleteAccount(accnt_id);
-			result = dao.deleteAccountSalt(accnt_id);
+			result = accountDao.deleteAccount(accnt_id);
+			result = accountDao.deleteAccountSalt(accnt_id);
 			
 			transactionManager.commit(status);
 			

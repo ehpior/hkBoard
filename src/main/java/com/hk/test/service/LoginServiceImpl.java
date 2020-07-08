@@ -24,7 +24,7 @@ public class LoginServiceImpl implements LoginService{
 
 	public AccountDto loginResult(LoginDto loginDto) {
 		
-		LoginDao dao = sqlSession.getMapper(LoginDao.class);
+		LoginDao loginDao = sqlSession.getMapper(LoginDao.class);
 		AccountDao accountDao = sqlSession.getMapper(AccountDao.class);
 		
 		TransactionDefinition definition = new DefaultTransactionDefinition();
@@ -40,7 +40,7 @@ public class LoginServiceImpl implements LoginService{
 			
 			loginDto.setPw(SHA256Util.getEncrypt(loginDto.getPw(),salt));
 			
-			accountDto = dao.loginCheck(loginDto);
+			accountDto = loginDao.loginCheck(loginDto);
 			
 			transactionManager.commit(status);
 			
@@ -61,15 +61,15 @@ public class LoginServiceImpl implements LoginService{
 	
 	public boolean loginHistory(LoginHistoryDto loginHistoryDto) {
 		
-		LoginDao dao = sqlSession.getMapper(LoginDao.class);
+		LoginDao loginDao = sqlSession.getMapper(LoginDao.class);
 		
 		TransactionDefinition definition = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(definition);
 		
 		try {
-			dao.updateLastLoginAccount(loginHistoryDto.getLogin_date(), loginHistoryDto.getAccnt_id());
+			loginDao.updateLastLoginAccount(loginHistoryDto.getLogin_date(), loginHistoryDto.getAccnt_id());
 			//System.out.println(String.valueOf(40/0));
-			dao.insertLoginHistory(loginHistoryDto);
+			loginDao.insertLoginHistory(loginHistoryDto);
 			
 			transactionManager.commit(status);
 			

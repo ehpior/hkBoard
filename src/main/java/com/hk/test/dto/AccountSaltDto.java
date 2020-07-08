@@ -9,6 +9,12 @@ public class AccountSaltDto {
 		this.accnt_id = accnt_id;
 		this.salt_value = salt_value;
 	}
+	
+	@Override
+	public String toString() {
+		return "AccountSaltDto [accnt_id=" + accnt_id + ", salt_value=" + salt_value + "]";
+	}
+
 	public int getAccnt_id() {
 		return accnt_id;
 	}

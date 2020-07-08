@@ -98,7 +98,7 @@ $(function() { $("#savebutton").click(function() {
 	
 	//var result = confirm("발행 하시겠습니까?"); 
 	//if(result){ 
-		alert($("#smartEditor").val());
+		//alert($("#smartEditor").val());
 		$("#noticeWriteForm").submit(); 
 	//}else{ 
 	//	return; 

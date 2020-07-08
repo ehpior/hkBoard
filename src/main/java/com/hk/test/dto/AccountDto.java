@@ -26,6 +26,13 @@ public class AccountDto {
 		this.s_passwd = s_passwd;
 		this.last_login = last_login;
 	}
+	
+	@Override
+	public String toString() {
+		return "AccountDto [accnt_id=" + accnt_id + ", nickname=" + nickname + ", name=" + name + ", user_type="
+				+ user_type + ", phone=" + phone + ", id=" + id + ", s_passwd=" + s_passwd + ", last_login="
+				+ last_login + "]";
+	}
 
 	public int getAccnt_id() {
 		return accnt_id;

@@ -19,8 +19,6 @@
 
 <main>
 	
-	999JENKINS DEPLOY TEST999<br><br>
-	
 	${login}<br><br>
 	<% if(session.getAttribute("login")==null) { %>
 		<input type="button" value="signIn" onClick="location.href='${pageContext.request.contextPath}/login.hk'">

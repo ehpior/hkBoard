@@ -14,6 +14,11 @@ public class LoginDto {
 		this.pw = pw;
 	}
 	
+	@Override
+	public String toString() {
+		return "LoginDto [id=" + id + ", pw=" + pw + "]";
+	}
+
 	public String getId() {
 		return id;
 	}

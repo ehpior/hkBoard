@@ -16,6 +16,23 @@ public class BoardDto {
 		
 	}	
 	
+	public BoardDto(int board_id, String title, int writer, String content, Date create_date, Date modify_date,
+			String notice) {
+		this.board_id = board_id;
+		this.title = title;
+		this.writer = writer;
+		this.content = content;
+		this.create_date = create_date;
+		this.modify_date = modify_date;
+		this.notice = notice;
+	}
+
+	@Override
+	public String toString() {
+		return "BoardDto [board_id=" + board_id + ", title=" + title + ", writer=" + writer + ", content=" + content
+				+ ", create_date=" + create_date + ", modify_date=" + modify_date + ", notice=" + notice + "]";
+	}
+
 	public int getBoard_id() {
 		return board_id;
 	}

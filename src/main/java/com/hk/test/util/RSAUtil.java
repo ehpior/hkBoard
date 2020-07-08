@@ -50,40 +50,4 @@ public class RSAUtil {
 		return bytes;
 	}
 	 
-	/* 로그인 체크 */
-//	@RequestMapping(value = "/proc/login.proc",headers="Accept=application/json",method = RequestMethod.POST)
-//	public @ResponseBody JSONObject loginChk(HttpServletRequest request, Map mMap ) 
-//	{
-//		ArrayList<UserList> loginMember = null;
-//		JSONObject listObj = new JSONObject();
-//		
-//		String uid = request.getParameter("user_id");
-//		String pwd = request.getParameter("user_pwd");
-//		HttpSession session = request.getSession();
-//	 
-//		PrivateKey privateKey = (PrivateKey) session.getAttribute("_RSA_WEB_Key_");  //로그인전에 세션에 저장된 개인키를 가져온다.
-//		if (privateKey == null) 
-//		{ 
-//			listObj.put("state", "false");
-//		}
-//		else
-//		{
-//			try
-//			{
-//				//암호화처리된 사용자계정정보를 복호화 처리한다.
-//				String _uid = decryptRsa(privateKey, uid);
-//				String _pwd = decryptRsa(privateKey, pwd);
-//				//복호화 처리된 계정정보를 map에 담아서 iBatis와 연동한다.
-//				mMap.put("user_id",_uid);           
-//				mMap.put("user_pwd", _pwd);
-//				//iBatis 처리 및 로그인후 session 처리
-//			}
-//			catch(Exception e)
-//			{
-//				listObj.put("state", "false");
-//				//logger.info("login ERROR : "+e.getMessage()); 
-//			}
-//		} 
-//		return listObj;  
-//	}
 }

@@ -12,6 +12,10 @@ public class LoginHistoryDto {
 	private String browser;
 	private String os;
 	
+	public LoginHistoryDto() {
+
+	}
+
 	public LoginHistoryDto(int accnt_id, Timestamp login_date, String is_mobile, String ip, String browser, String os) {
 		this.accnt_id = accnt_id;
 		this.login_date = login_date;
@@ -21,6 +25,12 @@ public class LoginHistoryDto {
 		this.os = os;
 	}
 	
+	@Override
+	public String toString() {
+		return "LoginHistoryDto [accnt_id=" + accnt_id + ", login_date=" + login_date + ", is_mobile=" + is_mobile
+				+ ", ip=" + ip + ", browser=" + browser + ", os=" + os + "]";
+	}
+
 	public int getAccnt_id() {
 		return accnt_id;
 	}
