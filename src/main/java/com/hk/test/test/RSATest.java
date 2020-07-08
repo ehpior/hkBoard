@@ -42,6 +42,8 @@ public class RSATest {
         
         password = SHA256Util.getEncrypt(password, salt);
         
+        System.out.println("shapassword: " + password);
+        
         
         
     }

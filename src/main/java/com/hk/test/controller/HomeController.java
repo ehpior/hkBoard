@@ -1,6 +1,12 @@
 package com.hk.test.controller;
 
 import java.io.IOException;
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.RSAPublicKeySpec;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -25,8 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.hk.test.dao.AccountDao;
-import com.hk.test.dao.BoardDao;
 import com.hk.test.dto.AccountDto;
 import com.hk.test.dto.BoardDto;
 import com.hk.test.dto.LoginDto;
@@ -39,7 +43,7 @@ import com.hk.test.util.CommUtil;
 
 
 @Controller
-public class HomeController {
+public class HomeController{
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -97,17 +101,33 @@ public class HomeController {
 	
 	@RequestMapping(value = "/login.hk")
 	public String login(HttpServletRequest request, HttpSession session, Model model) {
-		/* 네이버 URL 사용 */
-		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+		System.out.println("login");
+		try {
+			
+			KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+			generator.initialize(1024);
+			KeyPair keyPair = generator.genKeyPair();
+			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+			PublicKey publicKey = keyPair.getPublic();
+			PrivateKey privateKey = keyPair.getPrivate();
+	 
+			session.setAttribute("_RSA_WEB_Key_", privateKey);   //세션에 RSA 개인키를 세션에 저장한다.
+			RSAPublicKeySpec publicSpec = (RSAPublicKeySpec) keyFactory.getKeySpec(publicKey, RSAPublicKeySpec.class);
+			String publicKeyModulus = publicSpec.getModulus().toString(16);
+			String publicKeyExponent = publicSpec.getPublicExponent().toString(16);
+	 
+			request.setAttribute("RSAModulus", publicKeyModulus);  //로그인 폼에 Input Hidden에 값을 셋팅하기위해서
+			request.setAttribute("RSAExponent", publicKeyExponent);   //로그인 폼에 Input Hidden에 값을 셋팅하기위해서
+        
+			System.out.println("RSAM : "+publicKeyModulus);
+			System.out.println("RSAE : "+publicKeyExponent);
+			
+			
+		}catch(Exception e) {
+			System.out.println("Exception: "+e);
+		}
 		
-		model.addAttribute("url", naverAuthUrl);
-		
-		logger.debug( "#ex1 - debug log" );
-		logger.info( "#ex1 - info log" );
-		logger.warn( "#ex1 - warn log" );
-		logger.error( "#ex1 - error log" );
-		
-		return "login";
+		return "login222";
 	}
 	
 	@RequestMapping(value = "/loginResult")
@@ -175,6 +195,34 @@ public class HomeController {
 		session.setAttribute("login", nickname); // ���� ����
 		//Model.addAttribute("result", apiResult);
 		return "redirect:/home.hk";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getRSA")
+	public String getRSA(HttpServletRequest request, HttpSession session) {
+		System.out.println("/getRSA");
+		
+		try {
+		
+			KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+			generator.initialize(1024);
+			KeyPair keyPair = generator.genKeyPair();
+			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+			PublicKey publicKey = keyPair.getPublic();
+			PrivateKey privateKey = keyPair.getPrivate();
+	 
+			session.setAttribute("_RSA_WEB_Key_", privateKey);   //세션에 RSA 개인키를 세션에 저장한다.
+			RSAPublicKeySpec publicSpec = (RSAPublicKeySpec) keyFactory.getKeySpec(publicKey, RSAPublicKeySpec.class);
+			String publicKeyModulus = publicSpec.getModulus().toString(16);
+			String publicKeyExponent = publicSpec.getPublicExponent().toString(16);
+	 
+			request.setAttribute("RSAModulus", publicKeyModulus);  //로그인 폼에 Input Hidden에 값을 셋팅하기위해서
+			request.setAttribute("RSAExponent", publicKeyExponent);   //로그인 폼에 Input Hidden에 값을 셋팅하기위해서
+        
+		}catch(Exception e) {
+			
+		}
+		return "RSA";
 	}
 	
 	@ResponseBody

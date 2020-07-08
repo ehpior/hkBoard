@@ -18,15 +18,15 @@
 </nav>
 
 <main>
-	${login}<br>
 	
-	999JENKINS DEPLOY TEST999<br>
+	999JENKINS DEPLOY TEST999<br><br>
 	
+	${login}<br><br>
 	<% if(session.getAttribute("login")==null) { %>
 		<input type="button" value="signIn" onClick="location.href='${pageContext.request.contextPath}/login.hk'">
 		<input type="button" value="signUp" onClick="location.href='${pageContext.request.contextPath}/signUp.hk'">
 	<% } else{ %>
-		nickname : ${login}<br>
+		nickname : ${login.nickname}<br>
 		<input type="button" value="logout" onClick="location.href='${pageContext.request.contextPath}/logout'"><br>
 	<% } %>
 	<br><br>
