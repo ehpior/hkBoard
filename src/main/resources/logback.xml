@@ -15,7 +15,7 @@
 
 
 	<!-- 파일로 로그를 남김 -->
-	<appender name="fileAppender"
+	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>/tmp/loghk.log</file>
 		<encoder
