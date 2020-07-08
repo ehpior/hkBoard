@@ -41,7 +41,7 @@
 			</tr>
 			<tr>
 				<td>title</td>
-				<td><input type="text" id="title" name="title" value="${dto.title}"></td>
+				<td><input type="text" id="title" name="title" value=${dto.title}></td>
 			</tr>
 			<tr>
 				<td>writer</td>
