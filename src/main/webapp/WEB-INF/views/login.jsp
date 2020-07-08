@@ -29,15 +29,15 @@
 	<input type="button" value="Home" onClick="location.href='${pageContext.request.contextPath}/home.hk'"><br><br>
 
 	<%-- <form action="${pageContext.request.contextPath}/loginResult" method="POST"> --%>
-	<form action="${pageContext.request.contextPath}/loginResult" method="POST">
+	<form action="${pageContext.request.contextPath}/loginResult" method="POST" id="form">
 		<table border="1">
 			<tr>
 				<th>ID</th>
-				<td><input type="text" name="id"></td>
+				<td><input type="text" id="id" name="id"></td>
 			</tr>
 			<tr>
 				<th>PW</th>
-				<td><input type="password" name="pw"></td>
+				<td><input type="password" id="pw" name="pw"></td>
 			</tr>
 			<tr>
 				<td colspan="2">
@@ -73,31 +73,46 @@
 
 	$('#signIn').click(function(){
 
-		//$.ajax({
-//			url:"getRSA",
-			//type: "POST",
-			//success:function(data){
-//				$('#RSAModulus').val(${RSAModulus});
-	//			$('#RSAExponent').val(${RSAExponent});
-			//}
-		//});
+		$.ajax({
+			url:"getRSA",
+			type: "POST",
+			success:function(data){
+				var RSAModulus=data.RSAModulus;
+				var RSAExponent=data.RSAExponent;
+				
+				var uid = $("#id").val();
+				var pwd = $("#pw").val();
+			 
+				//RSA 암호화 생성
+				var rsa = new RSAKey();
+				rsa.setPublic(RSAModulus, RSAExponent);
+				
+				//사용자 계정정보를 암호화 처리
+				uid = rsa.encrypt(uid);
+				pwd = rsa.encrypt(pwd);
+				
+				$.ajax({ 
+					  type: "POST",  
+					  url: "loginResult",  
+					  data: {user_id:uid, user_pwd: pwd},  //사용자 암호화된 계정정보를 서버로 전송
+					  success:function(data){
+						  if(data.state == "true")
+						  {
+							  window.location.href = "${pageContext.request.contextPath}/home.hk"; 
+						  }
+						  else if(data.state == "false")
+						  {
+							  window.location.reload(true);
+						  }
+						  else
+						  {
+							  window.location.reload(true);
+						  } 
+					  } 
+				});
+			}
+		});
 		
-		var uid = $("#user_id").val();
-		var pwd = $("#user_pwd").val();
-		
-		alert(uid,pwd);
-	 
-		//RSA 암호화 생성
-		var rsa = new RSAKey();
-		rsa.setPublic($("#RSAModulus").val(), $("#RSAExponent").val());
-		
-		//사용자 계정정보를 암호화 처리
-		uid = rsa.encrypt(uid);
-		pwd = rsa.encrypt(pwd);
-		
-		alert(uid,pwd);
-		
-		//window.location.href="${pageContext.request.contextPath}/loginResult";
 		
 	});
 

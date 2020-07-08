@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 public class RSAUtil {
-	public String decryptRsa(PrivateKey privateKey, String securedValue) {
+	
+	public static String decryptRsa(PrivateKey privateKey, String securedValue) {
 		 String decryptedValue = "";
 		 try{
 			Cipher cipher = Cipher.getInstance("RSA");
@@ -29,7 +30,7 @@ public class RSAUtil {
 			decryptedValue = new String(decryptedBytes, "utf-8"); // 문자 인코딩 주의.
 		 }catch(Exception e)
 		 {
-			 logger.info("decryptRsa Exception Error : "+e.getMessage());
+			 //logger.info("decryptRsa Exception Error : "+e.getMessage());
 		 }
 			return decryptedValue;
 	} 

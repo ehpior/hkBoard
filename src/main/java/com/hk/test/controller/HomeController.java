@@ -40,6 +40,8 @@ import com.hk.test.service.AccountServiceImpl;
 import com.hk.test.service.BoardServiceImpl;
 import com.hk.test.service.LoginServiceImpl;
 import com.hk.test.util.CommUtil;
+import com.hk.test.util.RSAUtil;
+import com.hk.test.util.SHA256Util;
 
 
 @Controller
@@ -101,39 +103,47 @@ public class HomeController{
 	
 	@RequestMapping(value = "/login.hk")
 	public String login(HttpServletRequest request, HttpSession session, Model model) {
-		System.out.println("login");
-		try {
-			
-			KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-			generator.initialize(1024);
-			KeyPair keyPair = generator.genKeyPair();
-			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-			PublicKey publicKey = keyPair.getPublic();
-			PrivateKey privateKey = keyPair.getPrivate();
-	 
-			session.setAttribute("_RSA_WEB_Key_", privateKey);   //세션에 RSA 개인키를 세션에 저장한다.
-			RSAPublicKeySpec publicSpec = (RSAPublicKeySpec) keyFactory.getKeySpec(publicKey, RSAPublicKeySpec.class);
-			String publicKeyModulus = publicSpec.getModulus().toString(16);
-			String publicKeyExponent = publicSpec.getPublicExponent().toString(16);
-	 
-			request.setAttribute("RSAModulus", publicKeyModulus);  //로그인 폼에 Input Hidden에 값을 셋팅하기위해서
-			request.setAttribute("RSAExponent", publicKeyExponent);   //로그인 폼에 Input Hidden에 값을 셋팅하기위해서
-        
-			System.out.println("RSAM : "+publicKeyModulus);
-			System.out.println("RSAE : "+publicKeyExponent);
-			
-			
-		}catch(Exception e) {
-			System.out.println("Exception: "+e);
-		}
+		System.out.println("/login.hk");
 		
-		return "login222";
+		return "login";
 	}
 	
+	//public String loginResult(HttpServletRequest request, HttpSession session, LoginDto loginDto) {
 	@RequestMapping(value = "/loginResult")
-	public String loginResult(HttpServletRequest request, HttpSession session, LoginDto loginDto) {
+	public @ResponseBody JSONObject loginResult(HttpServletRequest request, HttpSession session) {
 		
 		System.out.println("/loginResult");
+		
+		JSONObject listObj = new JSONObject();
+		
+		String id = request.getParameter("user_id");
+		String pw = request.getParameter("user_pwd");
+		String _uid;
+		String _pwd;
+		try {
+			PrivateKey privateKey = (PrivateKey) session.getAttribute("_RSA_WEB_Key_");
+			
+			if (privateKey == null) 
+			{ 
+				listObj.put("state","false");
+				return listObj;
+			}
+	
+			_uid = RSAUtil.decryptRsa(privateKey, id);
+			_pwd = RSAUtil.decryptRsa(privateKey, pw);
+			
+			//System.out.println(_uid);
+			System.out.println(_pwd);
+	        
+			listObj.put("state","true");
+			
+		}catch(Exception e) {
+			System.out.println("exception");
+			listObj.put("state","false");
+			return listObj;
+		}
+		
+		LoginDto loginDto = new LoginDto(_uid, _pwd);
 		
 		AccountDto dto = loginService.loginResult(loginDto);
 		
@@ -143,7 +153,8 @@ public class HomeController{
 			}
 			session.setAttribute("login", dto);
 		}else {
-			return "fail";
+			listObj.put("state","false");
+			return listObj;
 		}
 		String ip = CommUtil.getClientIP(request);
 		String ua = request.getHeader("user-agent");
@@ -165,7 +176,7 @@ public class HomeController{
 		
 		loginService.loginHistory(loginHistoryDto);
 		
-		return "redirect:/home.hk";
+		return listObj;
 	}
 	
 	@RequestMapping(value = "/loginResultNaver")
@@ -179,7 +190,7 @@ public class HomeController{
 		// 1. 
 		String apiResult = naverLoginBO.getUserProfile(oauthToken); // 
 		/**
-		 * apiResult json ���� {"resultcode":"00", "message":"success",
+		 * apiResult json  {"resultcode":"00", "message":"success",
 		 * "response":{"id":"33666449","nickname":"shinn****","age":"20-29","gender":"M","email":"sh@naver.com","name":"\uc2e0\ubc94\ud638"}}
 		 **/
 		// 2.
@@ -197,10 +208,11 @@ public class HomeController{
 		return "redirect:/home.hk";
 	}
 	
-	@ResponseBody
 	@RequestMapping(value = "/getRSA")
-	public String getRSA(HttpServletRequest request, HttpSession session) {
+	public @ResponseBody JSONObject getRSA(HttpSession session) {
 		System.out.println("/getRSA");
+		
+		JSONObject listObj = new JSONObject();
 		
 		try {
 		
@@ -216,13 +228,13 @@ public class HomeController{
 			String publicKeyModulus = publicSpec.getModulus().toString(16);
 			String publicKeyExponent = publicSpec.getPublicExponent().toString(16);
 	 
-			request.setAttribute("RSAModulus", publicKeyModulus);  //로그인 폼에 Input Hidden에 값을 셋팅하기위해서
-			request.setAttribute("RSAExponent", publicKeyExponent);   //로그인 폼에 Input Hidden에 값을 셋팅하기위해서
+			listObj.put("RSAModulus", publicKeyModulus);  //로그인 폼에 Input Hidden에 값을 셋팅하기위해서
+			listObj.put("RSAExponent", publicKeyExponent);   //로그인 폼에 Input Hidden에 값을 셋팅하기위해서
         
 		}catch(Exception e) {
 			
 		}
-		return "RSA";
+		return listObj;
 	}
 	
 	@ResponseBody
@@ -259,7 +271,11 @@ public class HomeController{
 			accountDto.setUser_type("K");
 		}
 		
-		accountService.signUpResult(accountDto);
+		String salt = SHA256Util.generateSalt();
+        
+        accountDto.setS_passwd(SHA256Util.getEncrypt(accountDto.getS_passwd(), salt));
+		
+		accountService.signUpResult(accountDto, salt);
 
 		return "redirect:/home.hk";
 	}

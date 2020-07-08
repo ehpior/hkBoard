@@ -5,6 +5,15 @@ public class LoginDto {
 	private String id;
 	private String pw;
 	
+	public LoginDto() {
+		
+	}
+	
+	public LoginDto(String id, String pw) {
+		this.id = id;
+		this.pw = pw;
+	}
+	
 	public String getId() {
 		return id;
 	}
