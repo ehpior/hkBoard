@@ -12,12 +12,11 @@
 			</Pattern>
 		</encoder>
 	</appender>
-
-
+	
 	<!-- 파일로 로그를 남김 -->
 	<appender name="fileAppender"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/tmp/loghk.log</file>
+		<file>/tmp/tomcat/loghk.log</file>
 		<encoder
 			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>
@@ -34,7 +33,7 @@
 		<!-- 파일을 덮어쓰는 정책 -->
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<FileNamePattern>/tmp/loghk.%i.log.zip</FileNamePattern>
+			<FileNamePattern>/tmp/tomcat/loghk.%i.log.zip</FileNamePattern>
 			<!-- MinIndex가 1이고, MaxIndex가 10이므로, 위의 파일 이름 패턴에 따라 아래의 로그 파일이 생길 것이다. 
 				logexample2.1.log.zip logexample2.2.log.zip .... logexample2.10.log.zip 이 
 				상태에서 또 10KB가 넘으면 logexample2.1.log.zip이 된다. -->
@@ -49,6 +48,7 @@
 	<logger name="com.hk.test" level="info"
 		additivity="false">
 		<appender-ref ref="fileAppender" />
+		<appender-ref ref="consoleAppender" />
 	</logger>
 
 
