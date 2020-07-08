@@ -17,7 +17,7 @@
 	<!-- 파일로 로그를 남김 -->
 	<appender name="fileAppender"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>C:\LogExample\log2.log</file>
+		<file>~/loghk.log</file>
 		<encoder
 			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>
@@ -34,7 +34,7 @@
 		<!-- 파일을 덮어쓰는 정책 -->
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<FileNamePattern>C:\LogExample\log2.%i.log.zip
+			<FileNamePattern>~/loghk.%i.log.zip
 			</FileNamePattern>
 			<!-- MinIndex가 1이고, MaxIndex가 10이므로, 위의 파일 이름 패턴에 따라 아래의 로그 파일이 생길 것이다. 
 				logexample2.1.log.zip logexample2.2.log.zip .... logexample2.10.log.zip 이 
