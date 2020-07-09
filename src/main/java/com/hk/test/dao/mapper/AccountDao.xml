@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.hk.test.dao.AccountDao">
+<mapper namespace="src.main.java.com.hk.test.dao.AccountDao">
 	<select id="listAccount" resultType="com.hk.test.dto.AccountDto">
 		SELECT * FROM ACCOUNT ORDER BY accnt_id
 	</select>
