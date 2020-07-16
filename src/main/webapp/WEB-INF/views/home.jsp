@@ -1,42 +1,49 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html class="h-100">
 <head>
-<meta charset="EUC-KR">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css">
+<%@ include file="preset.jsp"%>
 <title>Insert title here</title>
+
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 
-<header>
-	<%@ include file="nav.jsp" %>
-</header>
+	<%@ include file="header.jsp"%>
 
-<nav>
-</nav>
 
-<main>
-	
-	${login}<br><br>
-	<% if(session.getAttribute("login")==null) { %>
-		<input type="button" value="signIn" onClick="location.href='${pageContext.request.contextPath}/login.hk'">
-		<input type="button" value="signUp" onClick="location.href='${pageContext.request.contextPath}/signUp.hk'">
-	<% } else{ %>
-		nickname : ${login.nickname}<br>
-		<input type="button" value="logout" onClick="location.href='${pageContext.request.contextPath}/logout'"><br>
-	<% } %>
-	<br><br>
-	
-	<input type="button" value="board" onClick="location.href='${pageContext.request.contextPath}/board.hk'">
-</main>
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
+			${login}
 
-<aside>
-</aside>
+			<br>
+			<br>
 
-<footer>
-</footer>
+			<c:choose>
+				<c:when test="${login eq null}">
+					<input type="button" value="signIn"
+						onClick="location.href='${pageContext.request.contextPath}/login.hk'">
+					<input type="button" value="signUp"
+						onClick="location.href='${pageContext.request.contextPath}/signUp.hk'">
+				</c:when>
+				<c:otherwise>
+			nickname : ${login.nickname}<br>
+					<input type="button" value="logout"
+						onClick="location.href='${pageContext.request.contextPath}/logout'">
+					<br>
+				</c:otherwise>
+			</c:choose>
+			<br> <br> <input type="button" value="board"
+				onClick="location.href='${pageContext.request.contextPath}/board.hk'">
+		</div>
+	</main>
 
+
+
+	<%@ include file="footer.jsp"%>
+
+	<script
+		src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

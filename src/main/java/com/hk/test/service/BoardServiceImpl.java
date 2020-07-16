@@ -1,6 +1,7 @@
 package com.hk.test.service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ public class BoardServiceImpl implements BoardService{
 	private SqlSession sqlSession;
 	
 	public ArrayList<BoardDto> listBoard(int boardPage, int maxSelectLimit){
+		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		
 		ArrayList<BoardDto> boardList = boardDao.listBoard(boardPage, maxSelectLimit);
@@ -24,17 +26,21 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	public int countBoard() {
+		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		
-		int cnt = boardDao.countBoard();
+		int cnt = Optional.ofNullable(boardDao.countBoard()).orElse(0).intValue();
 		
 		return cnt;
 	}
 	
 	public BoardDto selectBoard(int board_id) {
+		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		
-		return boardDao.selectBoard(board_id);
+		BoardDto boardDto = boardDao.selectBoard(board_id);
+		
+		return boardDto;
 	}
 	
 	public int deleteBoard(int board_id) {

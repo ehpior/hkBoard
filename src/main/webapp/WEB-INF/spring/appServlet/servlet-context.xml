@@ -3,7 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -36,7 +38,7 @@
 		<beans:property name="mapperLocations" value="classpath:mapper/*.xml"></beans:property>
 	</beans:bean>
 	
-	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
 		<beans:constructor-arg index="0" ref="sqlSessionFactory"></beans:constructor-arg>
 	</beans:bean>
 	
@@ -50,8 +52,18 @@
 	
 	<beans:bean id="naverLoginBO" class="com.hk.test.naver.NaverLoginBO" />
 	
-	<beans:bean id="AuthLoginInterceptor" class="com.hk.test.interceptor.AuthLoginInterceptor">
-	</beans:bean>
+	<beans:bean id="AuthLoginInterceptor" class="com.hk.test.interceptor.AuthLoginInterceptor" />
+	
+	
+	<task:scheduler id="myScheduler" pool-size="1"/>
+	
+	<beans:bean id="batchExecutor" class="com.hk.test.batch.batchMain" />
+	
+	<task:scheduled-tasks scheduler="myScheduler">
+    	<task:scheduled ref="batchExecutor" method="remove" cron="0 * * * * *" />
+	</task:scheduled-tasks>
+
+	
 	<!-- Interceptor 설정 -->
 	<interceptors>
     	<interceptor>
@@ -60,6 +72,7 @@
         	<beans:ref bean="AuthLoginInterceptor"/>
 	    </interceptor>
 	</interceptors>
+	
 	
 	
 </beans:beans>

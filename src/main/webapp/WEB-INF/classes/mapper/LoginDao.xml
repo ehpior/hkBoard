@@ -16,5 +16,13 @@
 	<insert id="insertLoginHistory">
 		INSERT INTO LOGIN_HISTORY VALUES (LOGINHISTORY_SEQ.nextval, #{accnt_id}, #{login_date}, #{is_mobile}, #{ip}, #{browser}, #{os})
 	</insert>
+	
+	<select id="signUpCheckId" resultType="Integer">
+		SELECT count(*) FROM ACCOUNT WHERE id = #{id} 
+	</select>
+	
+	<select id="signUpCheckNickname" resultType="Integer">
+		SELECT count(*) FROM ACCOUNT WHERE nickname = #{nickname} 
+	</select>
 
 </mapper>

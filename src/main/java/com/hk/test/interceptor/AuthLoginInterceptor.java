@@ -22,13 +22,11 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter{
 		Object obj = session.getAttribute("login");
 		
 		if(obj == null) {
-			response.sendRedirect(request.getContextPath()+"/home.hk");
+			response.sendRedirect(request.getContextPath()+"/login.hk");
 			return false;
 		}
 		
 		return true;
-		
-		
 	}
 
 	@Override

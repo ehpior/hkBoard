@@ -13,5 +13,7 @@ public interface LoginDao {
 	public AccountDto loginCheck(LoginDto loginDto);
 	public int updateLastLoginAccount(@Param("last_login") Timestamp last_login, @Param("accnt_id") int accnt_id);
 	public int insertLoginHistory(LoginHistoryDto loginHistoryDto);
+	public Integer signUpCheckId(@Param("id") String id);
+	public Integer signUpCheckNickname(@Param("nickname") String nickname);
 
 }

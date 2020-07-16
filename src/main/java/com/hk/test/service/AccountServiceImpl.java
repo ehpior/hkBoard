@@ -1,6 +1,7 @@
 package com.hk.test.service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.hk.test.dao.AccountDao;
-import com.hk.test.dao.LoginDao;
 import com.hk.test.dto.AccountDto;
 
 @Service
@@ -38,11 +38,13 @@ public class AccountServiceImpl implements AccountService{
 		TransactionStatus status = transactionManager.getTransaction(definition);
 		
 		try {
-			//account insert
+
 			accountDao.writeAccount(accountDto);
-			//account.accnt_id select
-			int id = accountDao.selectIdAccount(accountDto.getId());
-			//account_salt insert
+
+			int id = Optional.ofNullable(accountDao.selectIdAccount(accountDto.getId())).orElse(0).intValue();
+			
+			if (id==0) throw new Exception();
+			
 			accountDao.writeAccountSalt(id, salt);
 			
 			transactionManager.commit(status);
@@ -60,15 +62,13 @@ public class AccountServiceImpl implements AccountService{
 		
 		AccountDao accountDao = sqlSession.getMapper(AccountDao.class);
 		
-		int result=0;
-		
 		TransactionDefinition definition = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(definition);
 		
 		try {
 			
-			result = accountDao.deleteAccount(accnt_id);
-			result = accountDao.deleteAccountSalt(accnt_id);
+			accountDao.deleteAccount(accnt_id);
+			accountDao.deleteAccountSalt(accnt_id);
 			
 			transactionManager.commit(status);
 			
@@ -78,6 +78,6 @@ public class AccountServiceImpl implements AccountService{
 			transactionManager.rollback(status);
 		}
 		
-		return result;
+		return 1;
 	}
 }

@@ -13,7 +13,7 @@
 		SELECT * FROM BOARD WHERE BOARD_ID = #{board_id}
 	</select>
 	
-	<select id="countBoard" resultType="int">
+	<select id="countBoard" resultType="Integer">
 		SELECT COUNT(*) FROM BOARD
 	</select>
 	

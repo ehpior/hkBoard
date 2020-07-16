@@ -12,7 +12,7 @@
 		SELECT * FROM ACCOUNT WHERE id = #{id} and s_passwd = #{pw}
 	</select>
 	
-	<select id="selectIdAccount" resultType="int">
+	<select id="selectIdAccount" resultType="Integer">
 		SELECT accnt_id FROM ACCOUNT WHERE id = #{id}
 	</select>
 	<select id="selectAccountSalt" resultType="string">

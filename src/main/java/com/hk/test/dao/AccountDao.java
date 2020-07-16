@@ -16,7 +16,7 @@ public interface AccountDao {
 	public int deleteAccount(int accnt_id);
 	public int deleteAccountSalt(int accnt_id);
 	public int writeAccountSalt(@Param("accnt_id") int accnt_id, @Param("salt") String salt);
-	public int selectIdAccount(String id);
+	public Integer selectIdAccount(String id);
 	public String selectAccountSalt(int accnt_id);
 	
 	

@@ -1,34 +1,35 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page isErrorPage="true" %>
-<% response.setStatus(200); %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page isErrorPage="true"%>
+<%
+	response.setStatus(200);
+%>
 <!DOCTYPE html>
-<html>
+<html class="h-100">
 <head>
-<meta charset="EUC-KR">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css">
+<%@ include file="preset.jsp"%>
 <title>Insert title here</title>
 </head>
-<body>
-<header>
-	<%@ include file="nav.jsp" %>
-</header>
+<body class="d-flex flex-column h-100">
 
-<nav>
-</nav>
+	<%@ include file="header.jsp"%>
 
-<main>
-	<input type="button" value="Home" onClick="location.href='${pageContext.request.contextPath}/home.hk'">
-	<br><br>
-	error [ <%= exception.getMessage( ) %> ]
-</main>
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
+			<input type="button" value="Home"
+				onClick="location.href='${pageContext.request.contextPath}/home.hk'">
+			<br>
+			<br> <b>[ error ]</b> <br>
+			<br>
+			<%
+				exception.printStackTrace(new java.io.PrintWriter(out));
+			%>
+		</div>
+	</main>
 
-<aside>
-</aside>
 
-<footer>
-</footer>
-<br>
+	<%@ include file="footer.jsp"%>
+
 </body>
 </html>

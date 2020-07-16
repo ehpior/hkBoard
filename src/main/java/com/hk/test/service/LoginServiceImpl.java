@@ -1,5 +1,7 @@
 package com.hk.test.service;
 
+import java.util.Optional;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -26,37 +28,61 @@ public class LoginServiceImpl implements LoginService{
 		
 		LoginDao loginDao = sqlSession.getMapper(LoginDao.class);
 		AccountDao accountDao = sqlSession.getMapper(AccountDao.class);
-		
-		TransactionDefinition definition = new DefaultTransactionDefinition();
-		TransactionStatus status = transactionManager.getTransaction(definition);
-		
 		AccountDto accountDto = null;
 		
-		try {
-			//account.accnt_id select
-			int id = accountDao.selectIdAccount(loginDto.getId());
-			//salt_value select
-			String salt = accountDao.selectAccountSalt(id);
+		int id = Optional.ofNullable(accountDao.selectIdAccount(loginDto.getId())).orElse(0).intValue();
+		
+		if(id==0) return null;
+		
+		else {		
+			TransactionDefinition definition = new DefaultTransactionDefinition();
+			TransactionStatus status = transactionManager.getTransaction(definition);
 			
-			loginDto.setPw(SHA256Util.getEncrypt(loginDto.getPw(),salt));
-			
-			accountDto = loginDao.loginCheck(loginDto);
-			
-			transactionManager.commit(status);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-			transactionManager.rollback(status);
+			try {
+				String salt = accountDao.selectAccountSalt(id);
+				
+				loginDto.setPw(SHA256Util.getEncrypt(loginDto.getPw(), salt));
+				
+				accountDto = loginDao.loginCheck(loginDto);
+				
+				transactionManager.commit(status);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+				transactionManager.rollback(status);
+			}
+	
+			if(accountDto != null) {
+				return accountDto;
+			}
+			return null;
 		}
 		
+	}
+	
+	public boolean signUpCheckId(String id) {
 		
+		LoginDao loginDao = sqlSession.getMapper(LoginDao.class);
 		
-		if(accountDto != null) {
-			return accountDto;
+		if(Optional.ofNullable(loginDao.signUpCheckId(id)).orElse(0).intValue() == 0) {
+			return true;
 		}
-		return null;
+		else {
+			return false;
+		}
+	}
+	
+	public boolean signUpCheckNickname(String nickname) {
 		
+		LoginDao loginDao = sqlSession.getMapper(LoginDao.class);
+		
+		if(Optional.ofNullable(loginDao.signUpCheckNickname(nickname)).orElse(0).intValue() == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public boolean loginHistory(LoginHistoryDto loginHistoryDto) {
@@ -67,8 +93,9 @@ public class LoginServiceImpl implements LoginService{
 		TransactionStatus status = transactionManager.getTransaction(definition);
 		
 		try {
+			
 			loginDao.updateLastLoginAccount(loginHistoryDto.getLogin_date(), loginHistoryDto.getAccnt_id());
-			//System.out.println(String.valueOf(40/0));
+
 			loginDao.insertLoginHistory(loginHistoryDto);
 			
 			transactionManager.commit(status);

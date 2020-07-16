@@ -1,112 +1,122 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html class="h-100">
 <head>
-<meta charset="EUC-KR">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css">
+<%@ include file="preset.jsp"%>
 <title>Insert title here</title>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/se2/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/sehk2/js/HuskyEZCreator.js"
+	charset="utf-8"></script>
+<%-- <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se2/js/service/HuskyEZCreator.js" charset="utf-8"></script> --%>
+<script type="text/javascript"
+	src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 
 <style>
 </style>
 
-<body>
+<body class="d-flex flex-column h-100">
 
-<header>
-	<%@ include file="nav.jsp" %>
-</header>
+	<%@ include file="header.jsp"%>
 
-<nav>
-</nav>
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
 
-<main>
+			<input type="button" value="Home"
+				onClick="location.href='${pageContext.request.contextPath}/home.hk'">
+			<br>
+			<br> <input type="button" value="board"
+				onClick="location.href='${pageContext.request.contextPath}/board.hk'">
+			<br>
+			<br>
 
-	<input type="button" value="Home" onClick="location.href='${pageContext.request.contextPath}/home.hk'">
-	<br><br>
-	
-	<input type="button" value="board" onClick="location.href='${pageContext.request.contextPath}/board.hk'">
-	<br><br>
-	
-	<form action="${pageContext.request.contextPath}/boardWriteResult" id="noticeWriteForm" method="POST">
-		<table width="900" cellpadding="20px" cellspacing="0" border="1">
-			<tr>
-				<td>title</td>
-				<td><input type="text" id="title" name="title"></td>
-			</tr>
-			<tr>
-				<td>writer</td>
-				<td><input type="number" id="writer" name="writer" value="${login.accnt_id}"></td>
-			</tr>
-			<tr>
-				<td>content</td>
-				<td><textarea name="content" id="smartEditor" style="width: 100%; height: 200px;"></textarea></td>
-			</tr>
-			<c:if test="${login.user_type eq 'A'}">
-				<tr>
-					<td>notice</td>
-					<td><input type="checkbox" name="notice" value="A"></td>
-				</tr>			
-			</c:if>
-			<tr>
-				<td colspan="2">
-					<input type="button" value="write" id="savebutton">
-				</td>
-			</tr>
-		</table>
-	</form>
-</main>
+			<form action="${pageContext.request.contextPath}/boardWriteResult"
+				id="noticeWriteForm" method="POST">
+				<table width="900" cellpadding="20px" cellspacing="0" border="1">
+					<tr>
+						<td>title</td>
+						<td><input type="text" id="title" name="title"></td>
+					</tr>
+					<tr>
+						<td>writer</td>
+						<td>${login.accnt_id} <input type="hidden" id="writer"
+							name="writer" value="${login.accnt_id}">
+						</td>
+					</tr>
+					<tr>
+						<td>content</td>
+						<td><textarea name="content" id="smartEditor"
+								style="width: 100%; height: 200px;"></textarea></td>
+					</tr>
+					<c:if test="${login.user_type eq 'A'}">
+						<tr>
+							<td>notice</td>
+							<td><input type="checkbox" name="notice" value="A"></td>
+						</tr>
+					</c:if>
+					<tr>
+						<td colspan="2"><input type="button" value="write"
+							id="savebutton"></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</main>
 
-<aside>
-</aside>
+	<%@ include file="footer.jsp"%>
 
-<footer>
-</footer>
-<script type="text/javascript">
-var oEditors = []; 
-nhn.husky.EZCreator.createInIFrame({ 
-	oAppRef : oEditors, elPlaceHolder : "smartEditor", //Àú´Â textareaÀÇ id¿Í ¶È°°ÀÌ Àû¾îÁá½À´Ï´Ù. 
-	sSkinURI : "/hkBoard/resources/se2/SmartEditor2Skin.html", //°æ·Î¸¦ ²À ¸ÂÃçÁÖ¼¼¿ä! 
-	fCreator : "createSEditor2", htParams : { // Åø¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½) 
-	bUseToolbar : true, // ÀÔ·ÂÃ¢ Å©±â Á¶Àı¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½) 
-	bUseVerticalResizer : false, // ¸ğµå ÅÇ(Editor | HTML | TEXT) »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½) 
-	bUseModeChanger : true } });
+	<script type="text/javascript">
+		var oEditors = [];
+		nhn.husky.EZCreator.createInIFrame({
+			oAppRef : oEditors,
+			elPlaceHolder : "smartEditor", //ì €ëŠ” textareaì˜ idì™€ ë˜‘ê°™ì´ ì ì–´ì¤¬ìŠµë‹ˆë‹¤. 
+			/* sSkinURI : "/hkBoard/resources/se2/SmartEditor2Skin.html", //ê²½ë¡œë¥¼ ê¼­ ë§ì¶°ì£¼ì„¸ìš”!  */
+			sSkinURI : "/hkBoard/resources/sehk2/SmartEditor2Skin.html", //ê²½ë¡œë¥¼ ê¼­ ë§ì¶°ì£¼ì„¸ìš”!  
+			fCreator : "createSEditor2",
+			htParams : { // íˆ´ë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ) 
+				bUseToolbar : true, // ì…ë ¥ì°½ í¬ê¸° ì¡°ì ˆë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ) 
+				bUseVerticalResizer : false, // ëª¨ë“œ íƒ­(Editor | HTML | TEXT) ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ) 
+				bUseModeChanger : true,
+				bSkipXssFilter : true
+			}
+		});
 
-$(function() { $("#savebutton").click(function() { 
-	oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []); //textareaÀÇ id¸¦ Àû¾îÁİ´Ï´Ù. 
-	/* var selcatd = $("#selcatd > option:selected").val(); 
-	var title = $("#title").val(); 
-	var content = document.getElementById("smartEditor").value;
-	if (selcatd == "") { 
-		alert("Ä«Å×°í¸®¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä."); 
-		return; 
-	} 
-	if (title == null || title == "") { 
-		alert("Á¦¸ñÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä."); 
-		$("#title").focus(); 
-		return; 
-	} 
-	if(content == "" || content == null || content == '&nbsp;' || 
-		content == '<br>' || content == '<br/>' || content == '<p>&nbsp;</p>'){ 
-		alert("º»¹®À» ÀÛ¼ºÇØÁÖ¼¼¿ä."); oEditors.getById["smartEditor"].exec("FOCUS"); //Æ÷Ä¿½Ì 
-		return; 
-	}  *///ÀÌ ºÎºĞÀº ½º¸¶Æ®¿¡µğÅÍ À¯È¿¼º °Ë»ç ºÎºĞÀÌ´Ï Âü°íÇÏ½Ã±æ ¹Ù¶ø´Ï´Ù. 
-	
-	//var result = confirm("¹ßÇà ÇÏ½Ã°Ú½À´Ï±î?"); 
-	//if(result){ 
-		//alert($("#smartEditor").val());
-		$("#noticeWriteForm").submit(); 
-	//}else{ 
-	//	return; 
-	//} 
-	}); 
-})
-
-</script>
+		$(function() {
+			$("#savebutton").click(
+					function() {
+						oEditors.getById["smartEditor"].exec(
+								"UPDATE_CONTENTS_FIELD", []); //textareaì˜ idë¥¼ ì ì–´ì¤ë‹ˆë‹¤. 
+						$("#smartEditor").val(
+								$("#smartEditor").val().replace(/<br>$/, ""));
+						/* var selcatd = $("#selcatd > option:selected").val(); 
+						var title = $("#title").val(); 
+						var content = document.getElementById("smartEditor").value;
+						if (selcatd == "") { 
+							alert("ì¹´í…Œê³ ë¦¬ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”."); 
+							return; 
+						} 
+						if (title == null || title == "") { 
+							alert("ì œëª©ì„ ì…ë ¥í•´ì£¼ì„¸ìš”."); 
+							$("#title").focus(); 
+							return; 
+						} 
+						if(content == "" || content == null || content == '&nbsp;' || 
+							content == '<br>' || content == '<br/>' || content == '<p>&nbsp;</p>'){ 
+							alert("ë³¸ë¬¸ì„ ì‘ì„±í•´ì£¼ì„¸ìš”."); oEditors.getById["smartEditor"].exec("FOCUS"); //í¬ì»¤ì‹± 
+							return; 
+						}  *///ì´ ë¶€ë¶„ì€ ìŠ¤ë§ˆíŠ¸ì—ë””í„° ìœ íš¨ì„± ê²€ì‚¬ ë¶€ë¶„ì´ë‹ˆ ì°¸ê³ í•˜ì‹œê¸¸ ë°”ëë‹ˆë‹¤. 
+						//var result = confirm("ë°œí–‰ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
+						//if(result){ 
+						$("#noticeWriteForm").submit();
+						//}else{ 
+						//	return; 
+						//} 
+					});
+		});
+	</script>
 
 </body>
 </html>
