@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html class="h-100">
 <head>
-<%@ include file="preset.jsp"%>
+<%@ include file="../preset.jsp"%>
 <title>Insert title here</title>
 <!-- RSA 자바스크립트 라이브러리 -->
 <script type="text/javascript"
@@ -22,7 +22,7 @@
 </head>
 <body class="d-flex flex-column h-100">
 
-	<%@ include file="header.jsp"%>
+	<%@ include file="../header.jsp"%>
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
@@ -63,58 +63,55 @@
 	</main>
 
 
-	<%@ include file="footer.jsp"%>
+	<%@ include file="../footer.jsp"%>
 
 
 
 	<script type="text/javascript">
-		$('#signIn')
-				.click(
-						function() {
+		$('#signIn').click(function() {
+		
+			var uid = $("#id").val();
+			var pwd = $("#pw").val();
+			var user_type = "";
+			
+			$.ajax({
+				url : "getRSA",
+				type : "POST",
+				async : false,
+				success : function(data) {
+					var RSAModulus = data.RSAModulus;
+					var RSAExponent = data.RSAExponent;
+					//RSA 암호화 생성
+					var rsa = new RSAKey();
+					rsa.setPublic(RSAModulus,RSAExponent);
+					//사용자 계정정보를 암호화 처리
+					uid = rsa.encrypt(uid);
+					pwd = rsa.encrypt(pwd);
+					user_type = rsa.encrypt(user_type);
+				}
+			});
 
-							$
-									.ajax({
-										url : "getRSA",
-										type : "POST",
-										success : function(data) {
-											var RSAModulus = data.RSAModulus;
-											var RSAExponent = data.RSAExponent;
-
-											//RSA 암호화 생성
-											var rsa = new RSAKey();
-											rsa.setPublic(RSAModulus,
-													RSAExponent);
-
-											//사용자 계정정보를 암호화 처리
-											var uid = rsa.encrypt($("#id")
-													.val());
-											var pwd = rsa.encrypt($("#pw")
-													.val());
-
-											$
-													.ajax({
-														type : "POST",
-														url : "loginResult",
-														data : {
-															user_id : uid,
-															user_pwd : pwd
-														}, //사용자 암호화된 계정정보를 서버로 전송
-														success : function(data) {
-															if (data.state == "true") {
-																window.location.href = "${pageContext.request.contextPath}/home.hk";
-															} else if (data.state == "false") {
-																window.location
-																		.reload(true);
-															} else {
-																window.location
-																		.reload(true);
-															}
-														}
-													});
-										}
-									});
-
-						});
+			$.ajax({
+				url : "loginResult",
+				type : "POST",
+				async : false,
+				data : {
+					"user_id" : uid,
+					"user_pwd" : pwd,
+					"user_type" : user_type
+				}, //사용자 암호화된 계정정보를 서버로 전송
+				success : function(data) {
+					console.log(data.state);
+					if (data.state == "true") {
+						window.location.href = "${pageContext.request.contextPath}/home.hk";
+					} else if (data.state == "false") {
+						window.location.reload(true);
+					} else {
+						window.location.reload(true);
+					}
+				}
+			});
+		});
 
 		$('#naverLogin').click(function() {
 			$.ajax({

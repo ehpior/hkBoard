@@ -7,10 +7,7 @@ import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.RSAPublicKeySpec;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,7 +29,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.hk.test.dto.AccountDto;
-import com.hk.test.dto.BoardDto;
 import com.hk.test.dto.LoginDto;
 import com.hk.test.dto.LoginHistoryDto;
 import com.hk.test.naver.NaverLoginBO;
@@ -67,15 +63,15 @@ public class LoginController{
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
-	@RequestMapping(value = "/login.hk")
+	@RequestMapping(value = "/login.hk", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, HttpSession session, Model model) {
 		System.out.println("/login.hk");
 		
-		return "login";
+		return "login/login";
 	}
 	
 	//public String loginResult(HttpServletRequest request, HttpSession session, LoginDto loginDto) {
-	@RequestMapping(value = "/loginResult")
+	@RequestMapping(value = "/loginResult", method = RequestMethod.POST)
 	public @ResponseBody JSONObject loginResult(HttpServletRequest request, HttpSession session) {
 		
 		System.out.println("/loginResult");
@@ -84,6 +80,7 @@ public class LoginController{
 		
 		String id = request.getParameter("user_id");
 		String pw = request.getParameter("user_pwd");
+		String user_type = request.getParameter("user_type");	
 		
 		try {
 			PrivateKey privateKey = (PrivateKey) session.getAttribute("_RSA_WEB_Key_");
@@ -98,6 +95,7 @@ public class LoginController{
 	
 			id = RSAUtil.decryptRsa(privateKey, id);
 			pw = RSAUtil.decryptRsa(privateKey, pw);
+			user_type = RSAUtil.decryptRsa(privateKey, user_type); 
 	        
 			listObj.put("state","true");
 			
@@ -107,7 +105,7 @@ public class LoginController{
 			return listObj;
 		}
 		
-		LoginDto loginDto = new LoginDto(id, pw);
+		LoginDto loginDto = new LoginDto(id, pw, user_type);
 		
 		AccountDto dto = loginService.loginResult(loginDto);
 		
@@ -121,6 +119,7 @@ public class LoginController{
 			return listObj;
 		}
 
+		
 		String ua = request.getHeader("user-agent");
 		
 		LoginHistoryDto loginHistoryDto = new LoginHistoryDto(dto.getAccnt_id(),
@@ -156,18 +155,31 @@ public class LoginController{
 		String naver_id = (String)response_obj.get("id");
 		String naver_name = (String)response_obj.get("name");
 		
+		LoginDto loginDto = new LoginDto(naver_id, "naver", "N");
+		
+		AccountDto dto = loginService.loginResult(loginDto);
+		
+		if(dto != null) {
+			if(session.getAttribute("login")!=null) {
+				session.removeAttribute("login");
+			}
+			session.setAttribute("login", dto);
+			return "redirect:/home.hk";
+		}
+		
 		AccountDto accountDto = new AccountDto();
 
 		accountDto.setId(naver_id);
 		accountDto.setName(naver_name);
+		accountDto.setUser_type("N");
 		
 		// 4.
 		model.addAttribute("loginNaver", accountDto);
-		//model.addAttribute("result", apiResult);
-		return "loginNaver";
+		
+		return "login/loginNaver";
 	}
 	
-	@RequestMapping(value = "/getRSA")
+	@RequestMapping(value = "/getRSA", method = RequestMethod.POST)
 	public @ResponseBody JSONObject getRSA(HttpSession session) {
 		System.out.println("/getRSA");
 		
@@ -197,7 +209,7 @@ public class LoginController{
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/loginNaverUrl")
+	@RequestMapping(value = "/loginNaverUrl", method = RequestMethod.POST)
 	public String loginNaverUrl(HttpSession session) {
 		System.out.println("/loginNaverUrl");
 		
@@ -206,7 +218,7 @@ public class LoginController{
 		return naverAuthUrl;
 	}
 	
-	@RequestMapping(value = "/logout")
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session, LoginDto loginDto) {
 		System.out.println("/logout");
 		
@@ -218,9 +230,10 @@ public class LoginController{
 	@RequestMapping(value = "/signUp.hk", method = RequestMethod.GET)
 	public String signUp(Model model) {
 		
-		System.out.println("/signUp.hk");
+		//System.out.println("/signUp.hk");
+		logger.info("/signUp.hk");
 		
-		return "signUp";
+		return "login/signUp";
 	}
 	
 	@RequestMapping(value = "/signUpResult", method = RequestMethod.POST)
@@ -266,7 +279,7 @@ public class LoginController{
 		
 	}
 	
-	@RequestMapping(value = "/signUpCheckId")
+	@RequestMapping(value = "/signUpCheckId", method = RequestMethod.POST)
 	public @ResponseBody JSONObject signUpCheckId(HttpServletRequest request, HttpSession session) {
 		System.out.println("/signUpCheckId");
 		
@@ -285,7 +298,7 @@ public class LoginController{
 		return listObj;
 	}
 	
-	@RequestMapping(value = "/signUpCheckNickname")
+	@RequestMapping(value = "/signUpCheckNickname", method = RequestMethod.POST)
 	public @ResponseBody JSONObject signUpCheckNickname(HttpServletRequest request, HttpSession session) {
 		System.out.println("/signUpCheckNickname");
 		

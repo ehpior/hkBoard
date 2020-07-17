@@ -57,7 +57,7 @@ public class BoardController{
 		System.out.println("/board.hk");
 
 		
-		int pageNumber = Integer.valueOf(request.getParameter("boardPage")==null?"1":request.getParameter("boardPage"));
+		int pageNumber = Integer.parseInt(request.getParameter("boardPage")==null?"1":request.getParameter("boardPage"));
 		
 		String maxSelectLimit_pam = request.getParameter("maxSelectLimit");
 		
@@ -67,7 +67,7 @@ public class BoardController{
 			}
 		}
 		else {
-			session.setAttribute("maxSelectLimit", Integer.valueOf(maxSelectLimit_pam));			
+			session.setAttribute("maxSelectLimit", Integer.parseInt(maxSelectLimit_pam));			
 		}
 		int maxSelectLimit = (Integer)session.getAttribute("maxSelectLimit");
 				
@@ -75,7 +75,7 @@ public class BoardController{
 		model.addAttribute("boardCount", Math.ceil((double)boardService.countBoard()/maxSelectLimit));
 		model.addAttribute("boardList", boardService.listBoard(pageNumber, maxSelectLimit));
 		
-		return "board";
+		return "board/board";
 	}
 	
 	@RequestMapping(value = "/boardView.hk", method = RequestMethod.GET)
@@ -85,18 +85,18 @@ public class BoardController{
 		
 		model.addAttribute("selectBoard", boardService.selectBoard(Integer.parseInt(request.getParameter("board_id"))));
 		
-		return "boardView";
+		return "board/boardView";
 	}
 	
-	@RequestMapping(value = "/boardWrite.hk")
+	@RequestMapping(value = "/boardWrite.hk", method = RequestMethod.GET)
 	public String boardWrite(HttpServletRequest request, HttpSession session, Model model) {
 		
 		System.out.println("/boardWrite.hk");
 		
-		return "boardWrite";
+		return "board/boardWrite";
 	}
 	
-	@RequestMapping(value = "/boardWriteResult")
+	@RequestMapping(value = "/boardWriteResult", method = RequestMethod.POST)
 	public String boardWriteResult(BoardDto boardDto, HttpServletRequest request, HttpSession session, Model model) {
 		
 		System.out.println("/boardWriteResult");
@@ -141,7 +141,7 @@ public class BoardController{
 		return "redirect:/board.hk";
 	}
 	
-	@RequestMapping(value = "/boardModify.hk")
+	@RequestMapping(value = "/boardModify.hk", method = RequestMethod.GET)
 	public String boardModify(HttpServletRequest request, HttpSession session, Model model) {
 		
 		System.out.println("/boardModify.hk");
@@ -153,10 +153,10 @@ public class BoardController{
 		model.addAttribute("board_id", request.getParameter("board_id"));
 		model.addAttribute("dto", boardDto);
 		
-		return "boardModify";
+		return "board/boardModify";
 	}
 	
-	@RequestMapping(value = "/boardModifyResult")
+	@RequestMapping(value = "/boardModifyResult", method = RequestMethod.POST)
 	public String boardModifyResult(BoardDto boardDto, HttpServletRequest request, HttpSession session, Model model) {
 		
 		System.out.println("/boardModifyResult");

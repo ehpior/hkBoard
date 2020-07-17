@@ -8,10 +8,6 @@
 		SELECT * FROM ACCOUNT ORDER BY accnt_id
 	</select>
 	
-	<select id="loginCheck" resultType="com.hk.test.dto.AccountDto">
-		SELECT * FROM ACCOUNT WHERE id = #{id} and s_passwd = #{pw}
-	</select>
-	
 	<select id="selectIdAccount" resultType="Integer">
 		SELECT accnt_id FROM ACCOUNT WHERE id = #{id}
 	</select>

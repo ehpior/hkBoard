@@ -5,14 +5,14 @@
 <!DOCTYPE html>
 <html class="h-100">
 <head>
-<%@ include file="preset.jsp"%>
+<%@ include file="../preset.jsp"%>
 <title>Insert title here</title>
 </head>
 <style>
 </style>
 <body class="d-flex flex-column h-100">
 
-	<%@ include file="header.jsp"%>
+	<%@ include file="../header.jsp"%>
 
 
 	<main role="main" class="flex-shrink-0">
@@ -82,7 +82,7 @@
 
 
 
-	<%@ include file="footer.jsp"%>
+	<%@ include file="../footer.jsp"%>
 
 
 

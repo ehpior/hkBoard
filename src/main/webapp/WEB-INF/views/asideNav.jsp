@@ -14,13 +14,6 @@
 
 <%@ include file="header.jsp" %>
 
-<% if(false){ %>
-
-<% } %>
-<% if(true){ %>
-
-<% } %>
-
 
 </body>
 </html>

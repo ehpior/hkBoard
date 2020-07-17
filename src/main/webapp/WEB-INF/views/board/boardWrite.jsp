@@ -4,12 +4,13 @@
 <!DOCTYPE html>
 <html class="h-100">
 <head>
-<%@ include file="preset.jsp"%>
+<%@ include file="../preset.jsp"%>
 <title>Insert title here</title>
 
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/sehk2/js/HuskyEZCreator.js"
 	charset="utf-8"></script>
+<%-- <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se2/js/service/HuskyEZCreator.js" charset="utf-8"></script> --%>
 <script type="text/javascript"
 	src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
@@ -19,12 +20,11 @@
 
 <body class="d-flex flex-column h-100">
 
-	<%@ include file="header.jsp"%>
-
-	<nav></nav>
+	<%@ include file="../header.jsp"%>
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
+
 			<input type="button" value="Home"
 				onClick="location.href='${pageContext.request.contextPath}/home.hk'">
 			<br>
@@ -33,23 +33,17 @@
 			<br>
 			<br>
 
-			<form action="${pageContext.request.contextPath}/boardModifyResult"
+			<form action="${pageContext.request.contextPath}/boardWriteResult"
 				id="noticeWriteForm" method="POST">
 				<table width="900" cellpadding="20px" cellspacing="0" border="1">
-					<input type="hidden" name="board_id" value="${board_id}">
-					<tr>
-						<td>board_id</td>
-						<td>${board_id}</td>
-					</tr>
 					<tr>
 						<td>title</td>
-						<td><input type="text" id="title" name="title"
-							value="${dto.title}"></td>
+						<td><input type="text" id="title" name="title"></td>
 					</tr>
 					<tr>
 						<td>writer</td>
-						<td>${dto.writer} <input type="hidden" id="writer"
-							name="writer" value="${dto.writer}">
+						<td>${login.accnt_id} <input type="hidden" id="writer"
+							name="writer" value="${login.accnt_id}">
 						</td>
 					</tr>
 					<tr>
@@ -72,27 +66,21 @@
 		</div>
 	</main>
 
-	<%@ include file="footer.jsp"%>
+	<%@ include file="../footer.jsp"%>
+
 	<script type="text/javascript">
 		var oEditors = [];
 		nhn.husky.EZCreator.createInIFrame({
 			oAppRef : oEditors,
 			elPlaceHolder : "smartEditor", //저는 textarea의 id와 똑같이 적어줬습니다. 
-			sSkinURI : "/hkBoard/resources/sehk2/SmartEditor2Skin.html", //경로를 꼭 맞춰주세요! 
+			/* sSkinURI : "/hkBoard/resources/se2/SmartEditor2Skin.html", //경로를 꼭 맞춰주세요!  */
+			sSkinURI : "/hkBoard/resources/sehk2/SmartEditor2Skin.html", //경로를 꼭 맞춰주세요!  
 			fCreator : "createSEditor2",
-			htParams : {
-				// 툴바 사용 여부 (true:사용/ false:사용하지 않음) 
-				bUseToolbar : true,
-				// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음) 
-				bUseVerticalResizer : false,
-				// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음) 
+			htParams : { // 툴바 사용 여부 (true:사용/ false:사용하지 않음) 
+				bUseToolbar : true, // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음) 
+				bUseVerticalResizer : false, // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음) 
 				bUseModeChanger : true,
 				bSkipXssFilter : true
-			},
-			fOnAppLoad : function() {
-				oEditors.getById["smartEditor"].exec("SET_IR", [ "" ]); //내용초기화
-				oEditors.getById["smartEditor"].exec("PASTE_HTML",
-						[ '${dto.content}' ]); //내용밀어넣기
 			}
 		});
 
@@ -120,14 +108,14 @@
 							alert("본문을 작성해주세요."); oEditors.getById["smartEditor"].exec("FOCUS"); //포커싱 
 							return; 
 						}  *///이 부분은 스마트에디터 유효성 검사 부분이니 참고하시길 바랍니다. 
-						//var result = confirm("발행 하시겠습니까?"); 
+						//var result = confirm("발행 하시겠습니까?");
 						//if(result){ 
 						$("#noticeWriteForm").submit();
 						//}else{ 
 						//	return; 
 						//} 
 					});
-		})
+		});
 	</script>
 
 </body>

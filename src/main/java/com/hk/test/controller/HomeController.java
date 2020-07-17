@@ -82,7 +82,7 @@ public class HomeController{
 		return "redirect:home.hk";
 	}
 
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	@RequestMapping(value = "/test.hk", method = RequestMethod.GET)
 	public String testPage(HttpServletRequest request, Model model) {
 		
 		return "test";
@@ -91,9 +91,7 @@ public class HomeController{
 	@RequestMapping(value = "/home.hk")
 	public String home(HttpServletRequest request, Model model) {
 			
-		System.out.println("/home.hk");
-		
-		System.out.println(CommUtil.getClientIP(request));
+		logger.info(CommUtil.getClientIP(request)+":/home.hk");
 		
 		return "home";
 	}

@@ -11,6 +11,7 @@ import com.hk.test.dto.LoginHistoryDto;
 public interface LoginDao {
 	
 	public AccountDto loginCheck(LoginDto loginDto);
+	public AccountDto loginCheckWithType(LoginDto loginDto);
 	public int updateLastLoginAccount(@Param("last_login") Timestamp last_login, @Param("accnt_id") int accnt_id);
 	public int insertLoginHistory(LoginHistoryDto loginHistoryDto);
 	public Integer signUpCheckId(@Param("id") String id);

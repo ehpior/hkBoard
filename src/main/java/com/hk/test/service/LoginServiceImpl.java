@@ -43,7 +43,12 @@ public class LoginServiceImpl implements LoginService{
 				
 				loginDto.setPw(SHA256Util.getEncrypt(loginDto.getPw(), salt));
 				
-				accountDto = loginDao.loginCheck(loginDto);
+				if(loginDto.getUser_type().equals("N")) {
+					accountDto = loginDao.loginCheckWithType(loginDto);
+				}
+				else {					
+					accountDto = loginDao.loginCheck(loginDto);
+				}
 				
 				transactionManager.commit(status);
 				

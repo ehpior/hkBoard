@@ -52,17 +52,17 @@
 	
 	<beans:bean id="naverLoginBO" class="com.hk.test.naver.NaverLoginBO" />
 	
-	<beans:bean id="AuthLoginInterceptor" class="com.hk.test.interceptor.AuthLoginInterceptor" />
 	
 	
-	<task:scheduler id="myScheduler" pool-size="1"/>
+	<!-- <task:scheduler id="myScheduler" pool-size="1"/>
 	
 	<beans:bean id="batchExecutor" class="com.hk.test.batch.batchMain" />
 	
 	<task:scheduled-tasks scheduler="myScheduler">
     	<task:scheduled ref="batchExecutor" method="remove" cron="0 * * * * *" />
-	</task:scheduled-tasks>
+	</task:scheduled-tasks> -->
 
+	<beans:bean id="AuthLoginInterceptor" class="com.hk.test.interceptor.AuthLoginInterceptor" />
 	
 	<!-- Interceptor 설정 -->
 	<interceptors>

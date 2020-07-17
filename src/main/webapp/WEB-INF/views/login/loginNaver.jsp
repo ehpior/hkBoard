@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html class="h-100">
 <head>
-<%@ include file="preset.jsp"%>
+<%@ include file="../preset.jsp"%>
 <title>Insert title here</title>
 
 <!-- RSA 자바스크립트 라이브러리 -->
@@ -24,7 +24,7 @@
 </head>
 <body class="d-flex flex-column h-100">
 
-	<%@ include file="header.jsp"%>
+	<%@ include file="../header.jsp"%>
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
@@ -44,14 +44,6 @@
 					<td id="checkNicknameResult"></td>
 				</tr>
 				<tr>
-					<th>name</th>
-					<td><input type="text" id="name_tmp"></td>
-				</tr>
-				<tr>
-					<th>user_type</th>
-					<td><input type="checkbox" id="user_type_tmp"></td>
-				</tr>
-				<tr>
 					<th>phone
 						<div id="phoneVal" class="phone val">wrong</div>
 					</th>
@@ -66,27 +58,6 @@
 					</select> <input type="text" id="phone2"> <input type="text"
 						id="phone3"></td>
 				</tr>
-				<tr>
-					<th>ID
-						<div id="idVal" class="id val">wrong</div>
-					</th>
-					<td><input type="text" id="id_tmp" /></td>
-					<td><input type="button" id="signUpCheckId" value="checkId"></td>
-					<td id="checkIdResult"></td>
-				</tr>
-				<tr>
-					<th>PW
-						<div id="pwVal"></div>
-					</th>
-					<td><input type="password" id="s_passwd_tmp" /></td>
-				</tr>
-				<tr>
-					<th>PW2
-						<div id="pwVal2"></div>
-					</th>
-					<td><input type="password" id="s_passwd_tmp2" /></td>
-					<td><input type="button" id="pw2"></td>
-				</tr>
 			</table>
 			<br> <input type="button" id="signUp" value="signUp"><input
 				type="reset" value="reset">
@@ -96,28 +67,22 @@
 				method="POST">
 				<input type="hidden" id="nickname" name="nickname"> <input
 					type="hidden" id="name" name="name"> <input type="hidden"
-					id="user_type" name="user_type"> <input type="hidden"
-					id="phone" name="phone"> <input type="hidden" id="id"
-					name="id"> <input type="hidden" id="s_passwd"
+					id="user_type" name="user_type" value="N"> <input
+					type="hidden" id="phone" name="phone"> <input type="hidden"
+					id="id" name="id"> <input type="hidden" id="s_passwd"
 					name="s_passwd">
 			</form>
 		</div>
 	</main>
 
-	<%@ include file="footer.jsp"%>
+
+
+	<%@ include file="../footer.jsp"%>
 
 
 
 	<script>
 		$(".val").css("display", "none");
-
-		$("#pw2").click(function() {
-			if ($("#s_passwd_tmp").val() != $("#s_passwd_tmp2").val()) {
-				$("#s_passwd_tmp2").focus();
-			} else {
-				alert("t");
-			}
-		});
 
 		$("#signUpCheckNickname").click(function() {
 			var nickname = $("#nickname_tmp").val();
@@ -148,35 +113,6 @@
 			});
 		});
 
-		$("#signUpCheckId").click(function() {
-			var id = $("#id_tmp").val();
-
-			if (!(/^[a-zA-Z0-9]{4,12}$/).test(id)) {
-
-				$("#id_tmp").focus();
-
-				$("#checkIdResult").text("impossible-pattern");
-
-				return;
-			}
-
-			$.ajax({
-				url : "signUpCheckId",
-				type : "POST",
-				data : {
-					"id" : id
-				},
-				success : function(data) {
-					if (data.signUpCheckId == 1) {
-						$("#checkIdResult").text("possible");
-					} else {
-						$("#id_tmp").focus();
-						$("#checkIdResult").text("impossible-exist");
-					}
-				}
-			});
-		});
-
 		$("#signUp").click(
 				function() {
 
@@ -190,9 +126,9 @@
 
 						return;
 					}
-					var name = $("#name_tmp").val();
-					var user_type = $("#user_type_tmp").is(":checked") ? "A"
-							: "";
+					var name = "${loginNaver.name}";
+					
+					var user_type ="${loginNaver.user_type}";
 
 					var phone = $("#phone1").val() + '-' + $("#phone2").val()
 							+ '-' + $("#phone3").val();
@@ -205,32 +141,9 @@
 						return;
 					}
 
-					var id = $("#id_tmp").val();
-					if (!(/^[a-zA-Z0-9]{4,12}$/).test(id)) {
+					var id = "${loginNaver.id}";
 
-						$(".val").css("display", "none");
-						$(".id").css("display", "");
-
-						$("#id_tmp").focus();
-
-						return;
-					}
-
-					var s_passwd = $("#s_passwd_tmp").val();
-
-					if (!(/^[a-zA-Z0-9]{4,12}$/).test(s_passwd)) {
-
-						$(".val").css("display", "none");
-						$(".s_passwd").css("display", "");
-
-						$("#s_passwd_tmp").focus();
-
-						return;
-					}
-					if ($("#s_passwd_tmp").val() != $("#s_passwd_tmp2").val()) {
-						$("#s_passwd_tmp2").focus();
-						return;
-					}
+					var s_passwd = "naver";
 
 					$.ajax({
 						url : "signUpCheckNickname",
@@ -246,24 +159,6 @@
 								$("#nickname_tmp").focus();
 								$("#checkNicknameResult").text(
 										"impossible-exist");
-								return;
-							}
-						}
-					});
-
-					$.ajax({
-						url : "signUpCheckId",
-						type : "POST",
-						async : "false",
-						data : {
-							"id" : id
-						},
-						success : function(data) {
-							if (data.signUpCheckId == 1) {
-								$("#checkIdResult").text("possible");
-							} else {
-								$("#id_tmp").focus();
-								$("#checkIdResult").text("impossible-exist");
 								return;
 							}
 						}

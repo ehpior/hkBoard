@@ -8,7 +8,7 @@
 			<charset>UTF-8</charset>
 			<!-- 로그 메시지 패턴 -->
 			<Pattern>
-				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+				[%d{yyyy:MM:dd HH:mm:ss}][%level][%logger#%L][%msg]%n
 			</Pattern>
 		</encoder>
 	</appender>
@@ -20,7 +20,7 @@
 		<encoder
 			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>
-				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+				[%d{yyyy:MM:dd HH:mm:ss}][%level][%logger#%L][%msg]%n
 			</Pattern>
 		</encoder>
 
@@ -48,6 +48,9 @@
 	<logger name="com.hk.test" level="info"
 		additivity="false">
 		<appender-ref ref="fileAppender" />
+	</logger>
+	<logger name="com.hk.test" level="debug"
+		additivity="false">
 		<appender-ref ref="consoleAppender" />
 	</logger>
 
