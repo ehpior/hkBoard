@@ -33,7 +33,7 @@
 			<br>
 			<br>
 
-			<table border="1">
+			<table width="900"	cellpadding= "7px"	cellspacing= "0" border= "1">
 				<tr>
 					<th>nickname</th>
 					<td><input type="text" id="nickname_tmp" /></td>

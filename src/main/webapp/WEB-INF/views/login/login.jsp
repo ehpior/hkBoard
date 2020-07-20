@@ -33,7 +33,7 @@
 			<%-- <form action="${pageContext.request.contextPath}/loginResult" method="POST"> --%>
 			<form action="${pageContext.request.contextPath}/loginResult"
 				method="POST" id="form">
-				<table border="1">
+				<table>
 					<tr>
 						<th>ID</th>
 						<td><input type="text" id="id" name="id" autocomplete="on"></td>

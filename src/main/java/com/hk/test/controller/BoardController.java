@@ -2,14 +2,10 @@ package com.hk.test.controller;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -21,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.hk.test.dto.AccountDto;
 import com.hk.test.dto.BoardDto;
 import com.hk.test.naver.NaverLoginBO;
 import com.hk.test.service.AccountServiceImpl;
@@ -198,6 +195,11 @@ public class BoardController{
 		
 		logger.info(CommUtil.getClientIP(request)+":/boardDelete.hk");
 		
+		AccountDto dto = (AccountDto)session.getAttribute("login");
+		
+		/*
+		 * if(dto.getUser_type()!="A") { if() }
+		 */
 		boardService.deleteBoard(Integer.parseInt(request.getParameter("board_id")));
 		
 		return "redirect:/board.hk";

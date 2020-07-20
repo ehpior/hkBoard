@@ -33,7 +33,7 @@
 			<br>
 			<br>
 
-			<table border="1">
+			<table width="900"	cellpadding= "7px"	cellspacing= "0" border= "1">
 				<tr>
 					<th>nickname</th>
 					<td><input type="text" id="nickname_tmp" /></td>
@@ -103,7 +103,7 @@
 
 	<script>
 
-		var reg_nickname = /^[a-zA-Z0-9|가-힣]{4,12}$/;
+		var reg_nickname = /^[a-zA-Z0-9가-힣]{2,12}$/;
 		var reg_phone = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/;
 		var reg_id = /^[a-zA-Z0-9]{4,12}$/;
 		var reg_pw = /^[a-zA-Z0-9]{4,12}$/;

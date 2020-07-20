@@ -39,7 +39,7 @@
 			<br>
 			<br>
 			<div style="overflow: auto;">
-				<table width="900" cellpadding="5px" cellspacing="0" border="1">
+				<table width="900"	cellpadding= "7px"	cellspacing= "0" border= "1">
 					<tr>
 						<td>board_id</td>
 						<td>title</td>
@@ -48,8 +48,10 @@
 						<td>create_date</td>
 						<td>modify_date</td>
 						<td>notice</td>
-						<td>modify</td>
-						<td>delete</td>
+						<c:if test="${login.user_type eq 'A'}">
+							<td>modify</td>
+							<td>delete</td>
+						</c:if>
 					</tr>
 					<c:forEach items="${boardList}" var="dto">
 						<tr>
@@ -62,10 +64,10 @@
 							<td>${dto.create_date}</td>
 							<td>${dto.modify_date}</td>
 							<td>${dto.notice}</td>
-							<td><a
-								href="${pageContext.request.contextPath}/boardModify.hk?board_id=${dto.board_id}">Modify</a></td>
-							<td><a
-								href="${pageContext.request.contextPath}/boardDelete?board_id=${dto.board_id}">Delete</a></td>
+							<c:if test="${login.user_type eq 'A'}">
+								<td><a href="${pageContext.request.contextPath}/boardModify.hk?board_id=${dto.board_id}">Modify</a></td>
+								<td><a href="${pageContext.request.contextPath}/boardDelete?board_id=${dto.board_id}">Delete</a></td>
+							</c:if>
 						</tr>
 					</c:forEach>
 				</table>

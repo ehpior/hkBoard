@@ -28,7 +28,7 @@
 			</form>
 			<br>
 			<br>
-			<table width="500" cellpadding="0" cellspacing="0" border="1">
+			<table width="900"	cellpadding= "7px"	cellspacing= "0" border= "1">
 				<tr>
 					<td>ACCNT_ID</td>
 					<td>NICKNAME</td>

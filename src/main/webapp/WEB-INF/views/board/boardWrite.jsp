@@ -35,7 +35,7 @@
 
 			<form action="${pageContext.request.contextPath}/boardWriteResult"
 				id="noticeWriteForm" method="POST">
-				<table width="900" cellpadding="20px" cellspacing="0" border="1">
+				<table width="900"	cellpadding= "7px"	cellspacing= "0" border= "1">
 					<tr>
 						<td>title</td>
 						<td><input type="text" id="title" name="title"></td>

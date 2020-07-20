@@ -8,28 +8,29 @@
 <!DOCTYPE html>
 <html class="h-100">
 <head>
-<%@ include file="preset.jsp"%>
+<%@ include file="../preset.jsp"%>
 <title>Insert title here</title>
 </head>
 <body class="d-flex flex-column h-100">
 
-	<%@ include file="header.jsp"%>
+	<%@ include file="../header.jsp"%>
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<input type="button" value="Home"
-				onClick="location.href='${pageContext.request.contextPath}/home.hk'">
+			<input type="button" value="Home" onClick="location.href='${pageContext.request.contextPath}/home.hk'">
 			<br>
 			<br> <b>[ error ]</b> <br>
 			<br>
-			<%
-				exception.printStackTrace(new java.io.PrintWriter(out));
-			%>
+			<c:if test="${login.user_type eq 'A'}">
+				<%
+					exception.printStackTrace(new java.io.PrintWriter(out));
+				%>
+			</c:if>
 		</div>
 	</main>
 
 
-	<%@ include file="footer.jsp"%>
+	<%@ include file="../footer.jsp"%>
 
 </body>
 </html>
