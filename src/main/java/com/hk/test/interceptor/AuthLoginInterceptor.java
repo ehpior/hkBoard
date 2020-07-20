@@ -4,18 +4,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.hk.test.controller.HomeController;
+import com.hk.test.util.CommUtil;
+
 public class AuthLoginInterceptor extends HandlerInterceptorAdapter{
+	
+	private static final Logger logger = LoggerFactory.getLogger(AuthLoginInterceptor.class);
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		// TODO Auto-generated method stub
-		// return super.preHandle(request, response, handler);
 		
-		System.out.println("preHandle");
+		logger.info(CommUtil.getClientIP(request)+":preHandle");
 		
 		HttpSession session = request.getSession();
 		
@@ -33,10 +38,9 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		
-		System.out.println("postHandle");
+		logger.info(CommUtil.getClientIP(request)+":postHandle");
 		
-		// TODO Auto-generated method stub
-		super.postHandle(request, response, handler, modelAndView);
+
 	}
 	
 }

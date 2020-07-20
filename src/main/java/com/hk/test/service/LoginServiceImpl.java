@@ -30,7 +30,7 @@ public class LoginServiceImpl implements LoginService{
 		AccountDao accountDao = sqlSession.getMapper(AccountDao.class);
 		AccountDto accountDto = null;
 		
-		int id = Optional.ofNullable(accountDao.selectIdAccount(loginDto.getId())).orElse(0).intValue();
+		int id = Optional.ofNullable(accountDao.selectAccount(loginDto.getId())).orElse(0).intValue();
 		
 		if(id==0) return null;
 		

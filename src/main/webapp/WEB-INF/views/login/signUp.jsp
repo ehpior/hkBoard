@@ -35,71 +35,64 @@
 
 			<table border="1">
 				<tr>
-					<th>nickname
-						<div id="nicknameVal" class="nickname val">wrong</div>
-					</th>
+					<th>nickname</th>
 					<td><input type="text" id="nickname_tmp" /></td>
-					<td><input type="button" id="signUpCheckNickname"
-						value="checkNickname"></td>
-					<td id="checkNicknameResult"></td>
+					<td><input type="button" id="signUpCheckNickname" value="checkNickname">
+					<span id="nicknameVal" class="val"></span></td>
 				</tr>
 				<tr>
 					<th>name</th>
 					<td><input type="text" id="name_tmp"></td>
+					<td><span id="nameVal" class="val"></span></td>
 				</tr>
 				<tr>
 					<th>user_type</th>
 					<td><input type="checkbox" id="user_type_tmp"></td>
 				</tr>
 				<tr>
-					<th>phone
-						<div id="phoneVal" class="phone val">wrong</div>
-					</th>
-					<td><select id="phone1">
-							<option value="010">010</option>
-							<option value="011">011</option>
-							<option value="016">016</option>
-							<option value="017">017</option>
-							<option value="018">018</option>
-							<option value="019">019</option>
-							<option value="070">070</option>
-					</select> <input type="text" id="phone2"> <input type="text"
-						id="phone3"></td>
+					<th>phone</th>
+					<td>
+						<select id="phone1">
+								<option value="010">010</option>
+								<option value="011">011</option>
+								<option value="016">016</option>
+								<option value="017">017</option>
+								<option value="018">018</option>
+								<option value="019">019</option>
+								<option value="070">070</option>
+						</select> 
+						<input type="text" id="phone2"> 
+						<input type="text" id="phone3">
+					</td>
+					<td><span id="phoneVal" class="val"></span></td>
 				</tr>
 				<tr>
-					<th>ID
-						<div id="idVal" class="id val">wrong</div>
-					</th>
+					<th>ID</th>
 					<td><input type="text" id="id_tmp" /></td>
-					<td><input type="button" id="signUpCheckId" value="checkId"></td>
-					<td id="checkIdResult"></td>
+					<td><input type="button" id="signUpCheckId" value="checkId">
+					<span id="idVal" class="val"></span></td>
 				</tr>
 				<tr>
-					<th>PW
-						<div id="pwVal"></div>
-					</th>
+					<th>PW</th>
 					<td><input type="password" id="s_passwd_tmp" /></td>
+					<td><span id="pwVal1" class="val"></span></td>
 				</tr>
 				<tr>
-					<th>PW2
-						<div id="pwVal2"></div>
-					</th>
+					<th>PW2</th>
 					<td><input type="password" id="s_passwd_tmp2" /></td>
-					<td><input type="button" id="pw2"></td>
+					<td><span id="pwVal2" class="val"></span></td>
 				</tr>
 			</table>
 			<br> <input type="button" id="signUp" value="signUp"><input
 				type="reset" value="reset">
 
-			<form id="signUpForm"
-				action="${pageContext.request.contextPath}/signUpResult.hk"
-				method="POST">
-				<input type="hidden" id="nickname" name="nickname"> <input
-					type="hidden" id="name" name="name"> <input type="hidden"
-					id="user_type" name="user_type"> <input type="hidden"
-					id="phone" name="phone"> <input type="hidden" id="id"
-					name="id"> <input type="hidden" id="s_passwd"
-					name="s_passwd">
+			<form id="signUpForm" action="${pageContext.request.contextPath}/signUpResult.hk" method="POST">
+				<input type="hidden" id="nickname" name="nickname"> 
+				<input type="hidden" id="name" name="name">
+				<input type="hidden" id="user_type" name="user_type">
+				<input type="hidden" id="phone" name="phone">
+				<input type="hidden" id="id" name="id">
+				<input type="hidden" id="s_passwd" name="s_passwd">
 			</form>
 		</div>
 	</main>
@@ -109,24 +102,30 @@
 
 
 	<script>
-		$(".val").css("display", "none");
 
-		$("#pw2").click(function() {
-			if ($("#s_passwd_tmp").val() != $("#s_passwd_tmp2").val()) {
-				$("#s_passwd_tmp2").focus();
-			} else {
-				alert("t");
-			}
+		var reg_nickname = /^[a-zA-Z0-9|가-힣]{4,12}$/;
+		var reg_phone = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/;
+		var reg_id = /^[a-zA-Z0-9]{4,12}$/;
+		var reg_pw = /^[a-zA-Z0-9]{4,12}$/;
+		
+		var nickname_status = 0;
+		var id_status = 0;
+		
+		$("#nickname_tmp").on("change",function(){
+			nickname_status = 0;
 		});
+		$("#id_tmp").on("change",function(){
+			id_status = 0;
+		});
+		
 
-		$("#signUpCheckNickname").click(function() {
+		$("#signUpCheckNickname").on("click",function() {
 			var nickname = $("#nickname_tmp").val();
 
-			if (!(/^[a-zA-Z0-9가-힣]{4,12}$/).test(nickname)) {
+			if (! reg_nickname.test(nickname)) {
 
 				$("#nickname_tmp").focus();
-
-				$("#checkNicknameResult").text("impossible-pattern");
+				$("#nicknameVal").text("nickname_pattern_error");
 
 				return;
 			}
@@ -134,174 +133,147 @@
 			$.ajax({
 				url : "signUpCheckNickname",
 				type : "POST",
-				data : {
-					"nickname" : nickname
-				},
+				data : {"nickname" : nickname},
 				success : function(data) {
 					if (data.signUpCheckNickname == 1) {
-						$("#checkNicknameResult").text("possible");
+						$("#nicknameVal").text("nickname_possible");
+						nickname_status = 1;
 					} else {
 						$("#nickname_tmp").focus();
-						$("#checkNicknameResult").text("impossible-exist");
+						$("#nicknameVal").text("nickname_exist");
+						nickname_status = 0;
 					}
 				}
 			});
 		});
 
-		$("#signUpCheckId").click(function() {
+		$("#signUpCheckId").on("click", function() {
 			var id = $("#id_tmp").val();
 
-			if (!(/^[a-zA-Z0-9]{4,12}$/).test(id)) {
+			if (! reg_id.test(id)) {
 
 				$("#id_tmp").focus();
-
-				$("#checkIdResult").text("impossible-pattern");
-
+				$("#idVal").text("id_pattern_error");
+				
 				return;
 			}
 
 			$.ajax({
 				url : "signUpCheckId",
 				type : "POST",
-				data : {
-					"id" : id
-				},
+				data : {"id" : id},
 				success : function(data) {
 					if (data.signUpCheckId == 1) {
-						$("#checkIdResult").text("possible");
+						$("#idVal").text("id_possible");
+						id_status = 1;
 					} else {
 						$("#id_tmp").focus();
-						$("#checkIdResult").text("impossible-exist");
+						$("#idVal").text("id_exist");
+						id_status = 0;
 					}
 				}
 			});
 		});
+		
+		$("#s_passwd_tmp").on("input",function(){
+			if (! reg_pw.test($("#s_passwd_tmp").val())) {
+				$("#pwVal1").text("pw_pattern_error");
+			}
+			else{
+				$("#pwVal1").text("t");
+			}
+		});
 
-		$("#signUp").click(
-				function() {
-
-					var nickname = $("#nickname_tmp").val();
-					if (!(/^[a-zA-Z0-9가-힣]{4,12}$/).test(nickname)) {
-
-						$(".val").css("display", "none");
-						$(".nickname").css("display", "");
-
-						$("#nickname_tmp").focus();
-
-						return;
-					}
-					var name = $("#name_tmp").val();
-					var user_type = $("#user_type_tmp").is(":checked") ? "A"
-							: "";
-
-					var phone = $("#phone1").val() + '-' + $("#phone2").val()
-							+ '-' + $("#phone3").val();
-
-					if (!(/^[0-9]{3}-[0-9]{3,4}-[0-9]{3,4}$/).test(phone)) {
-
-						$(".val").css("display", "none");
-						$(".phone").css("display", "");
-
-						return;
-					}
-
-					var id = $("#id_tmp").val();
-					if (!(/^[a-zA-Z0-9]{4,12}$/).test(id)) {
-
-						$(".val").css("display", "none");
-						$(".id").css("display", "");
-
-						$("#id_tmp").focus();
-
-						return;
-					}
-
-					var s_passwd = $("#s_passwd_tmp").val();
-
-					if (!(/^[a-zA-Z0-9]{4,12}$/).test(s_passwd)) {
-
-						$(".val").css("display", "none");
-						$(".s_passwd").css("display", "");
-
-						$("#s_passwd_tmp").focus();
-
-						return;
-					}
-					if ($("#s_passwd_tmp").val() != $("#s_passwd_tmp2").val()) {
-						$("#s_passwd_tmp2").focus();
-						return;
-					}
-
-					$.ajax({
-						url : "signUpCheckNickname",
-						type : "POST",
-						async : false,
-						data : {
-							"nickname" : nickname
-						},
-						success : function(data) {
-							if (data.signUpCheckNickname == 1) {
-								$("#checkNicknameResult").text("possible");
-							} else {
-								$("#nickname_tmp").focus();
-								$("#checkNicknameResult").text(
-										"impossible-exist");
-								return;
-							}
-						}
-					});
-
-					$.ajax({
-						url : "signUpCheckId",
-						type : "POST",
-						async : false,
-						data : {
-							"id" : id
-						},
-						success : function(data) {
-							if (data.signUpCheckId == 1) {
-								$("#checkIdResult").text("possible");
-							} else {
-								$("#id_tmp").focus();
-								$("#checkIdResult").text("impossible-exist");
-								return;
-							}
-						}
-					});
-
-					$.ajax({
-						url : "getRSA",
-						type : "POST",
-						async : false,
-						success : function(data) {
-							var RSAModulus = data.RSAModulus;
-							var RSAExponent = data.RSAExponent;
-
-							//RSA 암호화 생성
-							var rsa = new RSAKey();
-							rsa.setPublic(RSAModulus, RSAExponent);
-
-							//사용자 계정정보를 암호화 처리
-							nickname = rsa.encrypt(nickname);
-							name = rsa.encrypt(name);
-							user_type = rsa.encrypt(user_type);
-							phone = rsa.encrypt(phone);
-							id = rsa.encrypt(id);
-							s_passwd = rsa.encrypt(s_passwd);
-
-							$("#nickname").val(nickname);
-							$("#name").val(name);
-							$("#user_type").val(user_type);
-							$("#phone").val(phone);
-							$("#id").val(id);
-							$("#s_passwd").val(s_passwd);
-
-							$("#signUpForm").submit();
-
-						}
-					});
-
-				});
+		$("#signUp").on("click", function() {
+			
+			$(".val").text("");
+				
+			var nickname = $("#nickname_tmp").val();
+			var name = $("#name_tmp").val();
+			var user_type = $("#user_type_tmp").is(":checked") ? "A": "";
+			var phone = $("#phone1").val()+'-'+$("#phone2").val()+'-'+$("#phone3").val();
+			var id = $("#id_tmp").val();
+			var s_passwd = $("#s_passwd_tmp").val();
+			
+			if (! reg_nickname.test(nickname)) {
+				
+				$("#nickname_tmp").focus();					
+				$("#nicknameVal").text("nickname_pattern_error");
+	
+				return;
+			}
+			if (! reg_phone.test(phone)) {		
+				
+				$("#phoneVal").text("phone_pattern_error");
+				
+				return;
+			}
+	
+			if (! reg_id.test(id)) {
+	
+				$("#id_tmp").focus();
+				$("#idVal").text("id_pattern_error");
+	
+				return;
+			}
+	
+			if (! reg_pw.test(s_passwd)) {
+	
+				$("#s_passwd_tmp").focus();
+				$("#pwVal1").text("pw_pattern_error");
+	
+				return;
+			}
+			if ($("#s_passwd_tmp").val() != $("#s_passwd_tmp2").val()) {
+				
+				$("#s_passwd_tmp2").focus();
+				$("#pwVal2").text("pw_doesn't_match");
+				
+				return;
+			}
+			
+			if(nickname_status == 0){
+				alert("nickname_chk_plz");
+				return;
+			}
+			if(id_status == 0){
+				alert("id_chk_plz");
+				return;
+			}
+	
+			$.ajax({
+				url : "getRSA",
+				type : "POST",
+				async : false,
+				success : function(data) {
+					var RSAModulus = data.RSAModulus;
+					var RSAExponent = data.RSAExponent;
+	
+					//RSA 암호화 생성
+					var rsa = new RSAKey();
+					rsa.setPublic(RSAModulus, RSAExponent);
+	
+					//사용자 계정정보를 암호화 처리
+					nickname = rsa.encrypt(nickname);
+					name = rsa.encrypt(name);
+					user_type = rsa.encrypt(user_type);
+					phone = rsa.encrypt(phone);
+					id = rsa.encrypt(id);
+					s_passwd = rsa.encrypt(s_passwd);
+	
+					$("#nickname").val(nickname);
+					$("#name").val(name);
+					$("#user_type").val(user_type);
+					$("#phone").val(phone);
+					$("#id").val(id);
+					$("#s_passwd").val(s_passwd);
+	
+					$("#signUpForm").submit();
+	
+				}
+			});
+	
+		});
 	</script>
 
 

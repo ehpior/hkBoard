@@ -26,6 +26,7 @@ import com.hk.test.naver.NaverLoginBO;
 import com.hk.test.service.AccountServiceImpl;
 import com.hk.test.service.BoardServiceImpl;
 import com.hk.test.service.LoginServiceImpl;
+import com.hk.test.util.CommUtil;
 
 
 @Controller
@@ -54,7 +55,7 @@ public class BoardController{
 	@RequestMapping(value = "/board.hk", method = RequestMethod.GET)
 	public String board(HttpServletRequest request, HttpSession session, Model model) {
 		
-		System.out.println("/board.hk");
+		logger.info(CommUtil.getClientIP(request)+":/board.hk");
 
 		
 		int pageNumber = Integer.parseInt(request.getParameter("boardPage")==null?"1":request.getParameter("boardPage"));
@@ -70,7 +71,6 @@ public class BoardController{
 			session.setAttribute("maxSelectLimit", Integer.parseInt(maxSelectLimit_pam));			
 		}
 		int maxSelectLimit = (Integer)session.getAttribute("maxSelectLimit");
-				
 		
 		model.addAttribute("boardCount", Math.ceil((double)boardService.countBoard()/maxSelectLimit));
 		model.addAttribute("boardList", boardService.listBoard(pageNumber, maxSelectLimit));
@@ -81,7 +81,7 @@ public class BoardController{
 	@RequestMapping(value = "/boardView.hk", method = RequestMethod.GET)
 	public String boardView(HttpServletRequest request, HttpSession session, Model model) {
 		
-		System.out.println("/boardView.hk");
+		logger.info(CommUtil.getClientIP(request)+":/boardView.hk");
 		
 		model.addAttribute("selectBoard", boardService.selectBoard(Integer.parseInt(request.getParameter("board_id"))));
 		
@@ -91,7 +91,7 @@ public class BoardController{
 	@RequestMapping(value = "/boardWrite.hk", method = RequestMethod.GET)
 	public String boardWrite(HttpServletRequest request, HttpSession session, Model model) {
 		
-		System.out.println("/boardWrite.hk");
+		logger.info(CommUtil.getClientIP(request)+":/boardWrite.hk");
 		
 		return "board/boardWrite";
 	}
@@ -99,7 +99,7 @@ public class BoardController{
 	@RequestMapping(value = "/boardWriteResult", method = RequestMethod.POST)
 	public String boardWriteResult(BoardDto boardDto, HttpServletRequest request, HttpSession session, Model model) {
 		
-		System.out.println("/boardWriteResult");
+		logger.info(CommUtil.getClientIP(request)+"://boardWriteResult");
 		
 		if(boardDto.getTitle()==null) {
 			boardDto.setTitle("test");
@@ -144,7 +144,7 @@ public class BoardController{
 	@RequestMapping(value = "/boardModify.hk", method = RequestMethod.GET)
 	public String boardModify(HttpServletRequest request, HttpSession session, Model model) {
 		
-		System.out.println("/boardModify.hk");
+		logger.info(CommUtil.getClientIP(request)+":/boardModify.hk");
 		
 		BoardDto boardDto = boardService.selectBoard(Integer.valueOf(request.getParameter("board_id")));
 		
@@ -159,7 +159,7 @@ public class BoardController{
 	@RequestMapping(value = "/boardModifyResult", method = RequestMethod.POST)
 	public String boardModifyResult(BoardDto boardDto, HttpServletRequest request, HttpSession session, Model model) {
 		
-		System.out.println("/boardModifyResult");
+		logger.info(CommUtil.getClientIP(request)+":/boardModifyResult");
 		
 		if(boardDto.getNotice()==null || boardDto.getNotice()=="") {
 			boardDto.setNotice("T");
@@ -196,7 +196,7 @@ public class BoardController{
 	@RequestMapping(value = "/boardDelete", method = RequestMethod.GET)
 	public String boardDelete(HttpServletRequest request, HttpSession session, Model model) {
 		
-		System.out.println("/boardDelete.hk");
+		logger.info(CommUtil.getClientIP(request)+":/boardDelete.hk");
 		
 		boardService.deleteBoard(Integer.parseInt(request.getParameter("board_id")));
 		

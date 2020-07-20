@@ -65,7 +65,8 @@ public class LoginController{
 	
 	@RequestMapping(value = "/login.hk", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, HttpSession session, Model model) {
-		System.out.println("/login.hk");
+		
+		logger.info(CommUtil.getClientIP(request)+":/login.hk");
 		
 		return "login/login";
 	}
@@ -74,7 +75,7 @@ public class LoginController{
 	@RequestMapping(value = "/loginResult", method = RequestMethod.POST)
 	public @ResponseBody JSONObject loginResult(HttpServletRequest request, HttpSession session) {
 		
-		System.out.println("/loginResult");
+		logger.info(CommUtil.getClientIP(request)+":/loginResult");
 		
 		JSONObject listObj = new JSONObject();
 		
@@ -100,7 +101,7 @@ public class LoginController{
 			listObj.put("state","true");
 			
 		}catch(Exception e) {
-			System.out.println("exception");
+			logger.info(CommUtil.getClientIP(request)+":exception");
 			listObj.put("state","false");
 			return listObj;
 		}
@@ -135,9 +136,9 @@ public class LoginController{
 	// public String loginResultNaver(HttpServletRequest request, HttpSession
 	// session, LoginDto loginDto) {
 	public String loginResultNaver(Model model, @RequestParam String code, @RequestParam String state,
-			HttpSession session) throws IOException, ParseException {
+			HttpSession session, HttpServletRequest request) throws IOException, ParseException {
 		
-		System.out.println("/loginResultNaver");
+		logger.info(CommUtil.getClientIP(request)+":/loginResultNaver");
 		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
 		// 1. 
 		String apiResult = naverLoginBO.getUserProfile(oauthToken); // 
@@ -180,8 +181,9 @@ public class LoginController{
 	}
 	
 	@RequestMapping(value = "/getRSA", method = RequestMethod.POST)
-	public @ResponseBody JSONObject getRSA(HttpSession session) {
-		System.out.println("/getRSA");
+	public @ResponseBody JSONObject getRSA(HttpServletRequest request, HttpSession session) {
+		
+		logger.info(CommUtil.getClientIP(request)+":/getRSA");
 		
 		JSONObject listObj = new JSONObject();
 		
@@ -210,8 +212,8 @@ public class LoginController{
 	
 	@ResponseBody
 	@RequestMapping(value = "/loginNaverUrl", method = RequestMethod.POST)
-	public String loginNaverUrl(HttpSession session) {
-		System.out.println("/loginNaverUrl");
+	public String loginNaverUrl(HttpServletRequest request, HttpSession session) {
+		logger.info(CommUtil.getClientIP(request)+":/loginNaverUrl");
 		
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
 		
@@ -219,8 +221,8 @@ public class LoginController{
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(HttpSession session, LoginDto loginDto) {
-		System.out.println("/logout");
+	public String logout(HttpServletRequest request, HttpSession session, LoginDto loginDto) {
+		logger.info(CommUtil.getClientIP(request)+":/logout");
 		
 		session.removeAttribute("login");
 		
@@ -228,10 +230,9 @@ public class LoginController{
 	}
 	
 	@RequestMapping(value = "/signUp.hk", method = RequestMethod.GET)
-	public String signUp(Model model) {
-		
-		//System.out.println("/signUp.hk");
-		logger.info("/signUp.hk");
+	public String signUp(HttpServletRequest request, Model model) {
+
+		logger.info(CommUtil.getClientIP(request)+":/signUp.hk");
 		
 		return "login/signUp";
 	}
@@ -239,7 +240,7 @@ public class LoginController{
 	@RequestMapping(value = "/signUpResult", method = RequestMethod.POST)
 	public String signUpResult(AccountDto accountDto, HttpServletRequest request, HttpSession session, Model model) {
 		
-		System.out.println("/signUpResult");
+		logger.info(CommUtil.getClientIP(request)+":/signUpResult");
 	
 		try {
 			
@@ -249,7 +250,7 @@ public class LoginController{
 			
 			if (privateKey == null) 
 			{ 
-				System.out.println("privateKeyNull");
+				logger.info(CommUtil.getClientIP(request)+":privateKeyNull");
 				return "signUp";
 			}
 	
@@ -260,9 +261,7 @@ public class LoginController{
 			accountDto.setId(RSAUtil.decryptRsa(privateKey, accountDto.getId()));
 			accountDto.setS_passwd(RSAUtil.decryptRsa(privateKey, accountDto.getS_passwd()));
 			
-			System.out.println(accountDto.getNickname());
-			
-			System.out.println(accountDto.toString());
+			logger.info(CommUtil.getClientIP(request)+":"+accountDto.toString());
 			
 		}catch(Exception e) {
 			
@@ -281,7 +280,8 @@ public class LoginController{
 	
 	@RequestMapping(value = "/signUpCheckId", method = RequestMethod.POST)
 	public @ResponseBody JSONObject signUpCheckId(HttpServletRequest request, HttpSession session) {
-		System.out.println("/signUpCheckId");
+		
+		logger.info(CommUtil.getClientIP(request)+":/signUpCheckId");
 		
 		JSONObject listObj = new JSONObject();
 		
@@ -300,13 +300,14 @@ public class LoginController{
 	
 	@RequestMapping(value = "/signUpCheckNickname", method = RequestMethod.POST)
 	public @ResponseBody JSONObject signUpCheckNickname(HttpServletRequest request, HttpSession session) {
-		System.out.println("/signUpCheckNickname");
+		
+		logger.info(CommUtil.getClientIP(request)+":/signUpCheckNickname");
 		
 		JSONObject listObj = new JSONObject();
 		
 		String nickname = request.getParameter("nickname");
 		
-		if(loginService.signUpCheckId(nickname)){
+		if(loginService.signUpCheckNickname(nickname)){
 			listObj.put("signUpCheckNickname", 1);
 		}
 		else {

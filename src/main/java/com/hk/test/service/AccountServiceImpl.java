@@ -23,11 +23,11 @@ public class AccountServiceImpl implements AccountService{
 	@Autowired
 	PlatformTransactionManager transactionManager;
 	
-	public ArrayList<AccountDto> listAccount(){
+	public ArrayList<AccountDto> selectAccountList(){
 		
 		AccountDao accountDao = sqlSession.getMapper(AccountDao.class);
 		
-		return accountDao.listAccount();
+		return accountDao.selectAccountList();
 	}
 	
 	public int signUpResult(AccountDto accountDto, String salt) {
@@ -39,13 +39,13 @@ public class AccountServiceImpl implements AccountService{
 		
 		try {
 
-			accountDao.writeAccount(accountDto);
+			accountDao.insertAccount(accountDto);
 
-			int id = Optional.ofNullable(accountDao.selectIdAccount(accountDto.getId())).orElse(0).intValue();
+			int id = Optional.ofNullable(accountDao.selectAccount(accountDto.getId())).orElse(0).intValue();
 			
 			if (id==0) throw new Exception();
 			
-			accountDao.writeAccountSalt(id, salt);
+			accountDao.insertAccountSalt(id, salt);
 			
 			transactionManager.commit(status);
 			

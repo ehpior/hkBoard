@@ -35,28 +35,27 @@
 
 			<table border="1">
 				<tr>
-					<th>nickname
-						<div id="nicknameVal" class="nickname val">wrong</div>
-					</th>
+					<th>nickname</th>
 					<td><input type="text" id="nickname_tmp" /></td>
-					<td><input type="button" id="signUpCheckNickname"
-						value="checkNickname"></td>
-					<td id="checkNicknameResult"></td>
+					<td><input type="button" id="signUpCheckNickname" value="checkNickname">
+					<span id="nicknameVal" class="val"></span></td>
 				</tr>
 				<tr>
-					<th>phone
-						<div id="phoneVal" class="phone val">wrong</div>
-					</th>
-					<td><select id="phone1">
-							<option value="010">010</option>
-							<option value="011">011</option>
-							<option value="016">016</option>
-							<option value="017">017</option>
-							<option value="018">018</option>
-							<option value="019">019</option>
-							<option value="070">070</option>
-					</select> <input type="text" id="phone2"> <input type="text"
-						id="phone3"></td>
+					<th>phone</th>
+					<td>
+						<select id="phone1">
+								<option value="010">010</option>
+								<option value="011">011</option>
+								<option value="016">016</option>
+								<option value="017">017</option>
+								<option value="018">018</option>
+								<option value="019">019</option>
+								<option value="070">070</option>
+						</select> 
+						<input type="text" id="phone2"> 
+						<input type="text" id="phone3">
+					</td>
+					<td><span id="phoneVal" class="val"></span></td>
 				</tr>
 			</table>
 			<br> <input type="button" id="signUp" value="signUp"><input
@@ -82,16 +81,19 @@
 
 
 	<script>
-		$(".val").css("display", "none");
+	
+		var reg_nickname = /^[a-zA-Z0-9|가-힣]{4,12}$/;
+		var reg_phone = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/;
+		var reg_id = /^[a-zA-Z0-9]{4,12}$/;
+		var reg_pw = /^[a-zA-Z0-9]{4,12}$/;
 
-		$("#signUpCheckNickname").click(function() {
+		$("#signUpCheckNickname").on("click",function() {
 			var nickname = $("#nickname_tmp").val();
 
-			if (!(/^[a-zA-Z0-9가-힣]{4,12}$/).test(nickname)) {
+			if (! reg_nickname.test(nickname)) {
 
 				$("#nickname_tmp").focus();
-
-				$("#checkNicknameResult").text("impossible-pattern");
+				$("#nicknameVal").text("nickname_pattern_error");
 
 				return;
 			}
@@ -104,99 +106,94 @@
 				},
 				success : function(data) {
 					if (data.signUpCheckNickname == 1) {
-						$("#checkNicknameResult").text("possible");
+						$("#nicknameVal").text("nickname_possible");
 					} else {
 						$("#nickname_tmp").focus();
-						$("#checkNicknameResult").text("impossible-exist");
+						$("#nicknameVal").text("nickname_exist");
 					}
 				}
 			});
 		});
 
-		$("#signUp").click(
-				function() {
+		$("#signUp").click(function() {
+			
+			$(".val").text("");
 
-					var nickname = $("#nickname_tmp").val();
-					if (!(/^[a-zA-Z0-9가-힣]{4,12}$/).test(nickname)) {
+			var nickname = $("#nickname_tmp").val();
+			var name = "${loginNaver.name}";
+			var user_type ="${loginNaver.user_type}";
+			var phone = $("#phone1").val()+'-'+$("#phone2").val()+'-'+$("#phone3").val();
+			var id = "${loginNaver.id}";
+			var s_passwd = "naver";
+			
+			if (! reg_nickname.test(nickname)) {
+				
+				$("#nickname_tmp").focus();					
+				$("#nicknameVal").text("nickname_pattern_error");
+	
+				return;
+			}
+			if (! reg_phone.test(phone)) {		
+				
+				$("#phoneVal").text("phone_pattern_error");
+				
+				return;
+			}
 
-						$(".val").css("display", "none");
-						$(".nickname").css("display", "");
-
+			var status=0;
+			
+			$.ajax({
+				url : "signUpCheckNickname",
+				type : "POST",
+				async : false,
+				data : { "nickname" : nickname },
+				success : function(data) {
+					if (data.signUpCheckNickname == 1) {
+						//$("#nicknameVal").text("possible");
+						status = 1;
+					} else {
 						$("#nickname_tmp").focus();
-
-						return;
+						$("#nicknameVal").text("nickname_exist");
+						status = 0;
 					}
-					var name = "${loginNaver.name}";
-					
-					var user_type ="${loginNaver.user_type}";
+				}
+			});
+			
+			if(status==0) return;
 
-					var phone = $("#phone1").val() + '-' + $("#phone2").val()
-							+ '-' + $("#phone3").val();
+			$.ajax({
+				url : "getRSA",
+				type : "POST",
+				async : "false",
+				success : function(data) {
+					var RSAModulus = data.RSAModulus;
+					var RSAExponent = data.RSAExponent;
 
-					if (!(/^[0-9]{3}-[0-9]{3,4}-[0-9]{3,4}$/).test(phone)) {
+					//RSA 암호화 생성
+					var rsa = new RSAKey();
+					rsa.setPublic(RSAModulus, RSAExponent);
 
-						$(".val").css("display", "none");
-						$(".phone").css("display", "");
+					//사용자 계정정보를 암호화 처리
+					nickname = rsa.encrypt(nickname);
+					name = rsa.encrypt(name);
+					user_type = rsa.encrypt(user_type);
+					phone = rsa.encrypt(phone);
+					id = rsa.encrypt(id);
+					s_passwd = rsa.encrypt(s_passwd);
 
-						return;
-					}
+					$("#nickname").val(nickname);
+					$("#name").val(name);
+					$("#user_type").val(user_type);
+					$("#phone").val(phone);
+					$("#id").val(id);
+					$("#s_passwd").val(s_passwd);
 
-					var id = "${loginNaver.id}";
+					$("#signUpForm").submit();
 
-					var s_passwd = "naver";
+				}
+			});
 
-					$.ajax({
-						url : "signUpCheckNickname",
-						type : "POST",
-						async : "false",
-						data : {
-							"nickname" : nickname
-						},
-						success : function(data) {
-							if (data.signUpCheckNickname == 1) {
-								$("#checkNicknameResult").text("possible");
-							} else {
-								$("#nickname_tmp").focus();
-								$("#checkNicknameResult").text(
-										"impossible-exist");
-								return;
-							}
-						}
-					});
-
-					$.ajax({
-						url : "getRSA",
-						type : "POST",
-						async : "false",
-						success : function(data) {
-							var RSAModulus = data.RSAModulus;
-							var RSAExponent = data.RSAExponent;
-
-							//RSA 암호화 생성
-							var rsa = new RSAKey();
-							rsa.setPublic(RSAModulus, RSAExponent);
-
-							//사용자 계정정보를 암호화 처리
-							nickname = rsa.encrypt(nickname);
-							name = rsa.encrypt(name);
-							user_type = rsa.encrypt(user_type);
-							phone = rsa.encrypt(phone);
-							id = rsa.encrypt(id);
-							s_passwd = rsa.encrypt(s_passwd);
-
-							$("#nickname").val(nickname);
-							$("#name").val(name);
-							$("#user_type").val(user_type);
-							$("#phone").val(phone);
-							$("#id").val(id);
-							$("#s_passwd").val(s_passwd);
-
-							$("#signUpForm").submit();
-
-						}
-					});
-
-				});
+		});
 	</script>
 
 

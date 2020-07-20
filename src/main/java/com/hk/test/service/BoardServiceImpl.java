@@ -20,7 +20,7 @@ public class BoardServiceImpl implements BoardService{
 		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		
-		ArrayList<BoardDto> boardList = boardDao.listBoard(boardPage, maxSelectLimit);
+		ArrayList<BoardDto> boardList = boardDao.selectBoardList(boardPage, maxSelectLimit);
 		
 		return boardList;
 	}

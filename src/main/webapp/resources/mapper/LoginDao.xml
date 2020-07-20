@@ -8,6 +8,7 @@
 	<select id="loginCheck" resultType="com.hk.test.dto.AccountDto">
 		SELECT * FROM ACCOUNT WHERE id = #{id} and s_passwd = #{pw} and user_type != 'N'
 	</select>
+	
 	<select id="loginCheckWithType" resultType="com.hk.test.dto.AccountDto">
 		SELECT * FROM ACCOUNT WHERE id = #{id} and s_passwd = #{pw} and user_type = #{user_type}
 	</select>

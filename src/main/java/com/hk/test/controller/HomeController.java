@@ -68,10 +68,9 @@ public class HomeController{
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String rootPage(Locale locale, Model model) {
+	public String rootPage(Locale locale, HttpServletRequest request, Model model) {
 		
-		System.out.println("/");
-		
+		logger.info(CommUtil.getClientIP(request)+":/");
 		
 //		logger.debug( "#ex1 - debug log" );
 //		logger.info( "#ex1 - info log" );
@@ -99,9 +98,9 @@ public class HomeController{
 	@RequestMapping(value = "/account.hk", method = RequestMethod.GET)
 	public String account(HttpServletRequest request, Model model) {
 		
-		System.out.println("/account.hk");
+		logger.info(CommUtil.getClientIP(request)+":/account.hk");
 		
-		model.addAttribute("list", accountService.listAccount());
+		model.addAttribute("list", accountService.selectAccountList());
 		
 		return "account";
 	}
@@ -109,7 +108,7 @@ public class HomeController{
 	@RequestMapping(value = "/deleteAccount", method = RequestMethod.POST)
 	public String deleteAccount(int accnt_id, HttpServletRequest request,  Model model) {
 		
-		System.out.println("/deleteAccount");
+		logger.info(CommUtil.getClientIP(request)+":/deleteAccount");
 		
 		accountService.deleteAccount(accnt_id);
 

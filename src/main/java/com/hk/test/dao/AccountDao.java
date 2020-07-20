@@ -10,14 +10,13 @@ import com.hk.test.dto.LoginHistoryDto;
 
 public interface AccountDao {
 	
-	public ArrayList<AccountDto> listAccount();
-	public int writeAccount(AccountDto accountDto);
+	public ArrayList<AccountDto> selectAccountList();
+	public int insertAccount(AccountDto accountDto);
+	public int insertAccountSalt(@Param("accnt_id") int accnt_id, @Param("salt") String salt);
 	public int updateAccount(int accnt_id, AccountDto accountDto);
 	public int deleteAccount(int accnt_id);
 	public int deleteAccountSalt(int accnt_id);
-	public int writeAccountSalt(@Param("accnt_id") int accnt_id, @Param("salt") String salt);
-	public Integer selectIdAccount(String id);
+	public Integer selectAccount(String id);
 	public String selectAccountSalt(int accnt_id);
-	
 	
 }
