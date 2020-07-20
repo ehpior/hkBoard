@@ -29,7 +29,8 @@ public class BoardServiceImpl implements BoardService{
 		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		
-		int cnt = Optional.ofNullable(boardDao.countBoard()).orElse(0).intValue();
+		//int cnt = Optional.ofNullable(boardDao.countBoard()).orElse(0).intValue();
+		int cnt = boardDao.countBoard();
 		
 		return cnt;
 	}
