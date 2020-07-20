@@ -6,7 +6,7 @@
 <mapper namespace="com.hk.test.dao.BoardDao">
 	<select id="selectBoardList" resultType="com.hk.test.dto.BoardDto">
 		<!-- SELECT * FROM (SELECT A.*, ROWNUM AS RNUM FROM BOARD A ORDER BY notice, board_id) WHERE RNUM > (#{boardPage}-1)*5 AND RNUM &lt;= #{boardPage}*5 -->
-		SELECT * FROM ( SELECT A.*, ROWNUM AS RNUM FROM ( SELECT * FROM BOARD A ORDER BY NOTICE ASC, BOARD_ID ASC ) A WHERE ROWNUM &lt;= #{boardPage}*#{maxSelectLimit} ) WHERE RNUM > (#{boardPage}-1)*#{maxSelectLimit}
+		SELECT * FROM ( SELECT A.*, ROWNUM AS RNUM FROM ( SELECT * FROM BOARD A ORDER BY NOTICE ASC, BOARD_ID DESC ) A WHERE ROWNUM &lt;= #{boardPage}*#{maxSelectLimit} ) WHERE RNUM > (#{boardPage}-1)*#{maxSelectLimit}
 	</select>
 	
 	<select id="selectBoard" resultType="com.hk.test.dto.BoardDto">
