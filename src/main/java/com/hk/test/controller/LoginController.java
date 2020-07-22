@@ -138,24 +138,21 @@ public class LoginController{
 	}
 	
 	@RequestMapping(value = "/loginResultNaver")
-	// public String loginResultNaver(HttpServletRequest request, HttpSession
-	// session, LoginDto loginDto) {
 	public String loginResultNaver(Model model, @RequestParam String code, @RequestParam String state,
 			HttpSession session, HttpServletRequest request) throws IOException, ParseException {
 		
 		logger.info(CommUtil.getClientIP(request)+":/loginResultNaver");
 		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
-		// 1. 
-		String apiResult = naverLoginBO.getUserProfile(oauthToken); // 
-		/**
-		 * apiResult json  {"resultcode":"00", "message":"success",
-		 * "response":{"id":"33666449","nickname":"shinn****","age":"20-29","gender":"M","email":"sh@naver.com","name":"\uc2e0\ubc94\ud638"}}
-		 **/
-		// 2.
+
+		String apiResult = naverLoginBO.getUserProfile(oauthToken); 
+		/*
+		apiResult json  {"resultcode":"00", "message":"success",
+		"response":{"id":"33666449","nickname":"shinn****","age":"20-29","gender":"M","email":"sh@naver.com","name":"\uc2e0\ubc94\ud638"}}
+		 */
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(apiResult);
 		JSONObject jsonObj = (JSONObject) obj;
-		// 3.
+
 		JSONObject response_obj = (JSONObject) jsonObj.get("response");
 		
 		String naver_id = (String)response_obj.get("id");
@@ -179,6 +176,15 @@ public class LoginController{
 				session.removeAttribute("login");
 			}
 			session.setAttribute("login", dto);
+			
+			String ua = request.getHeader("user-agent");
+			
+			LoginHistoryDto loginHistoryDto = new LoginHistoryDto(dto.getAccnt_id(),
+					new Timestamp(System.currentTimeMillis()), CommUtil.mobileCheck(ua), 
+					CommUtil.getClientIP(request), CommUtil.getClientBrowser(ua), CommUtil.getClientOS(ua));
+			
+			loginService.loginHistory(loginHistoryDto);
+			
 			return "redirect:/home.hk";
 		}
 		
@@ -243,9 +249,13 @@ public class LoginController{
 	}
 	
 	@RequestMapping(value = "/signUpResult", method = RequestMethod.POST)
-	public String signUpResult(AccountDto accountDto, HttpServletRequest request, HttpSession session, Model model) {
+	public @ResponseBody JSONObject signUpResult(AccountDto accountDto, HttpServletRequest request, HttpSession session, Model model) {
 		
 		logger.info(CommUtil.getClientIP(request)+":/signUpResult");
+		
+		JSONObject listObj = new JSONObject();
+		
+		System.out.println(accountDto.toString());
 	
 		try {
 			
@@ -256,7 +266,8 @@ public class LoginController{
 			if (privateKey == null) 
 			{ 
 				logger.info(CommUtil.getClientIP(request)+":privateKeyNull");
-				return "signUp";
+				listObj.put("state","null");
+				return listObj;
 			}
 	
 			accountDto.setNickname(RSAUtil.decryptRsa(privateKey, accountDto.getNickname()));
@@ -272,14 +283,22 @@ public class LoginController{
 			
 		}
 		
-		
 		String salt = SHA256Util.generateSalt();
         
         accountDto.setS_passwd(SHA256Util.getEncrypt(accountDto.getS_passwd(), salt));
 		
-		accountService.signUpResult(accountDto, salt);
+		int signUpResult = accountService.signUpResult(accountDto, salt);
+		
+		if(signUpResult == 1) {
+			listObj.put("state", "true");
+		}
+		else {
+			listObj.put("state", "false");			
+		}
+		
+		System.out.println();
 
-		return "redirect:/home.hk";
+		return listObj;
 		
 	}
 	

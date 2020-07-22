@@ -41,11 +41,8 @@ public class AccountServiceImpl implements AccountService{
 
 			accountDao.insertAccount(accountDto);
 
-			//int accnt_id = Optional.ofNullable(accountDao.selectAccount(accountDto.getId())).orElse(0).intValue();
 			int accnt_id = accountDao.selectAccount(accountDto.getId());
-			
-			if (accnt_id==0) throw new Exception();
-			
+
 			accountDao.insertAccountSalt(accnt_id, salt);
 			
 			transactionManager.commit(status);
@@ -54,6 +51,8 @@ public class AccountServiceImpl implements AccountService{
 			e.printStackTrace();
 			
 			transactionManager.rollback(status);
+			
+			return 0;
 		}
 		
 		return 1;

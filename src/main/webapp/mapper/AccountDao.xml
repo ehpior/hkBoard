@@ -16,8 +16,8 @@
 	</select>
 	
 	<insert id="insertAccount">
-		<!-- <selectKey keyProperty="accnt_id" resultType="int" order="BEFORE">
-			select ACCOUNT_SEQ.NEXTVAL FROM DUAL	
+		<!-- <selectKey keyProperty="accnt_id" resultType="int" order="AFTER">
+			SELECT accnt_id FROM ACCOUNT where id = #{id} 
 		</selectKey> -->
 		INSERT INTO ACCOUNT VALUES (ACCOUNT_SEQ.NEXTVAL, #{nickname}, #{name}, #{user_type}, #{phone}, #{id}, #{s_passwd}, null, null)
 	</insert>

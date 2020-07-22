@@ -53,7 +53,6 @@ public class BoardController{
 	public String board(HttpServletRequest request, HttpSession session, Model model) {
 		
 		logger.info(CommUtil.getClientIP(request)+":/board.hk");
-
 		
 		int pageNumber = Integer.parseInt(request.getParameter("boardPage")==null?"1":request.getParameter("boardPage"));
 		
@@ -132,7 +131,7 @@ public class BoardController{
 		
 		BoardDto boardDto = boardService.selectBoard(Integer.valueOf(request.getParameter("board_id")));
 		
-		//System.out.println("id : "+boardDto.getBoard_id()+", title: "+boardDto.getContent()+", writer: "+boardDto.getWriter());
+		//System.out.println(boardDto.toString());
 		
 		model.addAttribute("board_id", request.getParameter("board_id"));
 		model.addAttribute("dto", boardDto);
@@ -144,10 +143,6 @@ public class BoardController{
 	public String boardModifyResult(BoardDto boardDto, HttpServletRequest request, HttpSession session, Model model) {
 		
 		logger.info(CommUtil.getClientIP(request)+":/boardModifyResult");
-		
-		if(boardDto.getNotice()==null || boardDto.getNotice()=="") {
-			boardDto.setNotice("T");
-		}
 		
 		boardDto.setContent(StringEscapeUtils.unescapeXml(boardDto.getContent()));
 		
@@ -182,11 +177,6 @@ public class BoardController{
 		
 		logger.info(CommUtil.getClientIP(request)+":/boardDelete.hk");
 		
-		AccountDto dto = (AccountDto)session.getAttribute("login");
-		
-		/*
-		 * if(dto.getUser_type()!="A") { if() }
-		 */
 		boardService.deleteBoard(Integer.parseInt(request.getParameter("board_id")));
 		
 		return "redirect:/board.hk";

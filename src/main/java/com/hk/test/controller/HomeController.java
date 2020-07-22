@@ -73,11 +73,10 @@ public class HomeController{
 		
 		logger.info(CommUtil.getClientIP(request)+":/");
 		
-//		logger.debug( "#ex1 - debug log" );
-//		logger.info( "#ex1 - info log" );
-//		logger.warn( "#ex1 - warn log" );
-//		logger.error( "#ex1 - error log" );
-		
+//		logger.debug( "debug log" );
+//		logger.info( "info log" );
+//		logger.warn( "warn log" );
+//		logger.error( "error log" );
 		
 		return "redirect:home.hk";
 	}

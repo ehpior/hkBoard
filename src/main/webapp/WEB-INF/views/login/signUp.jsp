@@ -282,8 +282,31 @@
 					$("#id").val(id);
 					$("#s_passwd").val(s_passwd);
 	
-					$("#signUpForm").submit();
+					//$("#signUpForm").submit();
 	
+				}
+			});
+			
+			var accountDto = $("#signUpForm").serializeArray();
+			
+			$.ajax({
+				url : "signUpResult",
+				type : "POST",
+				async : false,
+				data : accountDto, //사용자 암호화된 계정정보를 서버로 전송
+				dataType : "json",
+				success : function(data) {
+					console.log(data.state);
+					if (data.state == "true") {
+						alert("signUp Complete");
+						window.location.href = "${pageContext.request.contextPath}/home.hk";
+					} else if (data.state == "false") {
+						alert("insert error");
+						window.location.reload(true);
+					} else {
+						alert("unknown error");
+						window.location.reload(true);
+					}
 				}
 			});
 	

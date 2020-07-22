@@ -21,11 +21,7 @@
 			<br>
 			<br> <b>[ error ]</b> <br>
 			<br>
-<%-- 			<c:if test="${login.user_type eq 'A'}">
-				<% --%>
-					exception.printStackTrace(new java.io.PrintWriter(out));
-<%-- 				%>
-			</c:if> --%>
+				<%-- <% exception.printStackTrace(new java.io.PrintWriter(out)); %> --%>
 		</div>
 	</main>
 
