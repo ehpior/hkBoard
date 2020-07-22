@@ -11,7 +11,30 @@ public class AccountDto {
 	private String id;
 	private String s_passwd;
 	private Date last_login;
+	private String block;
 	
+	public AccountDto(int accnt_id, String nickname, String name, String user_type, String phone, String id,
+			String s_passwd, Date last_login, String block) {
+		super();
+		this.accnt_id = accnt_id;
+		this.nickname = nickname;
+		this.name = name;
+		this.user_type = user_type;
+		this.phone = phone;
+		this.id = id;
+		this.s_passwd = s_passwd;
+		this.last_login = last_login;
+		this.block = block;
+	}
+
+	public String getBlock() {
+		return block;
+	}
+
+	public void setBlock(String block) {
+		this.block = block;
+	}
+
 	public AccountDto() {
 		
 	}
@@ -31,7 +54,7 @@ public class AccountDto {
 	public String toString() {
 		return "AccountDto [accnt_id=" + accnt_id + ", nickname=" + nickname + ", name=" + name + ", user_type="
 				+ user_type + ", phone=" + phone + ", id=" + id + ", s_passwd=" + s_passwd + ", last_login="
-				+ last_login + "]";
+				+ last_login + ", block=" + block + "]";
 	}
 
 	public int getAccnt_id() {

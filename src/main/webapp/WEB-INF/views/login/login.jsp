@@ -40,8 +40,7 @@
 					</tr>
 					<tr>
 						<th>PW</th>
-						<td><input type="password" id="pw" name="pw"
-							autocomplete="on"></td>
+						<td><input type="password" id="pw" name="pw" autocomplete="on"></td>
 					</tr>
 					<tr>
 						<td colspan="2"><input type="button" value="signIn"
@@ -52,8 +51,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2"><input type="button" id="naverLogin"
-							value="NaverLogin"></td>
+						<td colspan="2"><input type="button" id="naverLogin" value="NaverLogin"></td>
 					</tr>
 				</table>
 			</form>
@@ -104,9 +102,14 @@
 					console.log(data.state);
 					if (data.state == "true") {
 						window.location.href = "${pageContext.request.contextPath}/home.hk";
-					} else if (data.state == "false") {
+					} else if (data.state == "id") {
+						alert("id error");
+						window.location.reload(true);
+					} else if (data.state == "pw"){
+						alert("pw error");
 						window.location.reload(true);
 					} else {
+						alert("unknown error");
 						window.location.reload(true);
 					}
 				}

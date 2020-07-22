@@ -96,20 +96,7 @@ public class BoardController{
 	@RequestMapping(value = "/boardWriteResult", method = RequestMethod.POST)
 	public String boardWriteResult(BoardDto boardDto, HttpServletRequest request, HttpSession session, Model model) {
 		
-		logger.info(CommUtil.getClientIP(request)+"://boardWriteResult");
-		
-		if(boardDto.getTitle()==null) {
-			boardDto.setTitle("test");
-		}
-		if(boardDto.getWriter()==0) {
-			boardDto.setWriter(1);
-		}
-		if(boardDto.getContent()==null) {
-			boardDto.setContent("test");
-		}
-		if(boardDto.getNotice()==null || boardDto.getNotice()=="") {
-			boardDto.setNotice("T");
-		}
+		logger.info(CommUtil.getClientIP(request)+":/boardWriteResult");
 		
 		boardDto.setContent(StringEscapeUtils.unescapeXml(boardDto.getContent()));
 		

@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -113,6 +114,18 @@ public class HomeController{
 		accountService.deleteAccount(accnt_id);
 
 		return "redirect:"+(String)request.getHeader("REFERER");
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "/favicon.ico", method = RequestMethod.GET)
+	public void favicon( HttpServletRequest request, HttpServletResponse response) {
+		try {
+			response.sendRedirect("/resources/favicon.ico");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

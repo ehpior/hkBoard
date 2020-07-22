@@ -33,17 +33,24 @@
 			<br>
 			<br>
 
-			<table width="900"	cellpadding= "7px"	cellspacing= "0" border= "1">
+			<table style="width:100%" cellpadding= "7px"	cellspacing= "0" border= "1">
+				<colgroup>
+					<col width="10%">
+					<col width="20%">
+					<col width="70%">
+				</colgroup>
 				<tr>
 					<th>nickname</th>
 					<td><input type="text" id="nickname_tmp" /></td>
 					<td><input type="button" id="signUpCheckNickname" value="checkNickname">
+					<span style="font-size:12px">영문 4~12자, 한글 2~6자(띄어쓰기, 특수문자불가)</span>
 					<span id="nicknameVal" class="val"></span></td>
 				</tr>
 				<tr>
 					<th>name</th>
 					<td><input type="text" id="name_tmp"></td>
-					<td><span id="nameVal" class="val"></span></td>
+					<td><!-- <span style="font-size:12px">한글 2~4자</span> -->
+					<span id="nameVal" class="val"></span></td>
 				</tr>
 				<tr>
 					<th>user_type</th>
@@ -61,8 +68,8 @@
 								<option value="019">019</option>
 								<option value="070">070</option>
 						</select> 
-						<input type="text" id="phone2"> 
-						<input type="text" id="phone3">
+						<input type="text" id="phone2" size="5" maxlength="4"> 
+						<input type="text" id="phone3" size="5" maxlength="4">
 					</td>
 					<td><span id="phoneVal" class="val"></span></td>
 				</tr>
@@ -70,12 +77,14 @@
 					<th>ID</th>
 					<td><input type="text" id="id_tmp" /></td>
 					<td><input type="button" id="signUpCheckId" value="checkId">
+					<span style="font-size:12px">영문,숫자 4~12자(띄어쓰기, 특수문자불가)</span>
 					<span id="idVal" class="val"></span></td>
 				</tr>
 				<tr>
 					<th>PW</th>
 					<td><input type="password" id="s_passwd_tmp" /></td>
-					<td><span id="pwVal1" class="val"></span></td>
+					<td><span style="font-size:12px">영어 대/소문자, 숫자, 특수문자 중 2가지 이상 조합 6~12자 (띄어쓰기불가)</span>
+					<span id="pwVal1" class="val"></span></td>
 				</tr>
 				<tr>
 					<th>PW2</th>
@@ -83,9 +92,8 @@
 					<td><span id="pwVal2" class="val"></span></td>
 				</tr>
 			</table>
-			<br> <input type="button" id="signUp" value="signUp"><input
-				type="reset" value="reset">
-
+			<br> <input type="button" id="signUp" value="signUp">
+			
 			<form id="signUpForm" action="${pageContext.request.contextPath}/signUpResult.hk" method="POST">
 				<input type="hidden" id="nickname" name="nickname"> 
 				<input type="hidden" id="name" name="name">
@@ -103,10 +111,11 @@
 
 	<script>
 
-		var reg_nickname = /^[a-zA-Z0-9가-힣]{2,12}$/;
+		var reg_nickname = /^[가-힣|a-z|A-Z|0-9]{2,12}$/;
+		var reg_name = /^[가-힣]{2,4}$/;
 		var reg_phone = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/;
 		var reg_id = /^[a-zA-Z0-9]{4,12}$/;
-		var reg_pw = /^[a-zA-Z0-9]{4,12}$/;
+		var reg_pw = /^(?=.*[a-zA-Z0-9])(?=.*[a-zA-Z!@#$%^&*])(?=.*[0-9!@#$%^&*]).{6,12}$/;
 		
 		var nickname_status = 0;
 		var id_status = 0;
@@ -118,13 +127,29 @@
 			id_status = 0;
 		});
 		
-
+		function byteCheck(el){
+		    var codeByte = 0;
+		    for (var idx = 0; idx < el.length; idx++) {
+		        var oneChar = escape(el.charAt(idx));
+		        if ( oneChar.length == 1 ) {
+		            codeByte ++;
+		        } else if (oneChar.indexOf("%u") != -1) {
+		            codeByte += 2;
+		        } else if (oneChar.indexOf("%") != -1) {
+		            codeByte ++;
+		        }
+		    }
+		    return codeByte;
+		}
+		
 		$("#signUpCheckNickname").on("click",function() {
 			var nickname = $("#nickname_tmp").val();
+			var nicknameByte = byteCheck(nickname);
 
-			if (! reg_nickname.test(nickname)) {
+			if ((! reg_nickname.test(nickname)) || (nicknameByte<4 || nicknameByte>12)) {
 
 				$("#nickname_tmp").focus();
+				$("#nicknameVal").css("color","red");
 				$("#nicknameVal").text("nickname_pattern_error");
 
 				return;
@@ -136,10 +161,12 @@
 				data : {"nickname" : nickname},
 				success : function(data) {
 					if (data.signUpCheckNickname == 1) {
+						$("#nicknameVal").css("color","green");
 						$("#nicknameVal").text("nickname_possible");
 						nickname_status = 1;
 					} else {
 						$("#nickname_tmp").focus();
+						$("#nicknameVal").css("color","red");
 						$("#nicknameVal").text("nickname_exist");
 						nickname_status = 0;
 					}
@@ -153,6 +180,7 @@
 			if (! reg_id.test(id)) {
 
 				$("#id_tmp").focus();
+				$("#idVal").css("color","red");
 				$("#idVal").text("id_pattern_error");
 				
 				return;
@@ -164,10 +192,12 @@
 				data : {"id" : id},
 				success : function(data) {
 					if (data.signUpCheckId == 1) {
+						$("#idVal").css("color","green");
 						$("#idVal").text("id_possible");
 						id_status = 1;
 					} else {
 						$("#id_tmp").focus();
+						$("#idVal").css("color","red");
 						$("#idVal").text("id_exist");
 						id_status = 0;
 					}
@@ -177,10 +207,12 @@
 		
 		$("#s_passwd_tmp").on("input",function(){
 			if (! reg_pw.test($("#s_passwd_tmp").val())) {
+				$("#pwVal1").css("color","red");
 				$("#pwVal1").text("pw_pattern_error");
 			}
 			else{
-				$("#pwVal1").text("t");
+				$("#pwVal1").css("color","green");
+				$("#pwVal1").text("pw_pattern_complete");
 			}
 		});
 
@@ -194,53 +226,35 @@
 			var phone = $("#phone1").val()+'-'+$("#phone2").val()+'-'+$("#phone3").val();
 			var id = $("#id_tmp").val();
 			var s_passwd = $("#s_passwd_tmp").val();
-			
-			if (! reg_nickname.test(nickname)) {
-				
-				$("#nickname_tmp").focus();					
-				$("#nicknameVal").text("nickname_pattern_error");
-	
-				return;
-			}
-			if (! reg_phone.test(phone)) {		
-				
-				$("#phoneVal").text("phone_pattern_error");
-				
-				return;
-			}
-	
-			if (! reg_id.test(id)) {
-	
-				$("#id_tmp").focus();
-				$("#idVal").text("id_pattern_error");
-	
-				return;
-			}
-	
-			if (! reg_pw.test(s_passwd)) {
-	
-				$("#s_passwd_tmp").focus();
-				$("#pwVal1").text("pw_pattern_error");
-	
-				return;
-			}
-			if ($("#s_passwd_tmp").val() != $("#s_passwd_tmp2").val()) {
-				
-				$("#s_passwd_tmp2").focus();
-				$("#pwVal2").text("pw_doesn't_match");
-				
-				return;
-			}
-			
+			var nicknameByte = byteCheck(nickname);
+
 			if(nickname_status == 0){
 				alert("nickname_chk_plz");
+				return;
+			}		
+			/* if (! reg_name.test(name)) {			
+				alert("name_pattern_error");
+				return;
+			}	 */	
+			if (! reg_phone.test(phone)) {		
+				$("#phoneVal").text("phone_pattern_error");
 				return;
 			}
 			if(id_status == 0){
 				alert("id_chk_plz");
 				return;
 			}
-	
+			if (! reg_pw.test(s_passwd)) {
+				$("#s_passwd_tmp").focus();
+				$("#pwVal1").text("pw_pattern_error");
+				return;
+			}
+			if ($("#s_passwd_tmp").val() != $("#s_passwd_tmp2").val()) {
+				$("#s_passwd_tmp2").focus();
+				$("#pwVal2").text("pw_doesn't_match");
+				return;
+			}
+			
 			$.ajax({
 				url : "getRSA",
 				type : "POST",

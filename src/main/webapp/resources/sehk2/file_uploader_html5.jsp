@@ -65,8 +65,8 @@
         //sFileInfo += "&bNewLine=true";    
         sFileInfo += "&sFileName=" + filename;
         //sFileInfo += "&sFileURL=/hkBoard/resources/sehk2/multiupload/"+realFileNm;
-        sFileInfo += "&sFileURL=https://jhk.x1.co.kr/uploads_tmp/"+realFileNm;
-        sFileInfo += "&sFileURL=https://jhk.x1.co.kr/uploads_tmp/"+realFileNm;
+        sFileInfo += "&sFileURL=https://hk.x1.co.kr/uploads_tmp/"+realFileNm;
+        sFileInfo += "&sFileURL=https://hk.x1.co.kr/uploads_tmp/"+realFileNm;
         
         out.println(sFileInfo);
     }

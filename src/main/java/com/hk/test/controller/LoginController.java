@@ -110,14 +110,19 @@ public class LoginController{
 		
 		AccountDto dto = loginService.loginResult(loginDto);
 		
-		if(dto != null) {
+		if(dto.getAccnt_id() == 0) {
+			listObj.put("state","id");
+			return listObj;
+		}
+		else if(dto.getAccnt_id() == -1) {
+			listObj.put("state","pw");
+			return listObj;
+		}
+		else if(dto != null) {
 			if(session.getAttribute("login")!=null) {
 				session.removeAttribute("login");
 			}
 			session.setAttribute("login", dto);
-		}else {
-			listObj.put("state","false");
-			return listObj;
 		}
 
 		
@@ -160,22 +165,22 @@ public class LoginController{
 		
 		AccountDto dto = loginService.loginResult(loginDto);
 		
-		if(dto != null) {
+		if(dto.getAccnt_id()==0) {
+			AccountDto accountDto = new AccountDto();
+
+			accountDto.setId(naver_id);
+			accountDto.setName(naver_name);
+			accountDto.setUser_type("N");
+			
+			model.addAttribute("loginNaver", accountDto);
+		}		
+		else if(dto != null) {
 			if(session.getAttribute("login")!=null) {
 				session.removeAttribute("login");
 			}
 			session.setAttribute("login", dto);
 			return "redirect:/home.hk";
 		}
-		
-		AccountDto accountDto = new AccountDto();
-
-		accountDto.setId(naver_id);
-		accountDto.setName(naver_name);
-		accountDto.setUser_type("N");
-		
-		// 4.
-		model.addAttribute("loginNaver", accountDto);
 		
 		return "login/loginNaver";
 	}

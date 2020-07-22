@@ -8,15 +8,16 @@
 		SELECT * FROM ACCOUNT ORDER BY accnt_id
 	</select>
 	
-	<select id="selectAccount" resultType="Integer">
-		SELECT accnt_id FROM ACCOUNT WHERE id = #{id}
+	<select id="selectAccount" resultType="int">
+		SELECT NVL(MIN(accnt_id),0) FROM ACCOUNT WHERE id = #{id}
 	</select>
 	<select id="selectAccountSalt" resultType="string">
 		SELECT salt_value FROM ACCOUNT_SALT WHERE accnt_id = #{accnt_id}
 	</select>
 	
-	<insert id="insertAccount">
-		INSERT INTO ACCOUNT VALUES (ACCOUNT_SEQ.NEXTVAL, #{nickname}, #{name}, #{user_type}, #{phone}, #{id}, #{s_passwd}, null)
+	<!-- <insert id="insertAccount" useGeneratedKeys="true" keyProperty="ACCNT_ID" parameterType="int"> -->
+	<insert id="insertAccount" useGeneratedKeys="true" keyProperty="ACCNT_ID" parameterType="int">
+		INSERT INTO ACCOUNT VALUES (ACCOUNT_SEQ.NEXTVAL, #{nickname}, #{name}, #{user_type}, #{phone}, #{id}, #{s_passwd}, null, null)
 	</insert>
 	
 	<insert id="insertAccountSalt">

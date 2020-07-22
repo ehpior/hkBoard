@@ -6,7 +6,7 @@ public class BoardDto {
 	
 	private int board_id;
 	private String title="";
-	private int writer;
+	private String writer="";
 	private String content="";
 	private Date create_date;
 	private Date modify_date;
@@ -16,7 +16,7 @@ public class BoardDto {
 		
 	}	
 	
-	public BoardDto(int board_id, String title, int writer, String content, Date create_date, Date modify_date,
+	public BoardDto(int board_id, String title, String writer, String content, Date create_date, Date modify_date,
 			String notice) {
 		this.board_id = board_id;
 		this.title = title;
@@ -49,11 +49,11 @@ public class BoardDto {
 		this.title = title;
 	}
 
-	public int getWriter() {
+	public String getWriter() {
 		return writer;
 	}
 
-	public void setWriter(int writer) {
+	public void setWriter(String writer) {
 		this.writer = writer;
 	}
 

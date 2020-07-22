@@ -33,11 +33,17 @@
 			<br>
 			<br>
 
-			<table width="900"	cellpadding= "7px"	cellspacing= "0" border= "1">
+			<table style="width:100%" cellpadding= "7px" cellspacing= "0" border= "1">
+				<colgroup>
+					<col width="10%">
+					<col width="20%">
+					<col width="70%">
+				</colgroup>
 				<tr>
 					<th>nickname</th>
 					<td><input type="text" id="nickname_tmp" /></td>
 					<td><input type="button" id="signUpCheckNickname" value="checkNickname">
+					<span style="font-size:12px">영문 4~12자, 한글 2~6자(띄어쓰기, 특수문자불가)</span>
 					<span id="nicknameVal" class="val"></span></td>
 				</tr>
 				<tr>
@@ -52,8 +58,8 @@
 								<option value="019">019</option>
 								<option value="070">070</option>
 						</select> 
-						<input type="text" id="phone2"> 
-						<input type="text" id="phone3">
+						<input type="text" id="phone2" size="5" maxlength="4"> 
+						<input type="text" id="phone3" size="5" maxlength="4">
 					</td>
 					<td><span id="phoneVal" class="val"></span></td>
 				</tr>
@@ -82,17 +88,41 @@
 
 	<script>
 	
-		var reg_nickname = /^[a-zA-Z0-9|가-힣]{4,12}$/;
+		var reg_nickname = /^[가-힣|a-z|A-Z|0-9]{2,12}$/;
+		var reg_name = /^[가-힣]{2,4}$/;
 		var reg_phone = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/;
 		var reg_id = /^[a-zA-Z0-9]{4,12}$/;
-		var reg_pw = /^[a-zA-Z0-9]{4,12}$/;
+		var reg_pw = /^(?=.*[a-zA-Z0-9])(?=.*[a-zA-Z!@#$%^&*])(?=.*[0-9!@#$%^&*]).{6,12}$/;
+		
+		var nickname_status = 0;
+		
+		$("#nickname_tmp").on("change",function(){
+			nickname_status = 0;
+		});
+		
+		function byteCheck(el){
+		    var codeByte = 0;
+		    for (var idx = 0; idx < el.length; idx++) {
+		        var oneChar = escape(el.charAt(idx));
+		        if ( oneChar.length == 1 ) {
+		            codeByte ++;
+		        } else if (oneChar.indexOf("%u") != -1) {
+		            codeByte += 2;
+		        } else if (oneChar.indexOf("%") != -1) {
+		            codeByte ++;
+		        }
+		    }
+		    return codeByte;
+		}
 
 		$("#signUpCheckNickname").on("click",function() {
 			var nickname = $("#nickname_tmp").val();
+			var nicknameByte = byteCheck(nickname);
 
-			if (! reg_nickname.test(nickname)) {
+			if ((! reg_nickname.test(nickname)) || (nicknameByte<4 || nicknameByte>12)) {
 
 				$("#nickname_tmp").focus();
+				$("#nicknameVal").css("color","red");
 				$("#nicknameVal").text("nickname_pattern_error");
 
 				return;
@@ -106,10 +136,14 @@
 				},
 				success : function(data) {
 					if (data.signUpCheckNickname == 1) {
+						$("#nicknameVal").css("color","green");
 						$("#nicknameVal").text("nickname_possible");
+						nickname_status = 1;
 					} else {
 						$("#nickname_tmp").focus();
+						$("#nicknameVal").css("color","red");
 						$("#nicknameVal").text("nickname_exist");
+						nickname_status = 0;
 					}
 				}
 			});
@@ -125,41 +159,18 @@
 			var phone = $("#phone1").val()+'-'+$("#phone2").val()+'-'+$("#phone3").val();
 			var id = "${loginNaver.id}";
 			var s_passwd = "naver";
-			
-			if (! reg_nickname.test(nickname)) {
-				
-				$("#nickname_tmp").focus();					
-				$("#nicknameVal").text("nickname_pattern_error");
-	
+			var nicknameByte = byteCheck(nickname);
+
+			if(nickname_status == 0){
+				alert("nickname_chk_plz");
 				return;
-			}
+			}	
 			if (! reg_phone.test(phone)) {		
 				
 				$("#phoneVal").text("phone_pattern_error");
 				
 				return;
 			}
-
-			var status=0;
-			
-			$.ajax({
-				url : "signUpCheckNickname",
-				type : "POST",
-				async : false,
-				data : { "nickname" : nickname },
-				success : function(data) {
-					if (data.signUpCheckNickname == 1) {
-						//$("#nicknameVal").text("possible");
-						status = 1;
-					} else {
-						$("#nickname_tmp").focus();
-						$("#nicknameVal").text("nickname_exist");
-						status = 0;
-					}
-				}
-			});
-			
-			if(status==0) return;
 
 			$.ajax({
 				url : "getRSA",

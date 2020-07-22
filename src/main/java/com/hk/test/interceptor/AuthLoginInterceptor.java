@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.hk.test.controller.HomeController;
+import com.hk.test.dto.AccountDto;
 import com.hk.test.util.CommUtil;
 
 public class AuthLoginInterceptor extends HandlerInterceptorAdapter{
@@ -28,6 +28,11 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter{
 		
 		if(obj == null) {
 			response.sendRedirect(request.getContextPath()+"/login.hk");
+			return false;
+		}
+		else if(((AccountDto)obj).getBlock() == "X"){
+			System.out.println("blocked");
+			response.sendRedirect(request.getContextPath()+"/home.hk");
 			return false;
 		}
 		

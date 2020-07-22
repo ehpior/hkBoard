@@ -15,7 +15,7 @@ public interface BoardDao {
 	public int insertBoard(BoardDto boardDto);
 	public int updateBoard(BoardDto boardDto);
 	
-	public Integer countBoard();
+	public int countBoard();
 	
 	public int deleteBoard(@Param("board_id") int board_id);
 	

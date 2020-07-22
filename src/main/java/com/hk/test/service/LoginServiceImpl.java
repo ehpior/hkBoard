@@ -30,38 +30,36 @@ public class LoginServiceImpl implements LoginService{
 		AccountDao accountDao = sqlSession.getMapper(AccountDao.class);
 		AccountDto accountDto = null;
 		
-		int id = Optional.ofNullable(accountDao.selectAccount(loginDto.getId())).orElse(0).intValue();
+		//int id = Optional.ofNullable(accountDao.selectAccount(loginDto.getId())).orElse(0).intValue();
+		int id = accountDao.selectAccount(loginDto.getId());
 		
-		if(id==0) return null;
+		if(id==0) {
+			accountDto = new AccountDto();
+			accountDto.setAccnt_id(0);
+			return accountDto;
+		}
 		
 		else {		
-			TransactionDefinition definition = new DefaultTransactionDefinition();
-			TransactionStatus status = transactionManager.getTransaction(definition);
+
+			String salt = accountDao.selectAccountSalt(id);
 			
-			try {
-				String salt = accountDao.selectAccountSalt(id);
-				
-				loginDto.setPw(SHA256Util.getEncrypt(loginDto.getPw(), salt));
-				
-				if(loginDto.getUser_type().equals("N")) {
-					accountDto = loginDao.loginCheckWithType(loginDto);
-				}
-				else {					
-					accountDto = loginDao.loginCheck(loginDto);
-				}
-				
-				transactionManager.commit(status);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-				
-				transactionManager.rollback(status);
+			loginDto.setPw(SHA256Util.getEncrypt(loginDto.getPw(), salt));
+			
+			if(loginDto.getUser_type().equals("N")) {
+				accountDto = loginDao.loginCheckWithType(loginDto);
 			}
-	
-			if(accountDto != null) {
+			else {					
+				accountDto = loginDao.loginCheck(loginDto);
+			}
+
+			if(accountDto == null) {
+				accountDto = new AccountDto();
+				accountDto.setAccnt_id(-1);
 				return accountDto;
 			}
-			return null;
+			else {
+				return accountDto;
+			}
 		}
 		
 	}
@@ -70,7 +68,8 @@ public class LoginServiceImpl implements LoginService{
 		
 		LoginDao loginDao = sqlSession.getMapper(LoginDao.class);
 		
-		if(Optional.ofNullable(loginDao.signUpCheckId(id)).orElse(0).intValue() == 0) {
+		//if(Optional.ofNullable(loginDao.signUpCheckId(id)).orElse(0).intValue() == 0) {
+		if(loginDao.signUpCheckId(id) == 0) {
 			return true;
 		}
 		else {
@@ -82,7 +81,8 @@ public class LoginServiceImpl implements LoginService{
 		
 		LoginDao loginDao = sqlSession.getMapper(LoginDao.class);
 		
-		if(Optional.ofNullable(loginDao.signUpCheckNickname(nickname)).orElse(0).intValue() == 0) {
+		//if(Optional.ofNullable(loginDao.signUpCheckNickname(nickname)).orElse(0).intValue() == 0) {
+		if(loginDao.signUpCheckNickname(nickname) == 0) {
 			return true;
 		}
 		else {

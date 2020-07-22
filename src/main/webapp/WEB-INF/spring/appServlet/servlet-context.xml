@@ -23,7 +23,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.hk.test*" />
+	<context:component-scan base-package="com.hk.test.controller, com.hk.test.service" />
 	<!-- <context:component-scan base-package="com.hk.test.service" /> -->
 	
 	<beans:bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
@@ -35,7 +35,7 @@
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource"></beans:property>
  		<!-- <beans:property name="mapperLocations" value="classpath*:com/hk/test/dao/mapper/*.xml"></beans:property> -->
-		<beans:property name="mapperLocations" value="/resources/mapper/*.xml"></beans:property>
+		<beans:property name="mapperLocations" value="/mapper/*.xml"></beans:property>
 	</beans:bean>
 	
 	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
@@ -67,7 +67,7 @@
 	<!-- Interceptor 설정 -->
 	<interceptors>
     	<interceptor>
-        	<mapping path="/board*"/>         
+        	<mapping path="/board*"/>        
         	<exclude-mapping path="/resources/**"/>
         	<beans:ref bean="AuthLoginInterceptor"/>
 	    </interceptor>

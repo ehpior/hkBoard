@@ -12,16 +12,15 @@
 
 	<%@ include file="header.jsp"%>
 
-
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			jenKins_test
-			<br>
-			<br>
+			<%-- <input type="button" value="eror404"
+						onClick="location.href='${pageContext.request.contextPath}/testerror404'"> --%>
+			<br><br>
+			
 			${login}
 
-			<br>
-			<br>
+			<br><br>
 
 			<c:choose>
 				<c:when test="${login eq null}">

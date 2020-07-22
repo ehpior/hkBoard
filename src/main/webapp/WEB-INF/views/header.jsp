@@ -6,16 +6,8 @@
 	<li style="float:right;"><a href="${pageContext.request.contextPath}/logout">logout</a></li>
 	<li style="float:right;"><a href="${pageContext.request.contextPath}/home.hk">home</a></li>
 	<li style="float:right;"><a href="#" id="now"></a></li>
-</ul>
-<script>
- 	var a = new Date();
-	document.getElementById('now').innerHTML=a.toString();
-	
-	setInterval(function(){
-		var a = new Date();
-		document.getElementById('now').innerHTML=a.toString();},1000);
-		$("#now").text((a.getMonth()+1)+"/"+a.getDate()+" "+a.getHours()+":"+a.getMinutes()+":"+a.getSeconds());},1000);
-</script> --%>
+</ul> --%>
+
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 	<!-- <a class="navbar-brand" href="#"></a> -->
@@ -44,6 +36,9 @@
 			<li class="nav-item active"><a class="nav-link"
 				href="${pageContext.request.contextPath}/account.hk">accountCheck</a>
 			</li>
+			<li class="nav-item active"><a id="now" class="nav-link"
+				href="${pageContext.request.contextPath}/home.hk"></a>
+			</li>
 			<!-- <li class="nav-item">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li> -->
@@ -71,3 +66,13 @@
 	</div>
 
 </nav>
+
+<script>
+ 	var a = new Date();
+	document.getElementById('now').innerHTML=a.toString();
+	
+	setInterval(function(){
+		var a = new Date();
+		document.getElementById('now').innerHTML=a.toString();},1000);
+		/* $("#now").text((a.getMonth()+1)+"/"+a.getDate()+" "+a.getHours()+":"+a.getMinutes()+":"+a.getSeconds());},1000); */
+</script>

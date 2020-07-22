@@ -35,15 +35,15 @@
 
 			<form action="${pageContext.request.contextPath}/boardWriteResult"
 				id="noticeWriteForm" method="POST">
-				<table width="900"	cellpadding= "7px"	cellspacing= "0" border= "1">
+				<table width="900" cellpadding= "7px" cellspacing= "0" border= "1">
 					<tr>
 						<td>title</td>
 						<td><input type="text" id="title" name="title"></td>
 					</tr>
 					<tr>
 						<td>writer</td>
-						<td>${login.accnt_id} <input type="hidden" id="writer"
-							name="writer" value="${login.accnt_id}">
+						<td>${login.nickname} <input type="hidden" id="writer"
+							name="writer" value="${login.nickname}">
 						</td>
 					</tr>
 					<tr>
@@ -69,12 +69,16 @@
 	<%@ include file="../footer.jsp"%>
 
 	<script type="text/javascript">
+		function trim() { 
+			return this.replace(/(?:^[\s\u00a0]+)|(?:[\s\u00a0]+$)/g, '');
+		}
+	
 		var oEditors = [];
 		nhn.husky.EZCreator.createInIFrame({
 			oAppRef : oEditors,
 			elPlaceHolder : "smartEditor", //저는 textarea의 id와 똑같이 적어줬습니다. 
 			/* sSkinURI : "/hkBoard/resources/se2/SmartEditor2Skin.html", //경로를 꼭 맞춰주세요!  */
-			sSkinURI : "/hkBoard/resources/sehk2/SmartEditor2Skin.html", //경로를 꼭 맞춰주세요!  
+			sSkinURI : "/resources/sehk2/SmartEditor2Skin.html", //경로를 꼭 맞춰주세요!  
 			fCreator : "createSEditor2",
 			htParams : { // 툴바 사용 여부 (true:사용/ false:사용하지 않음) 
 				bUseToolbar : true, // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음) 
@@ -89,15 +93,11 @@
 					function() {
 						oEditors.getById["smartEditor"].exec(
 								"UPDATE_CONTENTS_FIELD", []); //textarea의 id를 적어줍니다. 
-						$("#smartEditor").val(
-								$("#smartEditor").val().replace(/<br>$/, ""));
-						/* var selcatd = $("#selcatd > option:selected").val(); 
-						var title = $("#title").val(); 
-						var content = document.getElementById("smartEditor").value;
-						if (selcatd == "") { 
-							alert("카테고리를 선택해주세요."); 
-							return; 
-						} 
+						$("#smartEditor").val($("#smartEditor").val().replace(/<br>$/, ""));
+								
+						var title = $("#title").val().trim(); 
+						var content = $("#smartEditor").val().trim();
+						
 						if (title == null || title == "") { 
 							alert("제목을 입력해주세요."); 
 							$("#title").focus(); 
@@ -107,13 +107,9 @@
 							content == '<br>' || content == '<br/>' || content == '<p>&nbsp;</p>'){ 
 							alert("본문을 작성해주세요."); oEditors.getById["smartEditor"].exec("FOCUS"); //포커싱 
 							return; 
-						}  *///이 부분은 스마트에디터 유효성 검사 부분이니 참고하시길 바랍니다. 
-						//var result = confirm("발행 하시겠습니까?");
-						//if(result){ 
+						}  //이 부분은 스마트에디터 유효성 검사 부분이니 참고하시길 바랍니다. 
 						$("#noticeWriteForm").submit();
-						//}else{ 
-						//	return; 
-						//} 
+
 					});
 		});
 	</script>
