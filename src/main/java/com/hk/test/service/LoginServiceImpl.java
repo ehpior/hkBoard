@@ -96,7 +96,6 @@ public class LoginServiceImpl implements LoginService{
 		
 		TransactionDefinition definition = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(definition);
-		System.out.println("loginhistory"+loginHistoryDto.getLogin_date());
 		
 		try {
 			

@@ -15,8 +15,10 @@
 		SELECT salt_value FROM ACCOUNT_SALT WHERE accnt_id = #{accnt_id}
 	</select>
 	
-	<!-- <insert id="insertAccount" useGeneratedKeys="true" keyProperty="ACCNT_ID" parameterType="int"> -->
-	<insert id="insertAccount" useGeneratedKeys="true" keyProperty="ACCNT_ID" parameterType="int">
+	<insert id="insertAccount">
+		<!-- <selectKey keyProperty="accnt_id" resultType="int" order="BEFORE">
+			select ACCOUNT_SEQ.NEXTVAL FROM DUAL	
+		</selectKey> -->
 		INSERT INTO ACCOUNT VALUES (ACCOUNT_SEQ.NEXTVAL, #{nickname}, #{name}, #{user_type}, #{phone}, #{id}, #{s_passwd}, null, null)
 	</insert>
 	

@@ -128,8 +128,6 @@ public class LoginController{
 		
 		String ua = request.getHeader("user-agent");
 		
-		System.out.println("new timestamp"+new Timestamp(System.currentTimeMillis()));
-		
 		LoginHistoryDto loginHistoryDto = new LoginHistoryDto(dto.getAccnt_id(),
 				new Timestamp(System.currentTimeMillis()), CommUtil.mobileCheck(ua), 
 				CommUtil.getClientIP(request), CommUtil.getClientBrowser(ua), CommUtil.getClientOS(ua));

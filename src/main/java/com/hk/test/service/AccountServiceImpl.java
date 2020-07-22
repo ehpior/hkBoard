@@ -39,12 +39,12 @@ public class AccountServiceImpl implements AccountService{
 		
 		try {
 
-			int accnt_id = accountDao.insertAccount(accountDto);
+			accountDao.insertAccount(accountDto);
 
-			//int id = Optional.ofNullable(accountDao.selectAccount(accountDto.getId())).orElse(0).intValue();
-//			int id = accountDao.selectAccount(accountDto.getId());
-//			
-//			if (id==0) throw new Exception();
+			//int accnt_id = Optional.ofNullable(accountDao.selectAccount(accountDto.getId())).orElse(0).intValue();
+			int accnt_id = accountDao.selectAccount(accountDto.getId());
+			
+			if (accnt_id==0) throw new Exception();
 			
 			accountDao.insertAccountSalt(accnt_id, salt);
 			
