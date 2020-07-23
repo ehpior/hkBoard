@@ -7,10 +7,8 @@
 <%@ include file="../preset.jsp"%>
 <title>Insert title here</title>
 
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/sehk2/js/HuskyEZCreator.js"
-	charset="utf-8"></script>
-<%-- <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se2/js/service/HuskyEZCreator.js" charset="utf-8"></script> --%>
+<script type="text/javascript" src="/resources/sehk2/js/HuskyEZCreator.js" charset="utf-8"></script>
+<%-- <script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js" charset="utf-8"></script> --%>
 <script type="text/javascript"
 	src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
@@ -25,17 +23,19 @@
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
 
-			<input type="button" value="Home"
-				onClick="location.href='${pageContext.request.contextPath}/home.hk'">
+			<input type="button" value="Home" onClick="location.href='/home.hk'">
 			<br>
-			<br> <input type="button" value="board"
-				onClick="location.href='${pageContext.request.contextPath}/board.hk'">
+			<br> 
+			<input type="button" value="board" onClick="location.href='/board.hk'">
 			<br>
 			<br>
 
-			<form action="${pageContext.request.contextPath}/boardWriteResult"
-				id="noticeWriteForm" method="POST">
-				<table width="900" cellpadding= "7px" cellspacing= "0" border= "1">
+			<form action="/boardWriteResult" id="noticeWriteForm" method="POST">
+				<table cellpadding="7px" cellspacing="0" class="table table-bordered">
+				<colgroup>
+					<col width="20%">
+					<col width="80%">
+				</colgroup>
 					<tr>
 						<td>title</td>
 						<td><input type="text" id="title" name="title"></td>
@@ -48,8 +48,7 @@
 					</tr>
 					<tr>
 						<td>content</td>
-						<td><textarea name="content" id="smartEditor"
-								style="width: 100%; height: 200px;"></textarea></td>
+						<td><textarea name="content" id="smartEditor" style="width: 100%; height: 200px;"></textarea></td>
 					</tr>
 					<c:if test="${login.user_type eq 'A'}">
 						<tr>
@@ -58,8 +57,9 @@
 						</tr>
 					</c:if>
 					<tr>
-						<td colspan="2"><input type="button" value="write"
-							id="savebutton"></td>
+						<td colspan="2">
+							<input type="button" class="btn btn-primary" value="write" id="savebutton">
+						</td>
 					</tr>
 				</table>
 			</form>

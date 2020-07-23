@@ -3,12 +3,11 @@ package com.hk.test.dto;
 import org.springframework.web.multipart.MultipartFile;
 
 public class SmarteditorVO {
+	
 	private MultipartFile filedata;
 	private String callback;
 	private String callback_func;
-	
-	
-	
+
 	public SmarteditorVO() {
 	}
 	public SmarteditorVO(MultipartFile filedata, String callback, String callback_func) {

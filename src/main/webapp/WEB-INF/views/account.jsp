@@ -17,28 +17,35 @@
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<input type="button" value="Home"
-				onClick="location.href='${pageContext.request.contextPath}/home.hk'">
+			<input type="button" value="Home" onClick="location.href='/home.hk'">
 			<br>
 			<br>
-			<form action="${pageContext.request.contextPath}/deleteAccount"
-				method="POST">
-				DeleteByACCNT_ID : <input type="number" name="accnt_id"> <input
-					type="submit">
-			</form>
 			<br>
 			<br>
-			<table width="900"	cellpadding= "7px"	cellspacing= "0" border= "1">
+			<table cellpadding="7px" cellspacing="0" class="table table-striped table-bordered">
+			<colgroup>
+				<col width="3">
+				<col width="3">
+				<col width="2">
+				<col width="3">
+				<col width="4">
+				<col width="3">
+				<col width="4">
+				<col width="3">
+			</colgroup>
+			<thead>
 				<tr>
-					<td>ACCNT_ID</td>
-					<td>NICKNAME</td>
-					<td>NAME</td>
-					<td>USER_TYPE</td>
-					<td>PHONE</td>
-					<td>ID</td>
-					<td>S_PASSWD</td>
-					<td>LAST_LOGIN</td>
+					<th>ACCNT_ID</td>
+					<th>NICKNAME</td>
+					<th>NAME</td>
+					<th>USER_TYPE</td>
+					<th>PHONE</td>
+					<th>ID</td>
+					<th>S_PASSWD</td>
+					<th>LAST_LOGIN</td>
 				</tr>
+			</thead>
+			<tbody>
 				<c:forEach items="${list}" var="dto">
 					<tr>
 						<td>${dto.accnt_id}</td>
@@ -51,7 +58,16 @@
 						<td>${dto.last_login}</td>
 					</tr>
 				</c:forEach>
+			</tbody>
 			</table>
+			<br>
+			<div style="text-align:center;">
+				<form action="/deleteAccount" method="POST">
+					ACCNT_ID : 
+					<input type="number" name="accnt_id" style="vertical-align:middle"> 
+					<input class="btn btn-primary" type="submit" style="vertical-align:middle" value="delete">
+				</form>
+			</div>
 		</div>
 	</main>
 

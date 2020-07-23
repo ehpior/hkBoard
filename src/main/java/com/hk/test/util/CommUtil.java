@@ -110,5 +110,15 @@ public class CommUtil {
 		}
 		return browser;
 	}
+	
+	public static int parseInt(String tmp) {
+		
+		if(tmp==null || tmp=="") {
+			return 0;
+		}
+		else {
+			return Integer.parseInt(tmp);
+		}
+	}
 
 }

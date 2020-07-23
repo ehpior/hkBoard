@@ -30,8 +30,8 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter{
 			response.sendRedirect(request.getContextPath()+"/login.hk");
 			return false;
 		}
-		else if(((AccountDto)obj).getBlock() == "X"){
-			System.out.println("blocked");
+		else if(((AccountDto)obj).getBlock() == ("X")){
+			logger.info("blocked");
 			response.sendRedirect(request.getContextPath()+"/home.hk");
 			return false;
 		}

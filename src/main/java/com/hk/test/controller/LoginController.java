@@ -71,7 +71,6 @@ public class LoginController{
 		return "login/login";
 	}
 	
-	//public String loginResult(HttpServletRequest request, HttpSession session, LoginDto loginDto) {
 	@RequestMapping(value = "/loginResult", method = RequestMethod.POST)
 	public @ResponseBody JSONObject loginResult(HttpServletRequest request, HttpSession session) {
 		
@@ -124,7 +123,10 @@ public class LoginController{
 			}
 			session.setAttribute("login", dto);
 		}
-
+		else {
+			listObj.put("state","false");
+			return listObj;
+		}
 		
 		String ua = request.getHeader("user-agent");
 		
@@ -255,8 +257,6 @@ public class LoginController{
 		
 		JSONObject listObj = new JSONObject();
 		
-		System.out.println(accountDto.toString());
-	
 		try {
 			
 			PrivateKey privateKey = (PrivateKey) session.getAttribute("_RSA_WEB_Key_");
@@ -277,8 +277,6 @@ public class LoginController{
 			accountDto.setId(RSAUtil.decryptRsa(privateKey, accountDto.getId()));
 			accountDto.setS_passwd(RSAUtil.decryptRsa(privateKey, accountDto.getS_passwd()));
 			
-			logger.info(CommUtil.getClientIP(request)+":"+accountDto.toString());
-			
 		}catch(Exception e) {
 			
 		}
@@ -295,8 +293,6 @@ public class LoginController{
 		else {
 			listObj.put("state", "false");			
 		}
-		
-		System.out.println();
 
 		return listObj;
 		

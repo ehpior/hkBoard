@@ -9,16 +9,16 @@
 
 <!-- RSA 자바스크립트 라이브러리 -->
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/jsbn.js"></script>
+	src="/resources/rsa/jsbn.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/rsa.js"></script>
+	src="/resources/rsa/rsa.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/prng4.js"></script>
+	src="/resources/rsa/prng4.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/rng.js"></script>
+	src="/resources/rsa/rng.js"></script>
 <!-- RSA 암호화 처리 스크립트 -->
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/login.js"></script>
+	src="/resources/rsa/login.js"></script>
 
 <title>Insert title here</title>
 </head>
@@ -29,11 +29,11 @@
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
 			<input type="button" value="Home"
-				onClick="location.href='${pageContext.request.contextPath}/home.hk'">
+				onClick="location.href='/home.hk'">
 			<br>
 			<br>
 
-			<table style="width:100%" cellpadding= "7px"	cellspacing= "0" border= "1">
+			<table cellpadding="7px" cellspacing="0" class="table table-bordered">
 				<colgroup>
 					<col width="10%">
 					<col width="20%">
@@ -42,15 +42,14 @@
 				<tr>
 					<th>nickname</th>
 					<td><input type="text" id="nickname_tmp" /></td>
-					<td><input type="button" id="signUpCheckNickname" value="checkNickname">
+					<td style="text-align:left"><input type="button" class="btn btn-secondary" id="signUpCheckNickname" value="checkNickname">
 					<span style="font-size:12px">영문 4~12자, 한글 2~6자(띄어쓰기, 특수문자불가)</span>
 					<span id="nicknameVal" class="val"></span></td>
 				</tr>
 				<tr>
 					<th>name</th>
 					<td><input type="text" id="name_tmp"></td>
-					<td><!-- <span style="font-size:12px">한글 2~4자</span> -->
-					<span id="nameVal" class="val"></span></td>
+					<td style="text-align:left"><span id="nameVal" class="val"></span></td>
 				</tr>
 				<tr>
 					<th>user_type</th>
@@ -71,30 +70,30 @@
 						<input type="text" id="phone2" size="5" maxlength="4"> 
 						<input type="text" id="phone3" size="5" maxlength="4">
 					</td>
-					<td><span id="phoneVal" class="val"></span></td>
+					<td style="text-align:left"><span id="phoneVal" class="val"></span></td>
 				</tr>
 				<tr>
 					<th>ID</th>
 					<td><input type="text" id="id_tmp" /></td>
-					<td><input type="button" id="signUpCheckId" value="checkId">
+					<td style="text-align:left"><input type="button" class="btn btn-secondary" id="signUpCheckId" value="checkId">
 					<span style="font-size:12px">영문,숫자 4~12자(띄어쓰기, 특수문자불가)</span>
 					<span id="idVal" class="val"></span></td>
 				</tr>
 				<tr>
 					<th>PW</th>
 					<td><input type="password" id="s_passwd_tmp" /></td>
-					<td><span style="font-size:12px">영어 대/소문자, 숫자, 특수문자 중 2가지 이상 조합 6~12자 (띄어쓰기불가)</span>
+					<td style="text-align:left"><span style="font-size:12px">영어 대/소문자, 숫자, 특수문자 중 2가지 이상 조합 6~12자 (띄어쓰기불가)</span>
 					<span id="pwVal1" class="val"></span></td>
 				</tr>
 				<tr>
 					<th>PW2</th>
 					<td><input type="password" id="s_passwd_tmp2" /></td>
-					<td><span id="pwVal2" class="val"></span></td>
+					<td style="text-align:left"><span id="pwVal2" class="val"></span></td>
 				</tr>
 			</table>
-			<br> <input type="button" id="signUp" value="signUp">
+			<br> <input type="button" class="btn btn-primary" id="signUp" value="signUp">
 			
-			<form id="signUpForm" action="${pageContext.request.contextPath}/signUpResult.hk" method="POST">
+			<form id="signUpForm" action="/signUpResult.hk" method="POST">
 				<input type="hidden" id="nickname" name="nickname"> 
 				<input type="hidden" id="name" name="name">
 				<input type="hidden" id="user_type" name="user_type">
@@ -299,7 +298,7 @@
 					console.log(data.state);
 					if (data.state == "true") {
 						alert("signUp Complete");
-						window.location.href = "${pageContext.request.contextPath}/home.hk";
+						window.location.href = "/home.hk";
 					} else if (data.state == "false") {
 						alert("insert error");
 						window.location.reload(true);

@@ -1,6 +1,7 @@
 package com.hk.test.dto;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class AccountDto {
 	private int accnt_id;
@@ -10,11 +11,15 @@ public class AccountDto {
 	private String phone;
 	private String id;
 	private String s_passwd;
-	private Date last_login;
+	private Timestamp last_login;
 	private String block;
 	
+	public AccountDto() {
+		
+	}
+	
 	public AccountDto(int accnt_id, String nickname, String name, String user_type, String phone, String id,
-			String s_passwd, Date last_login, String block) {
+			String s_passwd, Timestamp last_login, String block) {
 		super();
 		this.accnt_id = accnt_id;
 		this.nickname = nickname;
@@ -26,20 +31,8 @@ public class AccountDto {
 		this.last_login = last_login;
 		this.block = block;
 	}
-
-	public String getBlock() {
-		return block;
-	}
-
-	public void setBlock(String block) {
-		this.block = block;
-	}
-
-	public AccountDto() {
-		
-	}
 	
-	public AccountDto(int accnt_id, String nickname, String name, String user_type, String phone, String id, String s_passwd, Date last_login) {
+	public AccountDto(int accnt_id, String nickname, String name, String user_type, String phone, String id, String s_passwd, Timestamp last_login) {
 		this.accnt_id = accnt_id;
 		this.nickname = nickname;
 		this.name = name;
@@ -56,15 +49,18 @@ public class AccountDto {
 				+ user_type + ", phone=" + phone + ", id=" + id + ", s_passwd=" + s_passwd + ", last_login="
 				+ last_login + ", block=" + block + "]";
 	}
-
+	public String getBlock() {
+		return block;
+	}
+	public void setBlock(String block) {
+		this.block = block;
+	}
 	public int getAccnt_id() {
 		return accnt_id;
 	}
-
 	public void setAccnt_id(int accnt_id) {
 		this.accnt_id = accnt_id;
 	}
-
 	public String getNickname() {
 		return nickname;
 	}
@@ -101,10 +97,10 @@ public class AccountDto {
 	public void setS_passwd(String s_passwd) {
 		this.s_passwd = s_passwd;
 	}
-	public Date getLast_login() {
+	public Timestamp getLast_login() {
 		return last_login;
 	}
-	public void setLast_login(Date last_login) {
+	public void setLast_login(Timestamp last_login) {
 		this.last_login = last_login;
 	}
 	

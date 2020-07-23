@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.hk.test.dto.AccountDto;
 import com.hk.test.dto.BoardDto;
 import com.hk.test.naver.NaverLoginBO;
 import com.hk.test.service.AccountServiceImpl;
@@ -54,7 +53,7 @@ public class BoardController{
 		
 		logger.info(CommUtil.getClientIP(request)+":/board.hk");
 		
-		int pageNumber = Integer.parseInt(request.getParameter("boardPage")==null?"1":request.getParameter("boardPage"));
+		int pageNumber = CommUtil.parseInt(request.getParameter("boardPage")==null?"1":request.getParameter("boardPage"));
 		
 		String maxSelectLimit_pam = request.getParameter("maxSelectLimit");
 		
@@ -64,7 +63,7 @@ public class BoardController{
 			}
 		}
 		else {
-			session.setAttribute("maxSelectLimit", Integer.parseInt(maxSelectLimit_pam));			
+			session.setAttribute("maxSelectLimit", CommUtil.parseInt(maxSelectLimit_pam));			
 		}
 		int maxSelectLimit = (Integer)session.getAttribute("maxSelectLimit");
 		
@@ -79,7 +78,11 @@ public class BoardController{
 		
 		logger.info(CommUtil.getClientIP(request)+":/boardView.hk");
 		
-		model.addAttribute("selectBoard", boardService.selectBoard(Integer.parseInt(request.getParameter("board_id"))));
+		int board_id = CommUtil.parseInt(request.getParameter("board_id"));
+		
+		BoardDto selectBoard = boardService.selectBoard(board_id);
+		
+		model.addAttribute("selectBoard", selectBoard);
 		
 		return "board/boardView";
 	}
@@ -115,9 +118,8 @@ public class BoardController{
 		String tmp = boardDto.getContent().replaceAll("uploads_tmp/"+(String)session.getId(), "uploads/"+boardDto.getWriter());
 		
 		boardDto.setContent(tmp);
-		boardDto.setContent(boardDto.getContent().replace("\'", "&apos;"));
-		
-		//boardDto.setContent(boardDto.getContent().replace("\"", "&quot"));
+		boardDto.setContent(boardDto.getContent().replace("\'", "&#39;"));		
+		//boardDto.setContent(boardDto.getContent().replace("\"", "&quot;"));
 		
 		int result = boardService.insertBoard(boardDto);
 		
@@ -129,10 +131,10 @@ public class BoardController{
 		
 		logger.info(CommUtil.getClientIP(request)+":/boardModify.hk");
 		
-		BoardDto boardDto = boardService.selectBoard(Integer.valueOf(request.getParameter("board_id")));
+		int board_id = Integer.valueOf(request.getParameter("board_id"));
 		
-		//System.out.println(boardDto.toString());
-		
+		BoardDto boardDto = boardService.selectBoard(board_id);
+
 		model.addAttribute("board_id", request.getParameter("board_id"));
 		model.addAttribute("dto", boardDto);
 		
@@ -163,9 +165,8 @@ public class BoardController{
 		
 		boardDto.setContent(tmp);
 		
-		boardDto.setContent(boardDto.getContent().replace("\'", "&apos;"));
-		
-//		boardDto.setContent(boardDto.getContent().replace("\"", "&quot;"));
+		boardDto.setContent(boardDto.getContent().replace("\'", "&#39;"));		
+		//boardDto.setContent(boardDto.getContent().replace("\"", "&quot;"));
 		
 		boardService.updateBoard(boardDto);
 		
@@ -177,7 +178,9 @@ public class BoardController{
 		
 		logger.info(CommUtil.getClientIP(request)+":/boardDelete.hk");
 		
-		boardService.deleteBoard(Integer.parseInt(request.getParameter("board_id")));
+		int board_id = CommUtil.parseInt(request.getParameter("board_id"));
+		
+		boardService.deleteBoard(board_id);
 		
 		return "redirect:/board.hk";
 	}

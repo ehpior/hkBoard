@@ -7,17 +7,12 @@
 <%@ include file="../preset.jsp"%>
 <title>Insert title here</title>
 <!-- RSA 자바스크립트 라이브러리 -->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/jsbn.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/rsa.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/prng4.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/rng.js"></script>
+<script type="text/javascript" src="/resources/rsa/jsbn.js"></script>
+<script type="text/javascript" src="/resources/rsa/rsa.js"></script>
+<script type="text/javascript" src="/resources/rsa/prng4.js"></script>
+<script type="text/javascript" src="/resources/rsa/rng.js"></script>
 <!-- RSA 암호화 처리 스크립트 -->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/login.js"></script>
+<script type="text/javascript" src="/resources/rsa/login.js"></script>
 <title>Insert title here</title>
 </head>
 <body class="d-flex flex-column h-100">
@@ -27,27 +22,30 @@
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
 			<input type="button" value="Home"
-				onClick="location.href='${pageContext.request.contextPath}/home.hk'"><br>
+				onClick="location.href='/home.hk'"><br>
 			<br>
 
-			<%-- <form action="${pageContext.request.contextPath}/loginResult" method="POST"> --%>
-			<form action="${pageContext.request.contextPath}/loginResult"
-				method="POST" id="form">
-				<table>
+			<%-- <form action="/loginResult" method="POST"> --%>
+			<form action="/loginResult" method="POST" id="form">
+				<table style="width:25%;" class="table table-bordered">
+				<colgroup>
+					<col width="30%">
+					<col width="80%">
+				</colgroup>
 					<tr>
 						<th>ID</th>
-						<td><input type="text" id="id" name="id" autocomplete="on"></td>
+						<td><input type="text" id="id" name="id" autocomplete="on" width="100%"></td>
 					</tr>
 					<tr>
 						<th>PW</th>
-						<td><input type="password" id="pw" name="pw" autocomplete="on"></td>
+						<td><input type="password" id="pw" name="pw" autocomplete="on" width="100%"></td>
 					</tr>
 					<tr>
 						<td colspan="2"><input type="button" value="signIn"
 							id="signIn"> <input type="button" value="signUp"
-							onClick="location.href='${pageContext.request.contextPath}/signUp.hk'">
+							onClick="location.href='/signUp.hk'">
 							<input type="button" value="logout"
-							onClick="location.href='${pageContext.request.contextPath}/logout'">
+							onClick="location.href='/logout'">
 						</td>
 					</tr>
 					<tr>
@@ -62,8 +60,6 @@
 
 
 	<%@ include file="../footer.jsp"%>
-
-
 
 	<script type="text/javascript">
 		$('#signIn').click(function() {
@@ -101,7 +97,7 @@
 				success : function(data) {
 					console.log(data.state);
 					if (data.state == "true") {
-						window.location.href = "${pageContext.request.contextPath}/home.hk";
+						window.location.href = "/home.hk";
 					} else if (data.state == "id") {
 						alert("id error");
 						window.location.reload(true);
@@ -125,15 +121,6 @@
 				}
 			});
 		});
-		/* function naverLogin(){
-			$.ajax({
-				url:"loginNaverUrl",
-				type: "POST",
-				success:function(data){
-					window.location.href=data;
-				}
-			});
-		}; */
 	</script>
 </body>
 </html>

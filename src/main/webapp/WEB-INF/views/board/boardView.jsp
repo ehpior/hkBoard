@@ -17,39 +17,53 @@
 		<div class="container">
 
 			<input type="button" value="Home"
-				onClick="location.href='${pageContext.request.contextPath}/home.hk'">
+				onClick="location.href='/home.hk'">
 			<br>
 			<br> <input type="button" value="board"
-				onClick="location.href='${pageContext.request.contextPath}/board.hk'">
+				onClick="location.href='/board.hk'">
 			<br>
 			<br>
-
-			<table width="900"	cellpadding= "7px"	cellspacing= "0" border= "1">
+			
+			<table cellpadding="7px" cellspacing="0" class="table table-bordered">
+				<colgroup>
+					<col width="20%">
+					<col width="80%">
+				</colgroup>
+				<input type="hidden" name="board_id" value="${board_id}">
 				<tr>
 					<td>board_id</td>
-					<td>title</td>
-					<td>writer</td>
-					<td>content</td>
-					<td>create_date</td>
-					<td>modify_date</td>
-					<td>notice</td>
-					<td>modify</td>
-					<td>delete</td>
+					<td>${selectBoard.board_id}</td>
 				</tr>
 				<tr>
-					<td>${selectBoard.board_id}</td>
+					<td>title</td>
 					<td>${selectBoard.title}</td>
-					<td>${selectBoard.writer}</td>
-					<td>${selectBoard.content}</td>
-					<td>${selectBoard.create_date}</td>
-					<td>${selectBoard.modify_date}</td>
-					<td>${selectBoard.notice}</td>
-					<td><a
-						href="${pageContext.request.contextPath}/boardModify.hk?board_id=${selectBoard.board_id}">Modify</a></td>
-					<td><a
-						href="${pageContext.request.contextPath}/boardDelete?board_id=${selectBoard.board_id}">Delete</a></td>
 				</tr>
+				<tr>
+					<td>writer</td>
+					<td>${selectBoard.writer}</td>
+				</tr>
+				<tr>
+					<td>content</td>
+					<td>${selectBoard.content}</td>
+				</tr>
+				<tr>
+					<td>create_date</td>
+					<td>${selectBoard.create_date}</td>
+				</tr>
+				<c:if test="${not empty selectBoard.modify_date}">
+				<tr>
+					<td>modify_date</td>
+					<td>${selectBoard.modify_date}</td>
+				</tr>
+				</c:if>
 			</table>
+			<br>
+			<c:if test="${login.user_type eq 'A' || selectBoard.writer eq login.nickname }">
+				<div style="text-align:center;">
+					<a class="btn btn-primary" href="/boardModify.hk?board_id=${selectBoard.board_id}">Modify</a>
+					<a class="btn btn-primary" href="/boardDelete?board_id=${selectBoard.board_id}">Delete</a>
+				</div>
+			</c:if>
 		</div>
 	</main>
 

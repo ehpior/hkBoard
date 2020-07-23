@@ -1,7 +1,6 @@
 package com.hk.test.batch;
 
 import java.io.File;
-import java.io.FilenameFilter;
 
 public class batchMain {
 

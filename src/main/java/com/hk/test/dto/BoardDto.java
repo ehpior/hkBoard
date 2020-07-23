@@ -1,6 +1,6 @@
 package com.hk.test.dto;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class BoardDto {
 	
@@ -8,16 +8,15 @@ public class BoardDto {
 	private String title="";
 	private String writer="";
 	private String content="";
-	private Date create_date;
-	private Date modify_date;
+	private Timestamp create_date;
+	private Timestamp modify_date;
 	private String notice="";
 	
 	public BoardDto() {
 		
 	}	
 	
-	public BoardDto(int board_id, String title, String writer, String content, Date create_date, Date modify_date,
-			String notice) {
+	public BoardDto(int board_id, String title, String writer, String content, Timestamp create_date, Timestamp modify_date,String notice) {
 		this.board_id = board_id;
 		this.title = title;
 		this.writer = writer;
@@ -65,19 +64,19 @@ public class BoardDto {
 		this.content = content;
 	}
 
-	public Date getCreate_date() {
+	public Timestamp getCreate_date() {
 		return create_date;
 	}
 
-	public void setCreate_date(Date create_date) {
+	public void setCreate_date(Timestamp create_date) {
 		this.create_date = create_date;
 	}
 
-	public Date getModify_date() {
+	public Timestamp getModify_date() {
 		return modify_date;
 	}
 
-	public void setModify_date(Date modify_date) {
+	public void setModify_date(Timestamp modify_date) {
 		this.modify_date = modify_date;
 	}
 

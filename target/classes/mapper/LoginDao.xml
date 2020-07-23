@@ -26,7 +26,7 @@
 	</select>
 	
 	<select id="signUpCheckNickname" resultType="int">
-		SELECT count(*) FROM ACCOUNT WHERE nickname = #{nickname} 
+		SELECT count(*) FROM ACCOUNT WHERE nickname = #{nickname}
 	</select>
 
 </mapper>

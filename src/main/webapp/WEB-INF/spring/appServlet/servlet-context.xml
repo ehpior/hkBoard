@@ -35,7 +35,8 @@
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource"></beans:property>
  		<!-- <beans:property name="mapperLocations" value="classpath*:com/hk/test/dao/mapper/*.xml"></beans:property> -->
-		<beans:property name="mapperLocations" value="/mapper/*.xml"></beans:property>
+		<beans:property name="mapperLocations" value="classpath:mapper/*.xml"></beans:property>
+		<beans:property name="configLocation" value="classpath:mybatis-config.xml"></beans:property>
 	</beans:bean>
 	
 	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
@@ -53,7 +54,6 @@
 	<beans:bean id="naverLoginBO" class="com.hk.test.naver.NaverLoginBO" />
 	
 	
-	
 	<!-- <task:scheduler id="myScheduler" pool-size="1"/>
 	
 	<beans:bean id="batchExecutor" class="com.hk.test.batch.batchMain" />
@@ -62,9 +62,9 @@
     	<task:scheduled ref="batchExecutor" method="remove" cron="0 * * * * *" />
 	</task:scheduled-tasks> -->
 
+
 	<beans:bean id="AuthLoginInterceptor" class="com.hk.test.interceptor.AuthLoginInterceptor" />
 	
-	<!-- Interceptor 설정 -->
 	<interceptors>
     	<interceptor>
         	<mapping path="/board*"/>        

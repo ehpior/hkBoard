@@ -9,16 +9,16 @@
 
 <!-- RSA 자바스크립트 라이브러리 -->
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/jsbn.js"></script>
+	src="/resources/rsa/jsbn.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/rsa.js"></script>
+	src="/resources/rsa/rsa.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/prng4.js"></script>
+	src="/resources/rsa/prng4.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/rng.js"></script>
+	src="/resources/rsa/rng.js"></script>
 <!-- RSA 암호화 처리 스크립트 -->
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/rsa/login.js"></script>
+	src="/resources/rsa/login.js"></script>
 
 <title>Insert title here</title>
 </head>
@@ -29,11 +29,11 @@
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
 			<input type="button" value="Home"
-				onClick="location.href='${pageContext.request.contextPath}/home.hk'">
+				onClick="location.href='/home.hk'">
 			<br>
 			<br>
 
-			<table style="width:100%" cellpadding= "7px" cellspacing= "0" border= "1">
+			<table cellpadding= "7px" cellspacing= "0" border= "1">
 				<colgroup>
 					<col width="10%">
 					<col width="20%">
@@ -68,7 +68,7 @@
 				type="reset" value="reset">
 
 			<form id="signUpForm"
-				action="${pageContext.request.contextPath}/signUpResult.hk"
+				action="/signUpResult.hk"
 				method="POST">
 				<input type="hidden" id="nickname" name="nickname"> <input
 					type="hidden" id="name" name="name"> <input type="hidden"

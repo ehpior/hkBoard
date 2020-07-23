@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hk.test.dao.LoginDao">
+	
+	<select id="loginCheck" resultType="com.hk.test.dto.AccountDto">
+		SELECT * FROM ACCOUNT WHERE (id = #{id} and s_passwd = #{pw}) and (user_type != 'N' or user_type IS null)
+	</select>
+	
+	<select id="loginCheckWithType" resultType="com.hk.test.dto.AccountDto">
+		SELECT * FROM ACCOUNT WHERE id = #{id} and s_passwd = #{pw} and user_type = #{user_type}
+	</select>
+	
+	<update id="updateLastLoginAccount">
+		UPDATE ACCOUNT SET last_login = #{last_login} WHERE accnt_id = #{accnt_id}
+	</update>
+	
+	<insert id="insertLoginHistory">
+		INSERT INTO LOGIN_HISTORY VALUES (LOGINHISTORY_SEQ.nextval, #{accnt_id}, #{login_date}, #{is_mobile}, #{ip}, #{browser}, #{os})
+	</insert>
+	
+	<select id="signUpCheckId" resultType="int">
+		SELECT count(*) FROM ACCOUNT WHERE id = #{id}
+	</select>
+	
+	<select id="signUpCheckNickname" resultType="int">
+		SELECT count(*) FROM ACCOUNT WHERE nickname = #{nickname}
+	</select>
+
+</mapper>

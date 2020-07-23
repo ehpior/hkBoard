@@ -34,11 +34,6 @@
 		INSERT INTO LOGIN_HISTORY VALUES (#{accnt_id}, #{login_date}, #{is_mobile}, #{ip}, #{browser}, #{os})
 	</insert>
 	
-	
-	<update id="updateAccount">
-		
-	</update>
-	
 	<delete id="deleteAccount">
 		DELETE FROM ACCOUNT WHERE accnt_id = #{accnt_id}
 	</delete>

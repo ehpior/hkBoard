@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="countBoard" resultType="int">
-		SELECT NVL(COUNT(*),0) FROM BOARD
+		SELECT COUNT(*) FROM BOARD
 	</select>
 	
 	<insert id="insertBoard">

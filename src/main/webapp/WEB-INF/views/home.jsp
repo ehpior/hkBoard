@@ -14,38 +14,14 @@
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<%-- <input type="button" value="eror404"
-						onClick="location.href='${pageContext.request.contextPath}/testerror404'"> --%>
-			<br><br>
 			
-			${login}
-
-			<br><br>
-
-			<c:choose>
-				<c:when test="${login eq null}">
-					<input type="button" value="signIn"
-						onClick="location.href='${pageContext.request.contextPath}/login.hk'">
-					<input type="button" value="signUp"
-						onClick="location.href='${pageContext.request.contextPath}/signUp.hk'">
-				</c:when>
-				<c:otherwise>
-			nickname : ${login.nickname}<br>
-					<input type="button" value="logout"
-						onClick="location.href='${pageContext.request.contextPath}/logout'">
-					<br>
-				</c:otherwise>
-			</c:choose>
-			<br> <br> <input type="button" value="board"
-				onClick="location.href='${pageContext.request.contextPath}/board.hk'">
 		</div>
 	</main>
-
-
 
 	<%@ include file="footer.jsp"%>
 
 	<script
-		src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+		src="/resources/bootstrap-4.5.0/js/bootstrap.bundle.min.js">
+	</script>
 </body>
 </html>

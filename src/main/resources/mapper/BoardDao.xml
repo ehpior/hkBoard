@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hk.test.dao.BoardDao">
+	<select id="selectBoardList" resultType="com.hk.test.dto.BoardDto">
+		SELECT * FROM ( SELECT A.*, ROWNUM AS RNUM FROM ( SELECT * FROM BOARD A ORDER BY NOTICE ASC, BOARD_ID DESC ) A WHERE ROWNUM &lt;= #{boardPage}*#{maxSelectLimit} ) WHERE RNUM &gt; (#{boardPage}-1)*#{maxSelectLimit}
+	</select>
+	
+	<select id="selectBoard" resultType="com.hk.test.dto.BoardDto">
+		SELECT * FROM BOARD WHERE BOARD_ID = #{board_id}
+	</select>
+	
+	<select id="countBoard" resultType="int">
+		SELECT COUNT(*) FROM BOARD
+	</select>
+	
+	<insert id="insertBoard">
+		INSERT INTO BOARD VALUES (BOARD_SEQ.NEXTVAL, #{title}, #{writer}, #{content}, SYSDATE, NULL, #{notice})
+	</insert>
+	
+	<update id="updateBoard">
+		UPDATE BOARD SET title=#{title}, content=#{content}, modify_date=SYSDATE, notice=#{notice} WHERE board_id=#{board_id}
+	</update>
+	
+	<delete id="deleteBoard">
+		DELETE FROM BOARD WHERE board_id = #{board_id}
+	</delete>
+	
+</mapper>

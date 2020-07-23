@@ -17,47 +17,58 @@
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<input type="button" value="Home"
-				onClick="location.href='${pageContext.request.contextPath}/home.hk'">
 			<br>
-			<br> <input type="button" value="boardWrite"
-				onClick="location.href='${pageContext.request.contextPath}/boardWrite.hk'">
-			<br>
-			<br> <input type="button" onclick="test(5)"
-				name="maxSelectLimit" value="5"> <input type="button"
-				onclick="test(10)" name="maxSelectLimit" value="10"> <input
-				type="button" onclick="test(15)" name="maxSelectLimit" value="15">
-			<script type="text/javascript">
-				function test(num) {
-					var url = new URL(window.location.href);
-					url.searchParams.set('boardPage', 1);
-					url.searchParams.set('maxSelectLimit', num);
-					window.location.href = url;
-				}
-			</script>
-
-			<br>
-			<br>
-			<div style="overflow: auto;">
-				<table width="900"	cellpadding= "7px"	cellspacing= "0" border= "1">
+			<div class="float-right" style="padding:15px">
+				<a class="btn btn-primary" href="javascript:test(5)">5</a>
+				<a class="btn btn-primary" href="javascript:test(10)">10</a>
+				<a class="btn btn-primary" href="javascript:test(15)">15</a>
+			</div>
+			<div class="container">
+				<table cellpadding= "7px" cellspacing="0" class="table table-striped table-bordered">
+				<colgroup>
+					<c:choose>
+					<c:when test="${login.user_type eq 'A'}">
+					<col width="9%">
+					<col width="14%">
+					<col width="9%">
+					<col width="20%">
+					<col width="13%">
+					<col width="13%">
+					<col width="8%">
+					<col width="9%">
+					<col width="9%">
+					</c:when>
+					<c:otherwise>
+					<col width="12%">
+					<col width="20%">
+					<col width="12%">
+					<col width="22%">
+					<col width="16%">
+					<col width="16%">
+					<col width="12%">
+					</c:otherwise>
+					</c:choose>
+				</colgroup>
+				<thead>
 					<tr>
-						<td>board_id</td>
-						<td>title</td>
-						<td>writer</td>
-						<td>content</td>
-						<td>create_date</td>
-						<td>modify_date</td>
-						<td>notice</td>
+						<th>board_id</td>
+						<th>title</td>
+						<th>writer</td>
+						<th>content</td>
+						<th>create_date</td>
+						<th>modify_date</td>
+						<th>notice</td>
 						<c:if test="${login.user_type eq 'A'}">
-							<td>modify</td>
-							<td>delete</td>
+							<th>modify</td>
+							<th>delete</td>
 						</c:if>
 					</tr>
+				</thead>
+				<tbody>
 					<c:forEach items="${boardList}" var="dto">
 						<tr>
 							<td>${dto.board_id}</td>
-							<td><a
-								href="${pageContext.request.contextPath}/boardView.hk?board_id=${dto.board_id}">${dto.title}</a>
+							<td><a href="/boardView.hk?board_id=${dto.board_id}">${dto.title}</a>
 							</td>
 							<td>${dto.writer}</td>
 							<td>${dto.content}</td>
@@ -65,18 +76,32 @@
 							<td>${dto.modify_date}</td>
 							<td>${dto.notice}</td>
 							<c:if test="${login.user_type eq 'A'}">
-								<td><a href="${pageContext.request.contextPath}/boardModify.hk?board_id=${dto.board_id}">Modify</a></td>
-								<td><a href="${pageContext.request.contextPath}/boardDelete?board_id=${dto.board_id}">Delete</a></td>
+								<td><a href="/boardModify.hk?board_id=${dto.board_id}">Modify</a></td>
+								<td><a href="/boardDelete?board_id=${dto.board_id}">Delete</a></td>
 							</c:if>
 						</tr>
 					</c:forEach>
+				</tbody>
 				</table>
+				
+				<hr/>
+				
+				<div class="d-flex">
+
+					<ul class="list-inline mx-auto justify-content-center pagination">
+						<c:forEach var="i" begin="1" end="${boardCount}">
+							<li class="page-item">
+							<a href="/board.hk?boardPage=${i}" class="list-inline-item page-link">${i}</a>
+							</li>
+						</c:forEach>
+					</ul>
+					<div class="float-right">
+						<a class="btn btn-primary" href="/boardWrite.hk">write</a>
+					</div>
+				</div>
+				
 			</div>
 
-			<c:forEach var="i" begin="1" end="${boardCount}">
-				<a href="${pageContext.request.contextPath}/board.hk?boardPage=${i}">
-					${i} </a>
-			</c:forEach>
 			<br>
 		</div>
 
@@ -88,16 +113,14 @@
 
 
 
-
-
-
-
-	<script>
+<script type="text/javascript">
+	function test(num) {
+		var url = new URL(window.location.href);
+		url.searchParams.set('boardPage', 1);
+		url.searchParams.set('maxSelectLimit', num);
+		window.location.href = url;
+	}
 </script>
-
-
-
-
 
 
 </body>
