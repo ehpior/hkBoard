@@ -42,7 +42,7 @@
 				<tr>
 					<th>nickname</th>
 					<td><input type="text" id="nickname_tmp" /></td>
-					<td><input type="button" id="signUpCheckNickname" value="checkNickname">
+					<td style="text-align:left"><input type="button" class="btn btn-secondary" id="signUpCheckNickname" value="check">
 					<span style="font-size:12px">영문 4~12자, 한글 2~6자(띄어쓰기, 특수문자불가)</span>
 					<span id="nicknameVal" class="val"></span></td>
 				</tr>
