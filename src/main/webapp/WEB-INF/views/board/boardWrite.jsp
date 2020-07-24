@@ -40,7 +40,7 @@
 					</tr>
 					<tr>
 						<td>content</td>
-						<td><textarea name="content" id="smartEditor" style="width: 100%; height: 400px;"></textarea></td>
+						<td><textarea name="content" id="smartEditor" style="width: 100%; height: 200px;"></textarea></td>
 					</tr>
 					<c:if test="${login.user_type eq 'A'}">
 						<tr>

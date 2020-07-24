@@ -1,3 +1,7 @@
+body {
+    width: calc(100vw - 34px);
+}
+
 main > .container {
   padding: 80px 15px 0;
 }

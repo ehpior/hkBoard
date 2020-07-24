@@ -27,28 +27,28 @@
 					<col width="80%">
 				</colgroup>
 				<tr>
-					<td>board_id</td>
+					<th>board_id</th>
 					<td>${selectBoard.board_id}</td>
 				</tr>
 				<tr>
-					<td>title</td>
+					<th>title</th>
 					<td>${selectBoard.title}</td>
 				</tr>
 				<tr>
-					<td>writer</td>
+					<th>writer</th>
 					<td>${selectBoard.writer}</td>
 				</tr>
 				<tr>
-					<td>content</td>
-					<td style="height: 400px;">${selectBoard.content}</td>
+					<th>content</th>
+					<td style="height: 200px;">${selectBoard.content}</td>
 				</tr>
 				<tr>
-					<td>create_date</td>
+					<th>create_date</th>
 					<td>${selectBoard.create_date}</td>
 				</tr>
 				<c:if test="${not empty selectBoard.modify_date}">
 				<tr>
-					<td>modify_date</td>
+					<th>modify_date</th>
 					<td>${selectBoard.modify_date}</td>
 				</tr>
 				</c:if>

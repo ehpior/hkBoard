@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,11 +32,11 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter{
 			response.sendRedirect(request.getContextPath()+"/login.hk");
 			return false;
 		}
-		else if(((AccountDto)obj).getBlock() == ("X")){
-			logger.info("blocked");
-			response.sendRedirect(request.getContextPath()+"/home.hk");
-			return false;
-		}
+//		else if(((AccountDto)obj).getBlock() == ("X")){
+//			logger.info("blocked");
+//			response.sendRedirect(request.getContextPath()+"/home.hk");
+//			return false;
+//		}
 		
 		return true;
 	}
