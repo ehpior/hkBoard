@@ -5,7 +5,7 @@
 <html class="h-100">
 <head>
 <%@ include file="../preset.jsp"%>
-<title>Insert title here</title>
+<title>BoardView</title>
 </head>
 <body>
 
@@ -16,20 +16,16 @@
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
 
-			<input type="button" value="Home"
-				onClick="location.href='/home.hk'">
-			<br>
-			<br> <input type="button" value="board"
-				onClick="location.href='/board.hk'">
-			<br>
-			<br>
-			
+			<a href="/board.hk" class="btn btn-outline-info">Board</a>
+			 &gt; 
+			<a href="/boardView.hk?board_id=${selectBoard.board_id}" class="btn btn-outline-info">${selectBoard.board_id}</a>
+			<hr>
+						
 			<table cellpadding="7px" cellspacing="0" class="table table-bordered">
 				<colgroup>
 					<col width="20%">
 					<col width="80%">
 				</colgroup>
-				<input type="hidden" name="board_id" value="${board_id}">
 				<tr>
 					<td>board_id</td>
 					<td>${selectBoard.board_id}</td>
@@ -44,7 +40,7 @@
 				</tr>
 				<tr>
 					<td>content</td>
-					<td>${selectBoard.content}</td>
+					<td style="height: 400px;">${selectBoard.content}</td>
 				</tr>
 				<tr>
 					<td>create_date</td>

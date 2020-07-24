@@ -12,7 +12,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <%@ include file="../preset.jsp"%>
-<title>Insert title here</title>
+<title>Error</title>
 </head>
 <body class="d-flex flex-column h-100">
 
@@ -20,9 +20,10 @@
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<input type="button" value="Home" onClick="location.href='/home.hk'">
-			<br>
-			<br> <b>[ error ]</b> <br>
+			<a href="/home.hk" class="btn btn-outline-info">Home</a>
+			<hr>
+			<hr>
+			<b>[ error ]</b>
 			<br>
 			<c:if test="${login.user_type eq 'A'}">
 				<%

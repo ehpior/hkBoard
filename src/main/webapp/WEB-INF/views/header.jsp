@@ -13,7 +13,7 @@
 			<li class="nav-item active"><a class="nav-link"
 				href="/logout">logout</a></li>
 			<li class="nav-item active"><a class="nav-link"
-				href="/login.hk">signIn</a></li>
+				href="/login.hk">login</a></li>
 			<li class="nav-item active"><a class="nav-link"
 				href="/signUp.hk">signUp</a></li>
 			<li class="nav-item active"><a class="nav-link"

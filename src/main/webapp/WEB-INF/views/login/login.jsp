@@ -5,7 +5,7 @@
 <html class="h-100">
 <head>
 <%@ include file="../preset.jsp"%>
-<title>Insert title here</title>
+<title>Login</title>
 <!-- RSA 자바스크립트 라이브러리 -->
 <script type="text/javascript" src="/resources/rsa/jsbn.js"></script>
 <script type="text/javascript" src="/resources/rsa/rsa.js"></script>
@@ -21,35 +21,29 @@
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<input type="button" value="Home"
-				onClick="location.href='/home.hk'"><br>
-			<br>
-
-			<%-- <form action="/loginResult" method="POST"> --%>
+			<a href="/login.hk" class="btn btn-outline-info">Login</a>
+			<hr>
+			
 			<form action="/loginResult" method="POST" id="form">
-				<table style="width:25%;" class="table table-bordered">
+				<table style="width:30%;" class="table table-bordered">
 				<colgroup>
 					<col width="30%">
 					<col width="80%">
 				</colgroup>
 					<tr>
 						<th>ID</th>
-						<td><input type="text" id="id" name="id" autocomplete="on" width="100%"></td>
+						<td><input type="text" id="id" name="id" autocomplete="on" size="18"></td>
 					</tr>
 					<tr>
 						<th>PW</th>
-						<td><input type="password" id="pw" name="pw" autocomplete="on" width="100%"></td>
+						<td><input type="password" id="pw" name="pw" autocomplete="on" size="18"></td>
 					</tr>
 					<tr>
-						<td colspan="2"><input type="button" value="signIn"
-							id="signIn"> <input type="button" value="signUp"
-							onClick="location.href='/signUp.hk'">
-							<input type="button" value="logout"
-							onClick="location.href='/logout'">
+						<td colspan="2" style="text-align:center;">
+							<input type="button" value="signIn" class="btn btn-primary" id="signIn">
+							<input type="button" value="signUp" class="btn btn-primary" onClick="location.href='/signUp.hk'">
+							<input type="button" value="NaverLogin" class="btn btn-success" id="naverLogin" >
 						</td>
-					</tr>
-					<tr>
-						<td colspan="2"><input type="button" id="naverLogin" value="NaverLogin"></td>
 					</tr>
 				</table>
 			</form>

@@ -5,8 +5,14 @@
 <html class="h-100">
 <head>
 <%@ include file="preset.jsp"%>
-<title>Insert title here</title>
+<title>Account</title>
 </head>
+<style>
+td{
+	text-overflow:ellipsis;  
+	white-space:nowrap;
+}
+</style>
 
 <body class="d-flex flex-column h-100">
 
@@ -17,32 +23,31 @@
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<input type="button" value="Home" onClick="location.href='/home.hk'">
-			<br>
-			<br>
-			<br>
-			<br>
+			<a href="/account.hk" class="btn btn-outline-info">Account</a>
+			<hr>
 			<table cellpadding="7px" cellspacing="0" class="table table-striped table-bordered">
 			<colgroup>
-				<col width="3">
-				<col width="3">
+				<col width="2">
+				<col width="2">
+				<col width="2">
 				<col width="2">
 				<col width="3">
-				<col width="4">
-				<col width="3">
-				<col width="4">
-				<col width="3">
+				<col width="2">
+				<col width="2">
+				<col width="5">
+				<col width="2">
 			</colgroup>
 			<thead>
 				<tr>
-					<th>ACCNT_ID</td>
-					<th>NICKNAME</td>
-					<th>NAME</td>
-					<th>USER_TYPE</td>
-					<th>PHONE</td>
-					<th>ID</td>
-					<th>S_PASSWD</td>
-					<th>LAST_LOGIN</td>
+					<th>accnt_id</td>
+					<th>nickname</td>
+					<th>navme</td>
+					<th>user_type</td>
+					<th>phone</td>
+					<th>id</td>
+					<th>s_passwd</td>
+					<th>last_login</td>
+					<th>block</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -56,6 +61,7 @@
 						<td>${dto.id}</td>
 						<td>${dto.s_passwd}</td>
 						<td>${dto.last_login}</td>
+						<td>${dto.block}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

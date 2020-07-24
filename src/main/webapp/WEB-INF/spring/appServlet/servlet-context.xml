@@ -73,6 +73,16 @@
 	    </interceptor>
 	</interceptors>
 	
+	<beans:bean id="AuthLoginInterceptor2" class="com.hk.test.interceptor.AuthLoginInterceptor2" />
+	
+	<interceptors>
+    	<interceptor>
+        	<mapping path="/login*"/>        
+        	<exclude-mapping path="/resources/**"/>
+        	<beans:ref bean="AuthLoginInterceptor2"/>
+	    </interceptor>
+	</interceptors>
+	
 	
 	
 </beans:beans>

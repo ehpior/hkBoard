@@ -5,7 +5,7 @@
 <html class="h-100">
 <head>
 <%@ include file="../preset.jsp"%>
-<title>Insert title here</title>
+<title>SignUp</title>
 
 <!-- RSA 자바스크립트 라이브러리 -->
 <script type="text/javascript"
@@ -28,11 +28,11 @@
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<input type="button" value="Home"
-				onClick="location.href='/home.hk'">
-			<br>
-			<br>
-
+			<a href="/login.hk" class="btn btn-outline-info">Login</a>
+			 &gt; 
+			<a href="/signUp.hk" class="btn btn-outline-info">SignUp</a>
+			<hr>
+			
 			<table cellpadding="7px" cellspacing="0" class="table table-bordered">
 				<colgroup>
 					<col width="10%">
@@ -42,7 +42,7 @@
 				<tr>
 					<th>nickname</th>
 					<td><input type="text" id="nickname_tmp" /></td>
-					<td style="text-align:left"><input type="button" class="btn btn-secondary" id="signUpCheckNickname" value="checkNickname">
+					<td style="text-align:left"><input type="button" class="btn btn-secondary" id="signUpCheckNickname" value="check">
 					<span style="font-size:12px">영문 4~12자, 한글 2~6자(띄어쓰기, 특수문자불가)</span>
 					<span id="nicknameVal" class="val"></span></td>
 				</tr>
@@ -54,6 +54,7 @@
 				<tr>
 					<th>user_type</th>
 					<td><input type="checkbox" id="user_type_tmp"></td>
+					<td></td>
 				</tr>
 				<tr>
 					<th>phone</th>
@@ -75,7 +76,7 @@
 				<tr>
 					<th>ID</th>
 					<td><input type="text" id="id_tmp" /></td>
-					<td style="text-align:left"><input type="button" class="btn btn-secondary" id="signUpCheckId" value="checkId">
+					<td style="text-align:left"><input type="button" class="btn btn-secondary" id="signUpCheckId" value="check">
 					<span style="font-size:12px">영문,숫자 4~12자(띄어쓰기, 특수문자불가)</span>
 					<span id="idVal" class="val"></span></td>
 				</tr>
@@ -121,9 +122,13 @@
 		
 		$("#nickname_tmp").on("change",function(){
 			nickname_status = 0;
+			/* $("#nicknameVal").css("color","red");
+			$("#nicknameVal").text("CHECK"); */
 		});
 		$("#id_tmp").on("change",function(){
 			id_status = 0;
+			/* $("#idVal").css("color","red");
+			$("#idVal").text("CHECK"); */
 		});
 		
 		function byteCheck(el){
@@ -149,7 +154,7 @@
 
 				$("#nickname_tmp").focus();
 				$("#nicknameVal").css("color","red");
-				$("#nicknameVal").text("nickname_pattern_error");
+				$("#nicknameVal").text("PATTERN");
 
 				return;
 			}
@@ -161,12 +166,12 @@
 				success : function(data) {
 					if (data.signUpCheckNickname == 1) {
 						$("#nicknameVal").css("color","green");
-						$("#nicknameVal").text("nickname_possible");
+						$("#nicknameVal").text("POSSIBLE");
 						nickname_status = 1;
 					} else {
 						$("#nickname_tmp").focus();
 						$("#nicknameVal").css("color","red");
-						$("#nicknameVal").text("nickname_exist");
+						$("#nicknameVal").text("EXIST");
 						nickname_status = 0;
 					}
 				}
@@ -180,7 +185,7 @@
 
 				$("#id_tmp").focus();
 				$("#idVal").css("color","red");
-				$("#idVal").text("id_pattern_error");
+				$("#idVal").text("PATTERN");
 				
 				return;
 			}
@@ -192,12 +197,12 @@
 				success : function(data) {
 					if (data.signUpCheckId == 1) {
 						$("#idVal").css("color","green");
-						$("#idVal").text("id_possible");
+						$("#idVal").text("POSSIBLE");
 						id_status = 1;
 					} else {
 						$("#id_tmp").focus();
 						$("#idVal").css("color","red");
-						$("#idVal").text("id_exist");
+						$("#idVal").text("EXIST");
 						id_status = 0;
 					}
 				}
@@ -207,11 +212,11 @@
 		$("#s_passwd_tmp").on("input",function(){
 			if (! reg_pw.test($("#s_passwd_tmp").val())) {
 				$("#pwVal1").css("color","red");
-				$("#pwVal1").text("pw_pattern_error");
+				$("#pwVal1").text("PATTERN");
 			}
 			else{
 				$("#pwVal1").css("color","green");
-				$("#pwVal1").text("pw_pattern_complete");
+				$("#pwVal1").text("POSSIBLE");
 			}
 		});
 
@@ -228,29 +233,32 @@
 			var nicknameByte = byteCheck(nickname);
 
 			if(nickname_status == 0){
-				alert("nickname_chk_plz");
+				alert("Nickname Check");
 				return;
 			}		
 			/* if (! reg_name.test(name)) {			
 				alert("name_pattern_error");
 				return;
 			}	 */	
-			if (! reg_phone.test(phone)) {		
-				$("#phoneVal").text("phone_pattern_error");
+			if (! reg_phone.test(phone)) {
+				$("#phoneVal").css("color","red");
+				$("#phoneVal").text("PATTERN");
 				return;
 			}
 			if(id_status == 0){
-				alert("id_chk_plz");
+				alert("ID CHECK");
 				return;
 			}
 			if (! reg_pw.test(s_passwd)) {
 				$("#s_passwd_tmp").focus();
-				$("#pwVal1").text("pw_pattern_error");
+				$("#pwVal1").css("color","red");
+				$("#pwVal1").text("PATTERN");
 				return;
 			}
 			if ($("#s_passwd_tmp").val() != $("#s_passwd_tmp2").val()) {
 				$("#s_passwd_tmp2").focus();
-				$("#pwVal2").text("pw_doesn't_match");
+				$("#pwVal2").css("color","red");
+				$("#pwVal2").text("CHECK");
 				return;
 			}
 			
@@ -297,7 +305,7 @@
 				success : function(data) {
 					console.log(data.state);
 					if (data.state == "true") {
-						alert("signUp Complete");
+						alert("signUp complete");
 						window.location.href = "/home.hk";
 					} else if (data.state == "false") {
 						alert("insert error");

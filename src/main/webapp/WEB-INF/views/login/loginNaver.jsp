@@ -5,7 +5,7 @@
 <html class="h-100">
 <head>
 <%@ include file="../preset.jsp"%>
-<title>Insert title here</title>
+<title>LoginNaver</title>
 
 <!-- RSA 자바스크립트 라이브러리 -->
 <script type="text/javascript"
@@ -28,10 +28,10 @@
 
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<input type="button" value="Home"
-				onClick="location.href='/home.hk'">
-			<br>
-			<br>
+			<a href="/login.hk" class="btn btn-outline-info">Login</a>
+			 &gt; 
+			<a href="#" class="btn btn-outline-info">Login Naver</a>
+			<hr>
 
 			<table cellpadding= "7px" cellspacing= "0" border= "1">
 				<colgroup>
@@ -98,6 +98,8 @@
 		
 		$("#nickname_tmp").on("change",function(){
 			nickname_status = 0;
+			$("#nicknameVal").css("color","red");
+			$("#nicknameVal").text("CHECK");
 		});
 		
 		function byteCheck(el){
@@ -123,7 +125,7 @@
 
 				$("#nickname_tmp").focus();
 				$("#nicknameVal").css("color","red");
-				$("#nicknameVal").text("nickname_pattern_error");
+				$("#nicknameVal").text("PATTERN");
 
 				return;
 			}
@@ -137,12 +139,12 @@
 				success : function(data) {
 					if (data.signUpCheckNickname == 1) {
 						$("#nicknameVal").css("color","green");
-						$("#nicknameVal").text("nickname_possible");
+						$("#nicknameVal").text("POSSIBLE");
 						nickname_status = 1;
 					} else {
 						$("#nickname_tmp").focus();
 						$("#nicknameVal").css("color","red");
-						$("#nicknameVal").text("nickname_exist");
+						$("#nicknameVal").text("EXIST");
 						nickname_status = 0;
 					}
 				}
@@ -162,12 +164,12 @@
 			var nicknameByte = byteCheck(nickname);
 
 			if(nickname_status == 0){
-				alert("nickname_chk_plz");
+				alert("Nickname Check");
 				return;
 			}	
 			if (! reg_phone.test(phone)) {		
-				
-				$("#phoneVal").text("phone_pattern_error");
+				$("#phoneVal").css("color","red");
+				$("#phoneVal").text("PATTERN");
 				
 				return;
 			}

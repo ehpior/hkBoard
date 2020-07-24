@@ -1,6 +1,5 @@
 package com.hk.test.dto;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class AccountDto {
@@ -46,7 +45,7 @@ public class AccountDto {
 	@Override
 	public String toString() {
 		return "AccountDto [accnt_id=" + accnt_id + ", nickname=" + nickname + ", name=" + name + ", user_type="
-				+ user_type + ", phone=" + phone + ", id=" + id + ", s_passwd=" + s_passwd + ", last_login="
+				+ user_type + ", phone=" + phone + ", id=" + id + ", s_passwd=" + s_passwd.substring(0, 10) + ", last_login="
 				+ last_login + ", block=" + block + "]";
 	}
 	public String getBlock() {
