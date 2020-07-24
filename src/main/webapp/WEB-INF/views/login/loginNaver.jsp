@@ -47,7 +47,7 @@
 					<span id="nicknameVal" class="val"></span></td>
 				</tr>
 				<tr>
-					<th>phone</th>
+					<th>phone</th> 
 					<td>
 						<select id="phone1">
 								<option value="010">010</option>
