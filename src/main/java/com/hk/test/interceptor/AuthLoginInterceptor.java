@@ -25,8 +25,9 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter{
 		HttpSession session = request.getSession();
 		
 		Object obj = session.getAttribute("login");
-		
+	
 		if(obj == null) {
+			session.setAttribute("referer", request.getRequestURI());
 			response.sendRedirect(request.getContextPath()+"/login.hk");
 			return false;
 		}

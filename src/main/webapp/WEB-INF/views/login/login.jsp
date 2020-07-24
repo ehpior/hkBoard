@@ -91,7 +91,12 @@
 				success : function(data) {
 					console.log(data.state);
 					if (data.state == "true") {
-						window.location.href = "/home.hk";
+						if(data.referer == null || data.referer == ""){
+							window.location.href = "/home.hk";							
+						}
+						else{
+							window.location.href = data.referer;
+						}
 					} else if (data.state == "id") {
 						alert("id error");
 						window.location.reload(true);

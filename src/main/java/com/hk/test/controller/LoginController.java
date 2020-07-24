@@ -136,6 +136,9 @@ public class LoginController{
 		
 		loginService.loginHistory(loginHistoryDto);
 		
+		listObj.put("referer",(String)session.getAttribute("referer"));
+		session.removeAttribute("referer");
+		
 		return listObj;
 	}
 	
@@ -187,7 +190,13 @@ public class LoginController{
 			
 			loginService.loginHistory(loginHistoryDto);
 			
-			return "redirect:/home.hk";
+			if(session.getAttribute("referer") != null) {
+				session.removeAttribute("referer");
+				return (String)session.getAttribute("referer");
+			}
+			else {				
+				return "redirect:/home.hk";
+			}
 		}
 		
 		return "login/loginNaver";
