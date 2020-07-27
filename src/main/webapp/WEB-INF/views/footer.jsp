@@ -22,6 +22,5 @@
 		$("#now").text(a.getFullYear() + "." + ("0"+(a.getMonth()+1)).slice(-2)+"."+("0"+a.getDate()).slice(-2)+" "+
 				("0"+a.getHours()).slice(-2)+":"+("0"+a.getMinutes()).slice(-2)+":"+("0"+a.getSeconds()).slice(-2));},1000);
 				
-				
 </script>
 <script src="/resources/bootstrap-4.5.0/js/bootstrap.bundle.min.js"></script>
