@@ -1,88 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:cache="http://www.springframework.org/schema/cache"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
-		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd
-		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd	
+	http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+	<cache:annotation-driven
+		key-generator="simpleKeyGenerator" />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
-	<context:component-scan base-package="com.hk.test.controller, com.hk.test.service" />
+
+	<context:component-scan
+		base-package="com.hk.test.controller, com.hk.test.service" />
 	<!-- <context:component-scan base-package="com.hk.test.service" /> -->
-	
-	<beans:bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+
+	<beans:bean id="dataSource"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
 		<beans:property name="jndiName">
 			<beans:value>java:comp/env/jdbc/testdb</beans:value>
 		</beans:property>
 	</beans:bean>
-	
-	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+
+	<beans:bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource"></beans:property>
- 
-		<beans:property name="mapperLocations" value="classpath:mapper/*.xml"></beans:property>
-		<beans:property name="configLocation" value="classpath:mybatis-config.xml"></beans:property>
+
+		<beans:property name="mapperLocations"
+			value="classpath:mapper/*.xml"></beans:property>
+		<beans:property name="configLocation"
+			value="classpath:mybatis-config.xml"></beans:property>
 	</beans:bean>
-	
-	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
-		<beans:constructor-arg index="0" ref="sqlSessionFactory"></beans:constructor-arg>
+
+	<beans:bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate"
+		destroy-method="clearCache">
+		<beans:constructor-arg index="0"
+			ref="sqlSessionFactory"></beans:constructor-arg>
 	</beans:bean>
-	
-	<beans:bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+
+	<beans:bean name="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<beans:property name="dataSource" ref="dataSource" />
 	</beans:bean>
-	
-	<beans:bean id="loginService" class="com.hk.test.service.LoginServiceImpl" />
-	<beans:bean id="boardService" class="com.hk.test.service.BoardServiceImpl" />
-	<beans:bean id="accountService" class="com.hk.test.service.AccountServiceImpl" />
-	
-	<beans:bean id="naverLoginBO" class="com.hk.test.naver.NaverLoginBO" />
-	
-	
-	<!-- <task:scheduler id="myScheduler" pool-size="1"/>
-	
-	<beans:bean id="batchExecutor" class="com.hk.test.batch.batchMain" />
-	
-	<task:scheduled-tasks scheduler="myScheduler">
-    	<task:scheduled ref="batchExecutor" method="remove" cron="0 * * * * *" />
-	</task:scheduled-tasks> -->
+
+	<beans:bean id="loginService"
+		class="com.hk.test.service.LoginServiceImpl" />
+	<beans:bean id="boardService"
+		class="com.hk.test.service.BoardServiceImpl" />
+	<beans:bean id="accountService"
+		class="com.hk.test.service.AccountServiceImpl" />
+
+	<beans:bean id="naverLoginBO"
+		class="com.hk.test.naver.NaverLoginBO" />
+
+	<beans:bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<beans:property name="cacheManager" ref="ehcache" />
+	</beans:bean>
+
+	<beans:bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<beans:property name="configLocation" value="classpath:ehcache.xml" />
+		<beans:property name="shared" value="false" />
+	</beans:bean>
+
+	<beans:bean id="simpleKeyGenerator" class="org.springframework.cache.interceptor.SimpleKeyGenerator" />
 
 
-	<beans:bean id="AuthLoginInterceptor" class="com.hk.test.interceptor.AuthLoginInterceptor" />
-	
+	<!-- <task:scheduler id="myScheduler" pool-size="1"/> <beans:bean id="batchExecutor" 
+		class="com.hk.test.batch.batchMain" /> <task:scheduled-tasks scheduler="myScheduler"> 
+		<task:scheduled ref="batchExecutor" method="remove" cron="0 * * * * *" /> 
+		</task:scheduled-tasks> -->
+
+
+	<beans:bean id="AuthLoginInterceptor"
+		class="com.hk.test.interceptor.AuthLoginInterceptor" />
+
 	<interceptors>
-    	<interceptor>
-        	<mapping path="/board*"/>        
-        	<exclude-mapping path="/resources/**"/>
-        	<beans:ref bean="AuthLoginInterceptor"/>
-	    </interceptor>
+		<interceptor>
+			<mapping path="/board*" />
+			<exclude-mapping path="/resources/**" />
+			<beans:ref bean="AuthLoginInterceptor" />
+		</interceptor>
 	</interceptors>
-	
-	<beans:bean id="AuthLoginInterceptor2" class="com.hk.test.interceptor.AuthLoginInterceptor2" />
-	
+
+	<beans:bean id="AuthLoginInterceptor2"
+		class="com.hk.test.interceptor.AuthLoginInterceptor2" />
+
 	<interceptors>
-    	<interceptor>
-        	<mapping path="/login*"/>        
-        	<exclude-mapping path="/resources/**"/>
-        	<beans:ref bean="AuthLoginInterceptor2"/>
-	    </interceptor>
+		<interceptor>
+			<mapping path="/login*" />
+			<exclude-mapping path="/resources/**" />
+			<beans:ref bean="AuthLoginInterceptor2" />
+		</interceptor>
 	</interceptors>
-	
-	
-	
+
+
+
 </beans:beans>
